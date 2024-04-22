@@ -1,5 +1,5 @@
 using System.Windows.Forms;
-using Balance;
+using Views;
 
 ApplicationConfiguration.Initialize();
-Application.Run(new Login());
+Application.Run(new Challenge());
