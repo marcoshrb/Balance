@@ -26,6 +26,21 @@ public partial class Form1 : Form
             if (e.KeyCode == Keys.Escape)
                 Application.Exit();
         };
+        
+        this.pb.MouseMove += (o, e) =>
+        {
+            cursor = e.Location;
+        };
+
+        this.pb.MouseDown += (o, e) =>
+        {
+            isDown = true;
+        };
+
+        this.pb.MouseUp += (o, e) =>
+        {
+            isDown = false;
+        };
 
         this.Load += (o, e) =>
         {
@@ -45,7 +60,9 @@ public partial class Form1 : Form
             pb.Refresh();
         };
     }
-
+    bool isDown = false;
+    Point cursor = new Point(0, 0);
+    Quadrado quadrado = new Quadrado();
     void Onstart()
     {
         
@@ -53,6 +70,10 @@ public partial class Form1 : Form
 
     void Frame()
     {
+        quadrado.Draw(this.g);
+        
+        if(isDown)
+            quadrado.OnMove(cursor);        
 
     }
 }
