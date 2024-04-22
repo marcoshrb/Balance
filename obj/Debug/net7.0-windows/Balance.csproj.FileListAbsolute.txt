@@ -1,0 +1,15 @@
+C:\Users\disrct\Desktop\Balance\bin\Debug\net7.0-windows\Balance.exe
+C:\Users\disrct\Desktop\Balance\bin\Debug\net7.0-windows\Balance.deps.json
+C:\Users\disrct\Desktop\Balance\bin\Debug\net7.0-windows\Balance.runtimeconfig.json
+C:\Users\disrct\Desktop\Balance\bin\Debug\net7.0-windows\Balance.dll
+C:\Users\disrct\Desktop\Balance\bin\Debug\net7.0-windows\Balance.pdb
+C:\Users\disrct\Desktop\Balance\obj\Debug\net7.0-windows\Balance.csproj.AssemblyReference.cache
+C:\Users\disrct\Desktop\Balance\obj\Debug\net7.0-windows\Balance.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\disrct\Desktop\Balance\obj\Debug\net7.0-windows\Balance.AssemblyInfoInputs.cache
+C:\Users\disrct\Desktop\Balance\obj\Debug\net7.0-windows\Balance.AssemblyInfo.cs
+C:\Users\disrct\Desktop\Balance\obj\Debug\net7.0-windows\Balance.csproj.CoreCompileInputs.cache
+C:\Users\disrct\Desktop\Balance\obj\Debug\net7.0-windows\Balance.dll
+C:\Users\disrct\Desktop\Balance\obj\Debug\net7.0-windows\refint\Balance.dll
+C:\Users\disrct\Desktop\Balance\obj\Debug\net7.0-windows\Balance.pdb
+C:\Users\disrct\Desktop\Balance\obj\Debug\net7.0-windows\Balance.genruntimeconfig.cache
+C:\Users\disrct\Desktop\Balance\obj\Debug\net7.0-windows\ref\Balance.dll
