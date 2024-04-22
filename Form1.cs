@@ -1,3 +1,5 @@
+using Timer = System.Windows.Forms.Timer;
+
 namespace Balance;
 
 public partial class Form1 : Form
@@ -42,22 +44,6 @@ public partial class Form1 : Form
             Frame();
             pb.Refresh();
         };
-
-        this.pb.MouseMove += (o, e) =>
-        {
-            cursor = e.Location;
-        };
-
-        this.pb.MouseDown += (o, e) =>
-        {
-            isDown = true;
-        };
-
-        this.pb.MouseUp += (o, e) =>
-        {
-            isDown = false;
-        };
-
     }
 
     void Onstart()
