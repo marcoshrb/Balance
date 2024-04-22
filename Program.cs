@@ -1,12 +1,5 @@
-namespace Balance;
+using System.Windows.Forms;
+using Balance;
 
-static class Program
-{
-    [STAThread]
-    static void Main()
-    {
-        ApplicationConfiguration.Initialize();
-        Application.Run(new Form1());
-
-    }    
-}
+ApplicationConfiguration.Initialize();
+Application.Run(new Login());
