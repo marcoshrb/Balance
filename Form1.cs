@@ -8,23 +8,6 @@ public partial class Form1 : Form
     Bitmap bmp;
     Graphics g;
     Timer tm;
-
-    PositionWeight positionWeight = new DrawBalance();
-
-    private Image shape {get; set;}
-    List<(RectangleF? rect, Pieces piece, bool selected)> list = new();
-    public void AddPiece(Pieces piece)
-    {
-        var rect = new RectangleF
-        {
-            Location = new PointF(pb.Width*0.677f, pb.Height*0.037f + list.Count * pb.Height*0.037f),
-            Width = pb.Width*0.234f,
-            Height = pb.Height*0.037f
-        };
-        list.Add((null, piece, false));
-    }
-
-
     public Form1()
     {
         InitializeComponent();
@@ -76,10 +59,6 @@ public partial class Form1 : Form
             g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
             g.Clear(Color.White);
 
-            positionWeight.PiecePosition(pb, this.shape);
-            if (list.Any(x => x.selected))
-                positionWeight.Draw( cursor, isDown, pb);
-
             Frame();
             pb.Refresh();
         };
@@ -92,10 +71,17 @@ public partial class Form1 : Form
     Pentagono pentagono;
     Estrela estrela;
 
+    QuadradoEmpyt quadradoEmpyt;
+
     List<Pieces> pieces = new List<Pieces>();
-    Pieces selected;
+    List<FixedBalance> fixedBalances = new List<FixedBalance>();
+    Pieces selected; 
     void Onstart()
     {
+        quadradoEmpyt = new QuadradoEmpyt(); 
+        quadradoEmpyt.position = new PointF(500, 400);   
+        fixedBalances.Add(quadradoEmpyt);
+
         for (int i = 0; i < 5; i++)
         {
             quadrado = new Quadrado();
@@ -122,6 +108,11 @@ public partial class Form1 : Form
     }
     void Frame()
     {
+        foreach (var fixedBalance in fixedBalances)
+        {
+            fixedBalance.Draw(this.g);
+        }
+
         foreach (var piece in pieces)
         {
 
@@ -139,6 +130,9 @@ public partial class Form1 : Form
 
             piece.Draw(this.g);
         }
+
+        
+        
 
         if (!isDown)
             this.selected = null;
