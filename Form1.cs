@@ -56,6 +56,7 @@ public partial class Form1 : Form
 
         tm.Tick += (o, e) =>
         {
+            g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;  
             g.Clear(Color.White);
             Frame();
             pb.Refresh();
@@ -64,17 +65,28 @@ public partial class Form1 : Form
     bool isDown = false;
     Point cursor = new Point(0, 0);
     Quadrado quadrado;
+    Quadrado selected;
     void Onstart()
     {
         quadrado = new Quadrado();
         
     }
-
     void Frame()
     {
-        
-        if(isDown && quadrado.rectangle.Contains(cursor))
-            quadrado.OnMove(cursor);        
+        var cusorInForm = quadrado.rectangle.Contains(cursor);
+
+        if(isDown && cusorInForm && selected is null)
+        {
+            var selected = quadrado.OnSelect(cursor);        
+            this.selected = selected;
+        }
+
+        if(isDown && selected is not null)
+            selected.OnMove(cursor);
+
+
+        if(!isDown && selected is not null)
+            this.selected = null;
 
         quadrado.Draw(this.g);
     }
