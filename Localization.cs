@@ -3,7 +3,7 @@ using Views;
 public abstract class Localization
 {
     private Image shape = Image.FromFile("");
-    public List<(Position pos, PointF loc, Piece piece)> PieceList = new();
+    public List<(Position pos, PointF loc, Pieces piece)> PieceList = new();
 
     public Localization(){}
 
@@ -11,7 +11,7 @@ public abstract class Localization
     public void AddEmptyLocalization(Position pos, PointF loc)
         => PieceList.Add((pos, loc, null));
 
-    public bool SetPiece(Piece piece, PointF cursor, PictureBox pb)
+    public bool SetPiece(Pieces piece, PointF cursor, PictureBox pb)
     {
         for (int i = 0; i < PieceList.Count; i++)
         {

@@ -19,14 +19,14 @@ public partial class Form1 : Form
         this.Controls.Add(pb);
 
         this.tm = new Timer();
-        this.tm.Interval = 20;
+        this.tm.Interval = 10;
 
         this.KeyDown += (o, e) =>
         {
             if (e.KeyCode == Keys.Escape)
                 Application.Exit();
         };
-        
+
         this.pb.MouseMove += (o, e) =>
         {
             cursor = e.Location;
@@ -56,7 +56,7 @@ public partial class Form1 : Form
 
         tm.Tick += (o, e) =>
         {
-            g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;  
+            g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
             g.Clear(Color.White);
             Frame();
             pb.Refresh();
@@ -65,29 +65,60 @@ public partial class Form1 : Form
     bool isDown = false;
     Point cursor = new Point(0, 0);
     Quadrado quadrado;
-    Quadrado selected;
+    Bola bola;
+    Triangulo triangulo;
+    Pentagono pentagono;
+    Estrela estrela;
+
+    List<Pieces> pieces = new List<Pieces>();
+    Pieces selected;
     void Onstart()
     {
-        quadrado = new Quadrado();
-        
+        for (int i = 0; i < 5; i++)
+        {
+            quadrado = new Quadrado();
+            quadrado.position = new PointF(0, 10);
+            pieces.Add(quadrado);
+        }
+
+        bola = new Bola();
+        bola.position = new PointF(40, 10);
+        pieces.Add(bola);
+
+        triangulo = new Triangulo();
+        triangulo.position = new PointF(80, 10);
+        pieces.Add(triangulo);
+
+        pentagono = new Pentagono();
+        pentagono.position = new PointF(120, 10);
+        pieces.Add(pentagono);
+
+        estrela = new Estrela();
+        estrela.position = new PointF(140, 10);
+        pieces.Add(estrela);
+
     }
     void Frame()
     {
-        var cusorInForm = quadrado.rectangle.Contains(cursor);
-
-        if(isDown && cusorInForm && selected is null)
+        foreach (var piece in pieces)
         {
-            var selected = quadrado.OnSelect(cursor);        
-            this.selected = selected;
+
+            var cusorInForm = piece.rectangle.Contains(cursor);
+
+            if (isDown && cusorInForm && selected is null)
+            {
+                var selected = piece.OnSelect(cursor);
+                this.selected = selected;
+            }
+
+            if (isDown && selected is not null)
+                selected.OnMove(cursor);
+
+
+            piece.Draw(this.g);
         }
 
-        if(isDown && selected is not null)
-            selected.OnMove(cursor);
-
-
-        if(!isDown && selected is not null)
+        if (!isDown)
             this.selected = null;
-
-        quadrado.Draw(this.g);
     }
 }
