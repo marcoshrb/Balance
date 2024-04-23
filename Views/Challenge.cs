@@ -8,6 +8,9 @@ namespace Views
 {
     public class Challenge : Form
     {
+        Balance balanceLeft;
+        Balance balanceRight;
+
         PictureBox header;
         PictureBox pb;
         Bitmap bmp;
@@ -16,6 +19,8 @@ namespace Views
 
         public Challenge()
         {
+            this.balanceLeft = new Balance(150, 100, 400, 400);
+            this.balanceRight = new Balance(900, 100, 400, 400);
             this.WindowState = FormWindowState.Maximized;
             this.FormBorderStyle = FormBorderStyle.None;
             this.Text = "Desafio";
@@ -59,6 +64,8 @@ namespace Views
 
             tm.Tick += (o, e) =>
             {
+                balanceLeft.Draw(this.g);
+                balanceRight.Draw(this.g);
                 Frame();
                 pb.Refresh();
             };
