@@ -9,6 +9,22 @@ public partial class Form1 : Form
     Graphics g;
     Timer tm;
 
+    PositionWeight positionWeight = new DrawBalance();
+
+    private Image shape {get; set;}
+    List<(RectangleF? rect, Piece piece, bool selected)> list = new();
+    public void AddPiece(Piece piece)
+    {
+        var rect = new RectangleF
+        {
+            Location = new PointF(pb.Width*0.677f, pb.Height*0.037f + list.Count * pb.Height*0.037f),
+            Width = pb.Width*0.234f,
+            Height = pb.Height*0.037f
+        };
+        list.Add((null, piece, false));
+    }
+
+
     public Form1()
     {
         InitializeComponent();
@@ -17,6 +33,7 @@ public partial class Form1 : Form
         this.pb = new PictureBox();
         this.pb.Dock = DockStyle.Fill;
         this.Controls.Add(pb);
+
 
         this.tm = new Timer();
         this.tm.Interval = 20;
@@ -58,6 +75,11 @@ public partial class Form1 : Form
         {
             g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;  
             g.Clear(Color.White);
+
+            positionWeight.PiecePosition(pb, this.shape);
+            if (list.Any(x => x.selected))
+                positionWeight.Draw(cursor: cursor, isDown, pb);
+
             Frame();
             pb.Refresh();
         };

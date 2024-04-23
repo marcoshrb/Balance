@@ -1,9 +1,7 @@
-namespace Views;
-
 public enum Position
 {
-    Espaco1,
-    Espaco2,
-    Espaco3,
-    Espaco4
+    Espace1,
+    Espace2,
+    Espace3,
+    Espace4
 }

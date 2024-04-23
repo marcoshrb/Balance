@@ -29,4 +29,7 @@ public static class Draws
     public static void DrawBalance(Image image, PictureBox pb)
     => g.DrawImage(image, new RectangleF(pb.Width*0.104f, pb.Height*0.009f, pb.Width*0.38f, pb.Height*0.921f));
 
+    public static void DrawPieceShape(PointF location, PictureBox pb, Image shirt)
+        => g.DrawImage(shirt, new RectangleF(location.X, location.Y , pb.Width*0.044f, pb.Height*0.081f));
+
 }

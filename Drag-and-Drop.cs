@@ -13,9 +13,7 @@ public class DragAndDrop : Form
     private PictureBox pb = new PictureBox{
         Dock = DockStyle.Fill,
     };
-    int scrollInfo = 0;
     bool isDown = false;
-    bool isRight = false;
     public Image piece = Bitmap.FromFile("assents/circulo.png");
     public DragAndDrop(){
         tm.Interval = 10;
