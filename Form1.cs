@@ -56,24 +56,26 @@ public partial class Form1 : Form
 
         tm.Tick += (o, e) =>
         {
+            g.Clear(Color.White);
             Frame();
             pb.Refresh();
         };
     }
     bool isDown = false;
     Point cursor = new Point(0, 0);
-    Quadrado quadrado = new Quadrado();
+    Quadrado quadrado;
     void Onstart()
     {
+        quadrado = new Quadrado();
         
     }
 
     void Frame()
     {
-        quadrado.Draw(this.g);
         
-        if(isDown)
+        if(isDown && quadrado.rectangle.Contains(cursor))
             quadrado.OnMove(cursor);        
 
+        quadrado.Draw(this.g);
     }
 }

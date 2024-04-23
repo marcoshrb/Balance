@@ -2,6 +2,7 @@ public class Sprite
 {
     Bitmap img;
     public RectangleF Rect { get; set; }
+    public PointF position;
 
     public Sprite(string path)
         => this.img = Bitmap.FromFile(path) as Bitmap;
