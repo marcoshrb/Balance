@@ -2,7 +2,7 @@
 public abstract class PositionWeight
 {
     // public Image shape = Bitmap.FromFile("img/QuadradoTeste.png");
-    public List<(Position pos, PointF loc, Piece piece)> PieceList = new();
+    public List<(Position pos, PointF loc, Pieces piece)> PieceList = new();
 
     SolidBrush grayBrush = new SolidBrush(Color.FromArgb(100, 0, 0, 0));
     public PositionWeight(){}
@@ -11,7 +11,7 @@ public abstract class PositionWeight
     public void AddEmptyPosition(Position pos, PointF loc)
         => PieceList.Add((pos, loc, null!));
 
-    public bool SetPiece(Piece piece, PointF cursor, PictureBox pb)
+    public bool SetPiece(Pieces piece, PointF cursor, PictureBox pb)
     {
         for (int i = 0; i < PieceList.Count; i++)
         {
@@ -49,18 +49,6 @@ public abstract class PositionWeight
         }
     }
 
-    public void DrawHitboxes(PictureBox pb)
-    {
-    foreach (var item in PieceList)
-    {
-        if (item.piece == null)
-        {
-            var rect = new RectangleF(item.loc.X, item.loc.Y, pb.Width * 0.044f, pb.Height * 0.081f);
-            DrawEmptyPosition(rect, PointF.Empty, false); // Chamada para desenhar o hitbox
-        }
-    }
-    }
-
     public RectangleF DrawEmptyPosition(RectangleF location, PointF cursor, bool isDown)
     {
         float realWidth = location.Width;
@@ -76,7 +64,7 @@ public abstract class PositionWeight
         Draws.Graphics.FillRectangle(grayBrush, rect);
         Draws.Graphics.DrawRectangle(pen, rect.X, rect.Y, realWidth, rect.Height);
  
-        if (cursorIn || isDown)
+        if (!cursorIn || !isDown)
             return rect;     
 
         return rect;

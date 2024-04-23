@@ -3,7 +3,7 @@ public class DrawBalance : PositionWeight
     public DrawBalance()
     {
         AddEmptyPosition(Position.Espace1, 
-            new PointF(Screen.PrimaryScreen.Bounds.Width*0.271f, Screen.PrimaryScreen.Bounds.Height*0.74f)
+            new PointF(350, 400)
         ); //GL
         AddEmptyPosition(Position.Espace2, 
             new PointF(Screen.PrimaryScreen.Bounds.Width*0.128f, Screen.PrimaryScreen.Bounds.Height*0.592f)
