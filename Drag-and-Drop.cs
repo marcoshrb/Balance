@@ -16,15 +16,11 @@ public class DragAndDrop : Form
     int scrollInfo = 0;
     bool isDown = false;
     bool isRight = false;
+    public Image piece = Bitmap.FromFile("assents/circulo.png");
     public DragAndDrop(){
         tm.Interval = 10;
         WindowState = FormWindowState.Maximized;
         FormBorderStyle = FormBorderStyle.None;
-        
-        pb.MouseWheel += (o, e) =>
-        {
-
-        };
 
         pb.MouseDown += (o, e) =>
         {
@@ -43,7 +39,7 @@ public class DragAndDrop : Form
 
         Controls.Add(pb);
 
-                KeyDown += (o, e) =>
+        KeyDown += (o, e) =>
         {
             switch (e.KeyCode)
             {
@@ -61,30 +57,21 @@ public class DragAndDrop : Form
             );
             g = Graphics.FromImage(bmp);
             g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
+            // Draws.DrawPieces(piece, pb);
             pb.Image = bmp;
             tm.Start();
-
-        };
-
-        this.FormClosed += delegate
-        {
-            Application.Exit();
-        };
-        KeyDown += (o, e) =>
-        {
-            switch (e.KeyCode)
-            {
-                case Keys.Escape:
-                    Application.Exit();
-                    break;
-
-            }
         };
 
         tm.Tick += delegate
         {
-            g.Clear(Color.White);
+            g.Clear(Color.Green);
+            // Draws.DrawPieces(piece, pb);
             pb.Refresh();
         };
     }
+
+    // public void DrawPiece(Image img)
+    // {
+    //     Draws.DrawPieces(img, pb);
+    // }
 }
