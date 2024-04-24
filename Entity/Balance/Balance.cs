@@ -6,7 +6,7 @@ using Utils;
 
 public class Balance
 {
-    public BalanceState BalanceState;
+    public int State;
     public float X { get; set; }
     public float Y { get; set; }
     public float Width { get; set; }
@@ -14,12 +14,13 @@ public class Balance
     public Rectangle leftHitbox;
     public Rectangle rightHitbox;
     private List<Shape> leftShapes;
+    private int SlowFrameRate = 0;
     private List<Shape> rightShapes;
     public List<Shape> RightShapes => rightShapes.ToList();
     public List<Shape> LeftShapes => leftShapes.ToList();
     public Balance(float x, float y, float width, float height)
     {
-        this.BalanceState = BalanceState.None;
+        this.State = (int)BalanceState.None;
         this.leftShapes = new();
         this.rightShapes = new();
         this.X = x;
@@ -45,11 +46,11 @@ public class Balance
         var sumRight = SumWeights(this.rightShapes);
 
         if (sumLeft > sumRight)
-            BalanceState = BalanceState.Left;
+            State = (int)BalanceState.Left;
         else if (sumLeft < sumRight)
-            BalanceState = BalanceState.Right;
+            State = (int)BalanceState.Right;
         else
-            BalanceState = BalanceState.None;
+            State = (int)BalanceState.None;
     }
 
     public void Update()
@@ -60,9 +61,10 @@ public class Balance
     public void Draw(Graphics g)
         => DrawBalance(g);
 
-    int angle = 0;
+    private int angle = 10;
     private void DrawBalance(Graphics g)
     {
+        Animate();
         float width = this.Width;
         float height = this.Height;
         float x = this.X + width / 2;
@@ -109,8 +111,6 @@ public class Balance
 
         g.ResetTransform();
 
-        angle--;
-
         g.FillRectangle(Brushes.Gray, BalanceLeft);
         g.FillRectangle(Brushes.Gray, BalanceRight);
 
@@ -128,7 +128,20 @@ public class Balance
     }
 
     public void Animate(){
-        
+        SlowFrameRate += 1;
+        State.ToString();
+
+        if(angle == State)
+            return;
+
+        if (SlowFrameRate > 2)
+        {
+            if(angle < State)
+                angle++;
+            else
+                angle--;
+            SlowFrameRate = 0;
+        }
     }
 
     public int SumWeights(IEnumerable<Shape> shapes)

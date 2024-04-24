@@ -1,6 +1,6 @@
 public enum BalanceState
 {
-    None,
-    Left,
-    Right
+    None = 0,
+    Left = -10,
+    Right = 10
 }

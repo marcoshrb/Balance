@@ -72,6 +72,12 @@ namespace Views
                         MainForm.BringToFront();
                     }
                 }
+                if (e.KeyCode == Keys.A)
+                   balanceLeft.State = (int)BalanceState.Left;
+                if (e.KeyCode == Keys.S)
+                   balanceLeft.State = (int)BalanceState.None;
+                if (e.KeyCode == Keys.D)
+                   balanceLeft.State = (int)BalanceState.Right;
             };
 
             this.Load += (o, e) =>
