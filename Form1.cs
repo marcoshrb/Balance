@@ -87,52 +87,64 @@ public partial class Form1 : Form
             quadrado = new Quadrado();
             quadrado.position = new PointF(350, 800);
             pieces.Add(quadrado);
+
+            bola = new Bola();
+            bola.position = new PointF(550, 800);
+            pieces.Add(bola);
+
+            triangulo = new Triangulo();
+            triangulo.position = new PointF(750, 800);
+            pieces.Add(triangulo);
+
+            pentagono = new Pentagono();
+            pentagono.position = new PointF(950, 800);
+            pieces.Add(pentagono);
+
+            estrela = new Estrela();
+            estrela.position = new PointF(1150, 800);
+            pieces.Add(estrela);
         }
 
-        bola = new Bola();
-        bola.position = new PointF(550, 800);
-        pieces.Add(bola);
-
-        triangulo = new Triangulo();
-        triangulo.position = new PointF(750, 800);
-        pieces.Add(triangulo);
-
-        pentagono = new Pentagono();
-        pentagono.position = new PointF(950, 800);
-        pieces.Add(pentagono);
-
-        estrela = new Estrela();
-        estrela.position = new PointF(1150, 800);
-        pieces.Add(estrela);
 
     }
+    
     void Frame()
     {
-        foreach (var fixedBalance in fixedBalances)
-        {
-            fixedBalance.Draw(this.g);
-        }
-
+        
         foreach (var piece in pieces)
         {
-
             var cusorInForm = piece.rectangle.Contains(cursor);
 
             if (isDown && cusorInForm && selected is null)
             {
-                var selected = piece.OnSelect(cursor);
-                this.selected = selected;
+                // piece.LastPosition = piece.position;
+                this.selected = piece.OnSelect(cursor);
             }
 
             if (isDown && selected is not null)
                 selected.OnMove(cursor);
 
+            // if (!isDown && selected is not null)
+            // {
+            //     selected.position = piece.LastPosition;
+                
+            // }
+
 
             piece.Draw(this.g);
         }
 
-        
-        
+        foreach (var fixedBalance in fixedBalances)
+        {
+            var cusorInFixed = fixedBalance.rectangle.Contains(cursor);
+
+            fixedBalance.Draw(this.g);
+
+            if(cusorInFixed && !isDown && selected is not null && selected.CanMove)
+            {
+                fixedBalance.Add(selected);
+            }
+        }
 
         if (!isDown)
             this.selected = null;
