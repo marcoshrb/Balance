@@ -1,19 +1,19 @@
 public class Pieces
 {
-    public Sprite sprite { get; set; }
-    public SizeF Size => sprite.Rect.Size;
-    public PointF position { get; set; }
+    public Sprite Sprite { get; set; }
+    public SizeF Size => Sprite.Rect.Size;
+    public PointF Position { get; set; }
     public bool CanMove = true;
     public String Name { get; set; }
     public float Weigth { get; set; }
     public PointF LastPosition { get; set; }
-    public RectangleF rectangle
+    public RectangleF Rectangle
     {
         get
         {
             return new RectangleF(
-                (int)position.X,
-                (int)position.Y,
+                (int)Position.X,
+                (int)Position.Y,
                 (int)Size.Width,
                 (int)Size.Height
             );
@@ -21,22 +21,22 @@ public class Pieces
     }
 
     internal PointF? ptClick = null;
-    public void Draw(Graphics g)
+    public void DrawPieces(Graphics g)
     {
         var rect = new RectangleF(
-            (int)position.X,
-            (int)position.Y,
+            (int)Position.X,
+            (int)Position.Y,
             (int)Size.Width,
             (int)Size.Height
             );
 
-        sprite.Draw(g, rect);
+        Sprite.DrawSprite(g, rect);
     }
     public Pieces OnSelect(Point cursor)
     {
         float _x, _y;
-        _x = cursor.X - this.position.X;
-        _y = cursor.Y - this.position.Y;
+        _x = cursor.X - this.Position.X;
+        _y = cursor.Y - this.Position.Y;
         ptClick = new PointF(_x, _y);
         return this;
     }
@@ -48,7 +48,7 @@ public class Pieces
             if (ptClick is null)
                 return;
 
-            position = new PointF(
+            Position = new PointF(
                 cursor.X - ptClick.Value.X,
                 cursor.Y - ptClick.Value.Y
             );

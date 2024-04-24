@@ -8,6 +8,11 @@ public partial class Form1 : Form
     Bitmap bmp;
     Graphics g;
     Timer tm;
+
+    Point cursor = new Point(0, 0);
+    List<Pieces> pieces = new List<Pieces>();
+    List<FixedBalance> fixedBalances = new List<FixedBalance>();
+    Pieces selected; 
     public Form1()
     {
         InitializeComponent();
@@ -64,56 +69,43 @@ public partial class Form1 : Form
         };
     }
     bool isDown = false;
-    Point cursor = new Point(0, 0);
-    Quadrado quadrado;
-    Bola bola;
-    Triangulo triangulo;
-    Pentagono pentagono;
-    Estrela estrela;
 
-    QuadradoEmpty quadradoEmpty;
-    BolaEmpty bolaEmpty;
-    TrianguloEmpty trianguloEmpty;
-    PentagonoEmpty pentagonoEmpty;
-    EstrelaEmpty estrelaEmpty;
-    List<Pieces> pieces = new List<Pieces>();
-    List<FixedBalance> fixedBalances = new List<FixedBalance>();
-    Pieces selected; 
     void Onstart()
     {
-        for (int i = 0; i < 1; i++)
+        // QuadradoEmpty quadradoEmpty = new QuadradoEmpty(); 
+        // BolaEmpty bolaEmpty = new BolaEmpty();     
+        // TrianguloEmpty trianguloEmpty = new TrianguloEmpty();   
+        // PentagonoEmpty pentagonoEmpty = new PentagonoEmpty(); 
+        // EstrelaEmpty estrelaEmpty = new EstrelaEmpty();    
+        for (int i = 0; i < 4; i++)
         {
-            quadradoEmpty = new QuadradoEmpty();   
+            QuadradoEmpty quadradoEmpty = new QuadradoEmpty(); 
             fixedBalances.Add(quadradoEmpty);
-
-            bolaEmpty = new BolaEmpty();   
+            BolaEmpty bolaEmpty = new BolaEmpty();     
             fixedBalances.Add(bolaEmpty);
-
-            trianguloEmpty = new TrianguloEmpty();   
+            TrianguloEmpty trianguloEmpty = new TrianguloEmpty();   
             fixedBalances.Add(trianguloEmpty);
-
-            pentagonoEmpty = new PentagonoEmpty();   
+            PentagonoEmpty pentagonoEmpty = new PentagonoEmpty(); 
             fixedBalances.Add(pentagonoEmpty);
-            
-            estrelaEmpty = new EstrelaEmpty();   
+            EstrelaEmpty estrelaEmpty = new EstrelaEmpty();    
             fixedBalances.Add(estrelaEmpty);
         }
 
         for (int i = 0; i < 5; i++)
         {
-            quadrado = new Quadrado();
+            Quadrado quadrado = new Quadrado();
             pieces.Add(quadrado);
 
-            bola = new Bola();
+            Bola bola = new Bola();
             pieces.Add(bola);
 
-            triangulo = new Triangulo();
+            Triangulo triangulo = new Triangulo();
             pieces.Add(triangulo);
 
-            pentagono = new Pentagono();
+            Pentagono pentagono = new Pentagono();
             pieces.Add(pentagono);
 
-            estrela = new Estrela();
+            Estrela estrela = new Estrela();
             pieces.Add(estrela);
         }
 
@@ -125,12 +117,12 @@ public partial class Form1 : Form
         
         foreach (var piece in pieces)
         {
-            var cusorInForm = piece.rectangle.Contains(cursor);
+            var cusorInForm = piece.Rectangle.Contains(cursor);
 
             if (isDown && cusorInForm && selected is null)
             {
                 this.selected = piece.OnSelect(cursor);
-                selected.LastPosition = selected.position;
+                selected.LastPosition = selected.Position;
             }
 
             if (isDown && selected is not null)
@@ -138,23 +130,23 @@ public partial class Form1 : Form
 
             if (!isDown && selected is not null)
             {
-                selected.position = selected.LastPosition;
-                
+                selected.Position = selected.LastPosition;    
             }
 
 
-            piece.Draw(this.g);
+            piece.DrawPieces(this.g);
+            
         }
 
         foreach (var fixedBalance in fixedBalances)
         {
             var cusorInFixed = fixedBalance.rectangle.Contains(cursor);
 
-            fixedBalance.Draw(this.g);
+            fixedBalance.DrawFixedPiece(this.g);
 
             if(cusorInFixed && !isDown && selected is not null && selected.CanMove)
             {
-                fixedBalance.Add(selected);
+                fixedBalance.AddPiece(selected);
             }
         }
 

@@ -9,7 +9,7 @@ public class Sprite
     public Sprite(Bitmap bmp)
         => this.img = bmp;
     
-    public void Draw(Graphics g, RectangleF drawRect)
+    public void DrawSprite(Graphics g, RectangleF drawRect)
     {
         g.DrawImage(
             this.img,
