@@ -1,9 +1,9 @@
-public class QuadradoEmpyt : FixedBalance
+public class QuadradoEmpty : FixedBalance
 {
     private List<Quadrado> quadradoList = new List<Quadrado>();
-    public QuadradoEmpyt()
+    public QuadradoEmpty()
     {
-        Sprite spriteCreate = new Sprite(Bitmap.FromFile(@"./imgs/piecesEmpyt/Quadrado.png") as Bitmap);
+        Sprite spriteCreate = new Sprite(Bitmap.FromFile(@"./imgs/piecesEmpty/Quadrado.png") as Bitmap);
         spriteCreate.Rect = new RectangleF( position.X, position.Y, 79, 79);
         this.sprite = spriteCreate;
 

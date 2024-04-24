@@ -71,8 +71,11 @@ public partial class Form1 : Form
     Pentagono pentagono;
     Estrela estrela;
 
-    QuadradoEmpyt quadradoEmpyt;
-
+    QuadradoEmpty quadradoEmpty;
+    BolaEmpty bolaEmpty;
+    TrianguloEmpty trianguloEmpty;
+    PentagonoEmpty pentagonoEmpty;
+    EstrelaEmpty estrelaEmpty;
     List<Pieces> pieces = new List<Pieces>();
     List<FixedBalance> fixedBalances = new List<FixedBalance>();
     Pieces selected; 
@@ -80,8 +83,20 @@ public partial class Form1 : Form
     {
         for (int i = 0; i < 1; i++)
         {
-            quadradoEmpyt = new QuadradoEmpyt();   
-            fixedBalances.Add(quadradoEmpyt);
+            quadradoEmpty = new QuadradoEmpty();   
+            fixedBalances.Add(quadradoEmpty);
+
+            bolaEmpty = new BolaEmpty();   
+            fixedBalances.Add(bolaEmpty);
+
+            trianguloEmpty = new TrianguloEmpty();   
+            fixedBalances.Add(trianguloEmpty);
+
+            pentagonoEmpty = new PentagonoEmpty();   
+            fixedBalances.Add(pentagonoEmpty);
+            
+            estrelaEmpty = new EstrelaEmpty();   
+            fixedBalances.Add(estrelaEmpty);
         }
 
         for (int i = 0; i < 5; i++)
