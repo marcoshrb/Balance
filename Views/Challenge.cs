@@ -68,7 +68,7 @@ namespace Views
                     }
                 }
             };
-            
+
             this.Load += (o, e) =>
             {
                 this.bmp = new Bitmap(pb.Width, pb.Height);
