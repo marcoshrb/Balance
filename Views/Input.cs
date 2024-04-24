@@ -8,12 +8,17 @@ public class InputUser
     public RectangleF Rect { get; set; }
     public string Text { get; set; }
 
+
     public InputUser(float X, float Y, float width, float height, string text)
     {
         this.Rect = new RectangleF(X, Y, width, height);
         this.Text = text;
     }
-
+    public InputUser(float X, float Y, float width, float height)
+    {
+        this.Rect = new RectangleF(X, Y, width, height);
+        this.Text = "";
+    }
     public void DrawInput(Graphics g)
     {
         Font font = new Font("Arial bold", 14);

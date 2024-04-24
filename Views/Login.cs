@@ -1,5 +1,6 @@
 using System;
 using System.Drawing;
+using System.Drawing.Design;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms;
 using Utils;
@@ -14,6 +15,10 @@ public class Login : Form
     private Graphics g;
     private Timer tm;
     public string UserName;
+    private bool showLine = false;
+    private int counter = 0;
+    private InputUser input = null;
+    private string userName = "";
 
     public Login()
     {
@@ -21,9 +26,10 @@ public class Login : Form
         this.WindowState = FormWindowState.Maximized;
         this.FormBorderStyle = FormBorderStyle.None;
         this.Text = "Desafio";
-        InputUser input = null;
         bool isTyping = false;
-        bool resized = false;
+        int countSize = 0;
+        BtnConfirm btnConfirm = null;
+        Challenge challenge = new Challenge();
 
         this.header = new PictureBox
         {
@@ -62,22 +68,39 @@ public class Login : Form
             Onstart();
             this.tm.Start();
 
-            input = new InputUser(pb.Width*0.5f-200, pb.Height*0.4f, 400, 50, "Insira seu nome completo:");
+            input = new InputUser(pb.Width*0.5f-200, pb.Height*0.4f, 400, 40, "Insira seu nome completo:");
             input.DrawInput(g);
+            btnConfirm = new BtnConfirm(pb.Width*0.85f, pb.Height*0.85f, 200, 100, "Confirmar");
+            btnConfirm.DrawButton(g);
         };
-        
         
         void textForResult(object sender, EventArgs e)
         {
             if(isTyping)
             {
-                string text = textBox.Text;
+                userName = textBox.Text;
+                string text = "";
+                if(counter % 15 == 0)
+                    this.showLine = !this.showLine;
+                if(showLine)
+                    text = textBox.Text + "|";
+                else
+                    text = textBox.Text;
                 Font font = new Font("Arial", 24);
                 SizeF textSize = g.MeasureString(text, font);
-                if(textSize.Width > input.Rect.Width && !resized)
+                if((int)textSize.Width / (int)input.Rect.Width > countSize)
                 {
-                    input.Rect = new RectangleF(input.Rect.X, input.Rect.Y, input.Rect.Width, input.Rect.Height + 40);
-                    resized = true;
+                    input.Rect = new RectangleF(input.Rect.X, input.Rect.Y, input.Rect.Width, input.Rect.Height + textSize.Height);
+                    countSize = (int)textSize.Width / (int)input.Rect.Width;
+                }
+                if((int)textSize.Width / (int)input.Rect.Width < countSize)
+                {
+                    g.Clear(Color.FromArgb(250, 249, 246));
+                    Onstart();
+                    input.Rect = new RectangleF(input.Rect.X, input.Rect.Y, input.Rect.Width, input.Rect.Height - textSize.Height);
+                    input.DrawInput(g);
+                    countSize = (int)textSize.Width / (int)input.Rect.Width;
+                    btnConfirm.DrawButton(g);
                 }
                 Brush brush = Brushes.Black;
                 SolidBrush white = new SolidBrush(Color.FromArgb(250, 249, 246));
@@ -91,8 +114,7 @@ public class Login : Form
         textBox.Location = new Point(pb.Width / 2 - 75, pb.Height / 2 - 10);
         textBox.Size = new Size(150, 20);
         textBox.Visible = true;
-        textBox.ReadOnly = true;
-        textBox.Focus();
+        textBox.ReadOnly = false;
         textBox.TextChanged += textForResult;
         this.Controls.Add(textBox);
 
@@ -108,15 +130,28 @@ public class Login : Form
                 isTyping = false;
                 textBox.ReadOnly = true;
             }
+
+            if(btnConfirm.Rect.Contains(e.X, e.Y))
+            {
+                if(this.userName.Length > 0)
+                {
+                    UserData.UserName = this.userName;
+                    UserData.DateStart = DateTime.Now;
+                    this.Hide();
+                    challenge.Show();
+                }
+                else
+                    MessageBox.Show("Vazio");
+            }
         };
 
         tm.Tick += (o, e) =>
         {
             Frame();
             pb.Refresh();
+            textForResult(o, e);
         };
     }
-
 
     void Onstart()
     {
@@ -130,5 +165,7 @@ public class Login : Form
     }
 
     void Frame()
-    { }
+    {
+        this.counter++;
+    }
 }

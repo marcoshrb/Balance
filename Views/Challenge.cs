@@ -8,14 +8,14 @@ namespace Views
 {
     public class Challenge : Form
     {
-        Balance balanceLeft;
-        Balance balanceRight;
-
+        public MainForm MainForm { get; set; }
         PictureBox header;
         PictureBox pb;
         Bitmap bmp;
         Graphics g;
         Timer tm;
+        Balance balanceLeft;
+        Balance balanceRight;
 
         public Challenge()
         {
@@ -46,10 +46,32 @@ namespace Views
                 Interval = 20
             };
 
+            //sair
+            // this.KeyDown += (o, e) =>
+            // {
+            //     if (e.KeyCode == Keys.Escape)
+            //         Application.Exit();
+            // };
+
+            //popup
             this.KeyDown += (o, e) =>
             {
                 if (e.KeyCode == Keys.Escape)
-                    Application.Exit();
+                {
+                    if (MainForm == null)
+                    {
+                        MainForm = new MainForm();
+                        MainForm.FormClosed += (sender, args) =>
+                        {
+                            MainForm = null;
+                        };
+                        MainForm.Show();
+                    }
+                    else
+                    {
+                        MainForm.BringToFront();
+                    }
+                }
             };
 
             this.Load += (o, e) =>
