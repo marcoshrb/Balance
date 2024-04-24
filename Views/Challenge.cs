@@ -8,9 +8,7 @@ namespace Views
 {
     public class Challenge : Form
     {
-        Balance balanceLeft;
-        Balance balanceRight;
-
+        public MainForm MainForm { get; set; }
         PictureBox header;
         PictureBox pb;
         Bitmap bmp;
@@ -19,8 +17,6 @@ namespace Views
 
         public Challenge()
         {
-            this.balanceLeft = new Balance(150, 100, 400, 400);
-            this.balanceRight = new Balance(900, 100, 400, 400);
             this.WindowState = FormWindowState.Maximized;
             this.FormBorderStyle = FormBorderStyle.None;
             this.Text = "Desafio";
@@ -45,10 +41,32 @@ namespace Views
                 Interval = 20
             };
 
+            //sair
+            // this.KeyDown += (o, e) =>
+            // {
+            //     if (e.KeyCode == Keys.Escape)
+            //         Application.Exit();
+            // };
+
+            //popup
             this.KeyDown += (o, e) =>
             {
                 if (e.KeyCode == Keys.Escape)
-                    Application.Exit();
+                {
+                    if (MainForm == null)
+                    {
+                        MainForm = new MainForm();
+                        MainForm.FormClosed += (sender, args) =>
+                        {
+                            MainForm = null;
+                        };
+                        MainForm.Show();
+                    }
+                    else
+                    {
+                        MainForm.BringToFront();
+                    }
+                }
             };
 
             this.Load += (o, e) =>
@@ -64,8 +82,6 @@ namespace Views
 
             tm.Tick += (o, e) =>
             {
-                balanceLeft.Draw(this.g);
-                balanceRight.Draw(this.g);
                 Frame();
                 pb.Refresh();
             };
