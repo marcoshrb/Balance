@@ -78,30 +78,27 @@ public partial class Form1 : Form
     Pieces selected; 
     void Onstart()
     {
-        quadradoEmpyt = new QuadradoEmpyt(); 
-        quadradoEmpyt.position = new PointF(500, 400);   
-        fixedBalances.Add(quadradoEmpyt);
+        for (int i = 0; i < 1; i++)
+        {
+            quadradoEmpyt = new QuadradoEmpyt();   
+            fixedBalances.Add(quadradoEmpyt);
+        }
 
         for (int i = 0; i < 5; i++)
         {
             quadrado = new Quadrado();
-            quadrado.position = new PointF(350, 800);
             pieces.Add(quadrado);
 
             bola = new Bola();
-            bola.position = new PointF(550, 800);
             pieces.Add(bola);
 
             triangulo = new Triangulo();
-            triangulo.position = new PointF(750, 800);
             pieces.Add(triangulo);
 
             pentagono = new Pentagono();
-            pentagono.position = new PointF(950, 800);
             pieces.Add(pentagono);
 
             estrela = new Estrela();
-            estrela.position = new PointF(1150, 800);
             pieces.Add(estrela);
         }
 
@@ -117,18 +114,18 @@ public partial class Form1 : Form
 
             if (isDown && cusorInForm && selected is null)
             {
-                // piece.LastPosition = piece.position;
                 this.selected = piece.OnSelect(cursor);
+                selected.LastPosition = selected.position;
             }
 
             if (isDown && selected is not null)
                 selected.OnMove(cursor);
 
-            // if (!isDown && selected is not null)
-            // {
-            //     selected.position = piece.LastPosition;
+            if (!isDown && selected is not null)
+            {
+                selected.position = selected.LastPosition;
                 
-            // }
+            }
 
 
             piece.Draw(this.g);
