@@ -15,13 +15,13 @@ namespace Views
         public MainForm()
         {
             InitializeForm();
-            this.Resize += Input;
+            this.DoubleBuffered = true;
 
             validarBotao = new Button
             {
                 Text = "Confirmar",
                 Size = new Size(100, 30),
-                Location = new Point((this.ClientSize.Width - 100) / 2, (this.ClientSize.Height - 120) / 2 + 120),
+                Location = new Point((this.ClientSize.Width - 100) / 2, (this.ClientSize.Height + 10) / 2 + 120),
                 Font = new Font("Arial", 12, FontStyle.Bold),
                 BackColor = Color.White
             };
@@ -67,8 +67,8 @@ namespace Views
         private void Elements(object sender, PaintEventArgs e)
         {
             e.Graphics.DrawImage(backgroundImage, new Rectangle(Point.Empty, this.ClientSize));
-            Text("Chame um Instrutor", new Font("Arial", 50, FontStyle.Bold), Brushes.White, e.Graphics, -130);
-            Text("Insira o código para sair", new Font("Arial", 30, FontStyle.Bold), Brushes.White, e.Graphics, -30);
+            Text("CHAME UM INSTRUTOR", new Font("Arial", 50, FontStyle.Bold), Brushes.White, e.Graphics, -105);
+            Text("Insira o código para sair", new Font("Arial", 30, FontStyle.Bold), Brushes.White, e.Graphics, 50);
         }
 
         private void Text(string text, Font font, Brush brush, Graphics graphics, int offsetY = 0)
