@@ -19,8 +19,8 @@ namespace Views
 
         public Challenge()
         {
-            this.balanceLeft = new Balance(150, 100, 400, 400);
-            this.balanceRight = new Balance(900, 100, 400, 400);
+            this.balanceLeft = new Balance(200, 100, 350, 350);
+            this.balanceRight = new Balance(950, 100, 350, 350);
             this.WindowState = FormWindowState.Maximized;
             this.FormBorderStyle = FormBorderStyle.None;
             this.Text = "Desafio";
@@ -33,6 +33,7 @@ namespace Views
                 BackgroundImageLayout = ImageLayout.Stretch
             };
             this.Controls.Add(header);
+
 
             this.pb = new PictureBox
             {
@@ -64,6 +65,7 @@ namespace Views
 
             tm.Tick += (o, e) =>
             {
+                g.Clear(Color.FromArgb(250, 249, 246));
                 balanceLeft.Draw(this.g);
                 balanceRight.Draw(this.g);
                 Frame();
@@ -84,7 +86,13 @@ namespace Views
 
         void Frame()
         {
-            // Atualizar a lógica do frame, se necessário
+            Image logo = ImageProcessing.GetImage(@"Assets\logo.png");
+            Size newSize = new Size((int)(170 * ClientScreen.WidthFactor), (int)(38 * ClientScreen.WidthFactor));
+            Image resizedLogo = ImageProcessing.ResizeImage(logo, newSize);
+            int margin = (int)(14 * ClientScreen.HeightFactor);
+            int x = margin;
+            int y = ClientScreen.Height - resizedLogo.Height - margin;
+            g.DrawImage(resizedLogo, new Point(x, y));
         }
     }
 }
