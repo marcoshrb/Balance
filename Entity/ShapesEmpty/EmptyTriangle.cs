@@ -1,14 +1,13 @@
 using System.Drawing;
+using Utils;
 
 public class EmptyTriangle : FixedBalance
 {
-    public EmptyTriangle(PointF pos)
+    public EmptyTriangle()
     {
-        Sprite spriteCreate = new Sprite(Resources.Triangle);
+        Sprite spriteCreate = new Sprite(ImageProcessing.ResizeImage(Resources.Circle, new Size(80, 80)));
         spriteCreate.Rect = new RectangleF( position.X, position.Y, 80, 80);
         this.Sprite = spriteCreate;
-
-        this.position = pos;
         
         this.Name = "Triangulo";
     }

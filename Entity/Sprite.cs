@@ -3,7 +3,7 @@ using Utils;
 
 public class Sprite
 {
-    Bitmap img;
+    public Bitmap img;
     public RectangleF Rect { get; set; }
     public PointF position;
 

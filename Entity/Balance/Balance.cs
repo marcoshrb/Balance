@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Windows.Forms;
 using Entities.Shapes;
 using Utils;
 
@@ -11,36 +12,91 @@ public class Balance : Entity
     public int State;
     public RectangleF LeftHitbox;
     public RectangleF RightHitbox;
-    private List<Shape> LeftShapes;
-    private List<Shape> RightShapes;
-    public List<Shape> ShapesOnLeftSide => LeftShapes.ToList();
-    public List<Shape> ShapesOnRightSide => RightShapes.ToList();
+    private List<FixedBalance> LeftShapes;
+    private List<FixedBalance> RightShapes;
+    public List<FixedBalance> ShapesOnLeftSide => LeftShapes.ToList();
+    public List<FixedBalance> ShapesOnRightSide => RightShapes.ToList();
     private int SlowFrameRate = 0;
     private int Angle = 10;
+    private EmptyCircle emptyCircle;
+    private EmptyPentagon emptyPentagon;
+    private EmptySquare emptySquare;
+    private EmptyStar emptyStar;
+    private EmptyTriangle emptyTriangle;
+    private EmptyCircle emptyCircle2;
+    private EmptyPentagon emptyPentagon2;
+    private EmptySquare emptySquare2;
+    private EmptyStar emptyStar2;
+    private EmptyTriangle emptyTriangle2;
 
-    
 
     public Balance(float x, float y, float width, float height) : base(x, y, width, height)
     {
         State = (int)BalanceState.None;
+
+        // LeftShapes
         LeftShapes = new();
+
+        emptyCircle = new EmptyCircle();
+        LeftShapes.Add(emptyCircle);
+
+        emptyPentagon = new EmptyPentagon();
+        LeftShapes.Add(emptyPentagon);
+
+        emptySquare = new EmptySquare();
+        LeftShapes.Add(emptySquare);
+
+        emptyStar = new EmptyStar();
+        LeftShapes.Add(emptyStar);
+
+        emptyTriangle = new EmptyTriangle();
+        LeftShapes.Add(emptyTriangle);
+
+        // RightShapes
         RightShapes = new();
+
+        emptyCircle2 = new EmptyCircle();
+        RightShapes.Add(emptyCircle2);
+
+        emptyPentagon2 = new EmptyPentagon();
+        RightShapes.Add(emptyPentagon2);
+
+        emptySquare2 = new EmptySquare();
+        RightShapes.Add(emptySquare2);
+
+        emptyStar2 = new EmptyStar();
+        RightShapes.Add(emptyStar2);
+
+        emptyTriangle2 = new EmptyTriangle();
+        RightShapes.Add(emptyTriangle2);
     }
 
     public void AddLeftShape(Shape shape)
     {
-        shape.CanMove = false;
-        shape.Position = new Point(0, 0);
-        LeftShapes.Add(shape);
-        UpdateBalanceState();
+        foreach (var fixedBalance in LeftShapes)
+        {
+            if (shape.Name == fixedBalance.Name)
+            {
+                shape.CanMove = false;
+                shape.Position = fixedBalance.position;
+                fixedBalance.Add(shape);
+                UpdateBalanceState();
+            }
+        }
     }
 
     public void AddRightShape(Shape shape)
     {
-        shape.CanMove = false;
-        shape.Position = new Point(0, 0);
-        RightShapes.Add(shape);
-        UpdateBalanceState();
+        foreach (var fixedBalance in RightShapes)
+        {
+            if (shape.Name == fixedBalance.Name)
+            {
+                shape.CanMove = false;
+                shape.Position = fixedBalance.position;
+                fixedBalance.Add(shape);
+                UpdateBalanceState();
+            }
+        }
     }
 
     private void UpdateBalanceState()
@@ -56,9 +112,27 @@ public class Balance : Entity
             State = (int)BalanceState.None;
     }
 
+    public int CalculateTotalWeight(IEnumerable<FixedBalance> SideBalance)
+    {
+        var sum = 0;
+        foreach (var fixedBalance in SideBalance)
+        {
+            foreach (var item in fixedBalance.pieces)
+            {
+                sum += item.Weight;
+            }
+        }
+        return sum;
+    }
+
     public override void Update() => UpdateBalanceState();
 
     public override void Draw(Graphics g) => DrawBalance(g);
+
+    public void DrawShapesEmptys(Graphics g)
+    {
+
+    }
 
 
     RectangleF position1;
@@ -254,16 +328,42 @@ public class Balance : Entity
             heightFactor * 70
         );
 
-        g.FillRectangle(Brushes.Red, position1);
-        g.FillRectangle(Brushes.Blue, position2);
-        g.FillRectangle(Brushes.Green, position3);
-        g.FillRectangle(Brushes.Yellow, position4);
-        g.FillRectangle(Brushes.Orange, position5);
-        g.FillRectangle(Brushes.Red, position6);
-        g.FillRectangle(Brushes.Blue, position7);
-        g.FillRectangle(Brushes.Green, position8);
-        g.FillRectangle(Brushes.Yellow, position9);
-        g.FillRectangle(Brushes.Orange, position10);
+
+        // LeftShapes
+
+        emptyCircle.position = new (position1.Left, position1.Top);
+
+        emptyPentagon.position = new(position2.Left, position2.Top);
+    
+        emptySquare.position = new(position3.Left, position3.Top);
+  
+        emptyStar.position = new(position4.Left, position4.Top);
+
+        emptyTriangle.position = new(position5.Left, position5.Top);
+
+
+        // RightShapes
+
+        emptyCircle2.position = new(position6.Left, position6.Top);
+
+        emptyPentagon2.position = new(position7.Left, position7.Top);
+
+        emptySquare2.position = new(position8.Left, position8.Top);
+
+        emptyStar2.position = new(position9.Left, position9.Top);
+
+        emptyTriangle2.position = new(position10.Left, position10.Top);
+
+        // emptyCircle.Draw(g);
+        // emptyPentagon.Draw(g);
+        // emptySquare.Draw(g);
+        // emptyStar.Draw(g);
+        // emptyTriangle.Draw(g);
+        // emptyCircle2.Draw(g);
+        // emptyPentagon2.Draw(g);
+        // emptySquare2.Draw(g);
+        // emptyStar2.Draw(g);
+        // emptyTriangle2.Draw(g);
 
         // g.DrawRectangle(Pens.Red, LeftHitbox);
         // g.DrawRectangle(Pens.Red, RightHitbox);
@@ -287,5 +387,5 @@ public class Balance : Entity
         }
     }
 
-    public int CalculateTotalWeight(IEnumerable<Shape> shapes) => shapes.Sum(x => x.Weight);
+
 }

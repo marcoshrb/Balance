@@ -54,7 +54,7 @@ public abstract class Shape : Entity
             (int)Size.Height
         );
         
-        g.DrawRectangle(Pens.Red, rect);
+        // g.DrawRectangle(Pens.Red, rect);
         Sprite.DrawSprite(g, rect);
     }
 
