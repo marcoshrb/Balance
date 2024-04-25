@@ -4,6 +4,7 @@ using System.Drawing.Design;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms;
 using Utils;
+using Views.Components;
 
 namespace Views;
 
@@ -109,12 +110,14 @@ public class Login : Form
                 g.DrawString(text, font, brush, input.Rect);
             }
         }
-        
-        textBox = new TextBox();
-        textBox.Location = new Point(pb.Width / 2 - 75, pb.Height / 2 - 10);
-        textBox.Size = new Size(150, 20);
-        textBox.Visible = true;
-        textBox.ReadOnly = false;
+
+        textBox = new TextBox
+        {
+            Location = new Point(pb.Width / 2 - 75, pb.Height / 2 - 10),
+            Size = new Size(150, 20),
+            Visible = true,
+            ReadOnly = false
+        };
         textBox.TextChanged += textForResult;
         this.Controls.Add(textBox);
 
