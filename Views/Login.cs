@@ -19,6 +19,7 @@ public class Login : Form
     private int counter = 0;
     private InputUser input = null;
     private string userName = "";
+    private Save saveInstance;
 
     public Login()
     {
@@ -30,6 +31,8 @@ public class Login : Form
         int countSize = 0;
         BtnConfirm btnConfirm = null;
         Challenge challenge = new Challenge();
+
+        saveInstance = new Save();
 
         this.header = new PictureBox
         {
@@ -55,7 +58,7 @@ public class Login : Form
         {
             if (e.KeyCode == Keys.Escape)
                 Application.Exit();
-                
+
         };
 
         this.Load += (o, e) =>
@@ -68,32 +71,32 @@ public class Login : Form
             Onstart();
             this.tm.Start();
 
-            input = new InputUser(pb.Width*0.5f-200, pb.Height*0.4f, 400, 40, "Insira seu nome completo:");
+            input = new InputUser(pb.Width * 0.5f - 200, pb.Height * 0.4f, 400, 40, "Insira seu nome completo:");
             input.DrawInput(g);
-            btnConfirm = new BtnConfirm(pb.Width*0.85f, pb.Height*0.85f, 200, 100, "Confirmar");
+            btnConfirm = new BtnConfirm(pb.Width * 0.85f, pb.Height * 0.85f, 200, 100, "Confirmar");
             btnConfirm.DrawButton(g);
         };
-        
+
         void textForResult(object sender, EventArgs e)
         {
-            if(isTyping)
+            if (isTyping)
             {
                 userName = textBox.Text;
                 string text = "";
-                if(counter % 15 == 0)
+                if (counter % 15 == 0)
                     this.showLine = !this.showLine;
-                if(showLine)
+                if (showLine)
                     text = textBox.Text + "|";
                 else
                     text = textBox.Text;
                 Font font = new Font("Arial", 24);
                 SizeF textSize = g.MeasureString(text, font);
-                if((int)textSize.Width / (int)input.Rect.Width > countSize)
+                if ((int)textSize.Width / (int)input.Rect.Width > countSize)
                 {
                     input.Rect = new RectangleF(input.Rect.X, input.Rect.Y, input.Rect.Width, input.Rect.Height + textSize.Height);
                     countSize = (int)textSize.Width / (int)input.Rect.Width;
                 }
-                if((int)textSize.Width / (int)input.Rect.Width < countSize)
+                if ((int)textSize.Width / (int)input.Rect.Width < countSize)
                 {
                     g.Clear(Color.FromArgb(250, 249, 246));
                     Onstart();
@@ -109,7 +112,7 @@ public class Login : Form
                 g.DrawString(text, font, brush, input.Rect);
             }
         }
-        
+
         textBox = new TextBox();
         textBox.Location = new Point(pb.Width / 2 - 75, pb.Height / 2 - 10);
         textBox.Size = new Size(150, 20);
@@ -120,7 +123,7 @@ public class Login : Form
 
         pb.MouseClick += (o, e) =>
         {
-            if(input.Rect.Contains(e.X, e.Y) && !isTyping)
+            if (input.Rect.Contains(e.X, e.Y) && !isTyping)
             {
                 isTyping = true;
                 textBox.ReadOnly = false;
@@ -131,12 +134,14 @@ public class Login : Form
                 textBox.ReadOnly = true;
             }
 
-            if(btnConfirm.Rect.Contains(e.X, e.Y))
+            if (btnConfirm.Rect.Contains(e.X, e.Y))
             {
-                if(this.userName.Length > 0)
+                if (this.userName.Length > 0)
                 {
                     UserData.UserName = this.userName;
                     UserData.DateStart = DateTime.Now;
+                    saveInstance.Salvar();
+                    MessageBox.Show("Nome vazio");
                     this.Hide();
                     challenge.Show();
                 }

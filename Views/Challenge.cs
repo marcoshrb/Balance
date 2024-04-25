@@ -56,7 +56,9 @@ namespace Views
             //popup
             this.KeyDown += (o, e) =>
             {
-                if (e.KeyCode == Keys.Escape)
+                bool isLetterOrDigit = char.IsLetterOrDigit((char)e.KeyCode);
+
+                if (!isLetterOrDigit)
                 {
                     if (MainForm == null)
                     {
@@ -100,6 +102,7 @@ namespace Views
                 pb.Refresh();
             };
         }
+
 
         void Onstart()
         {
