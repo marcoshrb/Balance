@@ -18,6 +18,8 @@ public class Balance : Entity
     private int SlowFrameRate = 0;
     private int Angle = 10;
 
+    
+
     public Balance(float x, float y, float width, float height) : base(x, y, width, height)
     {
         State = (int)BalanceState.None;
@@ -58,6 +60,17 @@ public class Balance : Entity
 
     public override void Draw(Graphics g) => DrawBalance(g);
 
+
+    RectangleF position1;
+    RectangleF position2;
+    RectangleF position3;
+    RectangleF position4;
+    RectangleF position5;
+    RectangleF position6;
+    RectangleF position7;
+    RectangleF position8;
+    RectangleF position9;
+    RectangleF position10;
     private void DrawBalance(Graphics g)
     {
         Animate();
@@ -179,62 +192,62 @@ public class Balance : Entity
         g.FillRectangle(Brushes.Gray, balanceLeft);
         g.FillRectangle(Brushes.Gray, balanceRight);
 
-        var position1 = new RectangleF(
+        this.position1 = new RectangleF(
             balanceLeft.Left,
             balanceLeft.Top - heightFactor * 70,
             widthFactor * 70,
             heightFactor * 70
         );
-        var position2 = new RectangleF(
+        this.position2 = new RectangleF(
             position1.Right - widthFactor * 5,
             balanceLeft.Top - heightFactor * 70,
             widthFactor * 70,
             heightFactor * 70
         );
-        var position3 = new RectangleF(
+        this.position3 = new RectangleF(
             position2.Right - widthFactor * 5,
             balanceLeft.Top - heightFactor * 70,
             widthFactor * 70,
             heightFactor * 70
         );
-        var position4 = new RectangleF(
+        this.position4 = new RectangleF(
             position3.Right - widthFactor * 5,
             balanceLeft.Top - heightFactor * 70,
             widthFactor * 70,
             heightFactor * 70
         );
-        var position5 = new RectangleF(
+        this.position5 = new RectangleF(
             position4.Right - widthFactor * 5,
             balanceLeft.Top - heightFactor * 70,
             widthFactor * 70,
             heightFactor * 70
         );
 
-        var position6 = new RectangleF(
+        this.position6 = new RectangleF(
             balanceRight.Left,
             balanceRight.Top - heightFactor * 70,
             widthFactor * 70,
             heightFactor * 70
         );
-        var position7 = new RectangleF(
+        this.position7 = new RectangleF(
             position6.Right - widthFactor * 5,
             balanceRight.Top - heightFactor * 70,
             widthFactor * 70,
             heightFactor * 70
         );
-        var position8 = new RectangleF(
+        this.position8 = new RectangleF(
             position7.Right - widthFactor * 5,
             balanceRight.Top - heightFactor * 70,
             widthFactor * 70,
             heightFactor * 70
         );
-        var position9 = new RectangleF(
+        this.position9 = new RectangleF(
             position8.Right - widthFactor * 5,
             balanceRight.Top - heightFactor * 70,
             widthFactor * 70,
             heightFactor * 70
         );
-        var position10 = new RectangleF(
+        this.position10 = new RectangleF(
             position9.Right - widthFactor * 5,
             balanceRight.Top - heightFactor * 70,
             widthFactor * 70,
@@ -252,8 +265,8 @@ public class Balance : Entity
         g.FillRectangle(Brushes.Yellow, position9);
         g.FillRectangle(Brushes.Orange, position10);
 
-        g.DrawRectangle(Pens.Red, LeftHitbox);
-        g.DrawRectangle(Pens.Red, RightHitbox);
+        // g.DrawRectangle(Pens.Red, LeftHitbox);
+        // g.DrawRectangle(Pens.Red, RightHitbox);
     }
 
     public void Animate()

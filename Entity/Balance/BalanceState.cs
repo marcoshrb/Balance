@@ -2,6 +2,6 @@ namespace Entities;
 public enum BalanceState
 {
     None = 0,
-    Left = -10,
-    Right = 10
+    Left = -15,
+    Right = 15
 }

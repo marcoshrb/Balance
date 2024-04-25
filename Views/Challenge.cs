@@ -27,8 +27,8 @@ namespace Views
 
         public Challenge()
         {
-            this.balanceLeft = new Balance(200, 100, 350, 350);
-            this.balanceRight = new Balance(950, 100, 350, 350);
+            this.balanceLeft = new Balance(200 * ClientScreen.WidthFactor, 100 * ClientScreen.HeightFactor, 350 * ClientScreen.WidthFactor, 350 * ClientScreen.HeightFactor);
+            this.balanceRight = new Balance(950 * ClientScreen.WidthFactor, 100 * ClientScreen.HeightFactor, 350 * ClientScreen.WidthFactor, 350 * ClientScreen.HeightFactor);
             this.WindowState = FormWindowState.Maximized;
             this.FormBorderStyle = FormBorderStyle.None;
             this.Text = "Desafio";
@@ -133,19 +133,19 @@ namespace Views
 
             for (int i = 0; i < 5; i++)
             {
-                Square quadrado = new(350, 800, 80, 5);
+                Square quadrado = new(350 * ClientScreen.WidthFactor, 800 * ClientScreen.HeightFactor, 80 * ClientScreen.WidthFactor, 5);
                 shapes.Add(quadrado);
 
-                Circle bola = new(550, 800, 80, 5);
+                Circle bola = new(550 * ClientScreen.WidthFactor, 800 * ClientScreen.HeightFactor, 80 * ClientScreen.WidthFactor, 5);
                 shapes.Add(bola);
 
-                Triangle triangulo = new(750, 800, 80, 80, 5);
+                Triangle triangulo = new(750 * ClientScreen.WidthFactor, 800 * ClientScreen.HeightFactor, 80 * ClientScreen.WidthFactor, 80 * ClientScreen.WidthFactor, 5);
                 shapes.Add(triangulo);
 
-                Pentagon pentagono = new(950, 800, 80, 80, 5);
+                Pentagon pentagono = new(950 * ClientScreen.WidthFactor, 800 * ClientScreen.HeightFactor, 80 * ClientScreen.WidthFactor, 80 * ClientScreen.WidthFactor, 5);
                 shapes.Add(pentagono);
 
-                Star estrela = new(1150, 800, 80, 80, 10);
+                Star estrela = new(1150 * ClientScreen.WidthFactor, 800 * ClientScreen.HeightFactor, 80 * ClientScreen.WidthFactor, 80 * ClientScreen.WidthFactor, 10);
                 shapes.Add(estrela);
             }
         }
@@ -193,7 +193,7 @@ namespace Views
                 {
                     balanceLeft.AddLeftShape(selected);
                 }
-                
+
                 cusorInside = balanceLeft.RightHitbox.IntersectsWith(selected.Hitbox);
                 if (cusorInside && !isDown && selected.CanMove)
                 {
@@ -205,7 +205,7 @@ namespace Views
                 {
                     balanceRight.AddLeftShape(selected);
                 }
-                
+
                 cusorInside = balanceRight.RightHitbox.IntersectsWith(selected.Hitbox);
                 if (cusorInside && !isDown && selected.CanMove)
                 {
