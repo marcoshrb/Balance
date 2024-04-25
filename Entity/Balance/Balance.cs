@@ -4,46 +4,46 @@ using System.Linq;
 using System.Windows.Forms;
 using Utils;
 
-public class Balance
+public class Balance : Entity
 {
     public int State;
-    public float X { get; set; }
-    public float Y { get; set; }
-    public float Width { get; set; }
-    public float Height { get; set; }
-    public Rectangle leftHitbox;
-    public Rectangle rightHitbox;
-    private List<Shape> leftShapes;
+    public RectangleF LeftHitbox;
+    public RectangleF RightHitbox;
+    private List<Shape> LeftShapes;
+    private List<Shape> RightShapes;
+    public List<Shape> ShapesOnLeftSide => LeftShapes.ToList();
+    public List<Shape> ShapesOnRightSide => RightShapes.ToList();
     private int SlowFrameRate = 0;
-    private List<Shape> rightShapes;
-    public List<Shape> RightShapes => rightShapes.ToList();
-    public List<Shape> LeftShapes => leftShapes.ToList();
-    public Balance(float x, float y, float width, float height)
+    private int Angle = 10;
+
+    public Balance(float x, float y, float width, float height) : base(x, y, width, height)
     {
-        this.State = (int)BalanceState.None;
-        this.leftShapes = new();
-        this.rightShapes = new();
-        this.X = x;
-        this.Y = y;
-        this.Width = width;
-        this.Height = height;
+        State = (int)BalanceState.None;
+        LeftShapes = new();
+        RightShapes = new();
     }
 
-    public void AddLeft(Shape shape)
+    public void AddLeftShape(Shape shape)
     {
-        this.leftShapes.Add(shape);
+        MessageBox.Show(shape.Name + " Left");
+        shape.CanMove = false;
+        // shape.Position = this.position;
+        LeftShapes.Add(shape);
         UpdateBalanceState();
     }
-    public void AddRight(Shape shape)
+
+    public void AddRightShape(Shape shape)
     {
-        this.rightShapes.Add(shape);
+        MessageBox.Show(shape.Name + " Direita");
+        shape.CanMove = false;
+        RightShapes.Add(shape);
         UpdateBalanceState();
     }
 
     private void UpdateBalanceState()
     {
-        var sumLeft = SumWeights(this.leftShapes);
-        var sumRight = SumWeights(this.rightShapes);
+        var sumLeft = CalculateTotalWeight(LeftShapes);
+        var sumRight = CalculateTotalWeight(RightShapes);
 
         if (sumLeft > sumRight)
             State = (int)BalanceState.Left;
@@ -53,98 +53,225 @@ public class Balance
             State = (int)BalanceState.None;
     }
 
-    public void Update()
-    {
-        UpdateBalanceState();
-    }
+    public override void Update() => UpdateBalanceState();
 
-    public void Draw(Graphics g)
-        => DrawBalance(g);
+    public override void Draw(Graphics g) => DrawBalance(g);
 
-    private int angle = 10;
     private void DrawBalance(Graphics g)
     {
         Animate();
-        float width = this.Width;
-        float height = this.Height;
-        float x = this.X + width / 2;
-        float y = this.Y + height / 2;
+        float width = Width;
+        float height = Height;
+        float x = X + width / 2;
+        float y = Y + height / 2;
 
         float widthFactor = width / 400;
         float heightFactor = height / 400;
 
-        var BaseBalance = new RectangleF(x - (width * 3f / 4f) / 2f, y + height / 2f, width * 3f / 4f, height / 15f);
-        var BalancerAxis = new RectangleF(x - (widthFactor * 10f / 2f), y - height / 2f, widthFactor * 10f, height);
-        var BalancerSeesaw = new RectangleF(x - width / 2f, y - height / 2f + heightFactor * 40f, width, heightFactor * 40f);
-
-        g.FillRectangle(Brushes.Black, BaseBalance);
-        g.FillRectangle(Brushes.Black, BalancerAxis);
-
-        var rotateBalancerSeesaw = Functions.ToPolygon(BalancerSeesaw, new(BalancerSeesaw.Left + BalancerSeesaw.Width / 2f, BalancerSeesaw.Top + BalancerSeesaw.Height / 2f), angle);
-        var BalanceLeft = new RectangleF(rotateBalancerSeesaw[3].X - (BaseBalance.Width / 2f + widthFactor * 180f) / 2f, rotateBalancerSeesaw[3].Y + (183f * heightFactor), BaseBalance.Width / 2f + widthFactor * 180f, BaseBalance.Height);
-        var BalanceRight = new RectangleF(rotateBalancerSeesaw[2].X - (BaseBalance.Width / 2f + widthFactor * 180f) / 2f, rotateBalancerSeesaw[2].Y + (183f * heightFactor), BaseBalance.Width / 2f + widthFactor * 180f, BaseBalance.Height);
-
-
-        g.DrawLine(Pens.Black, rotateBalancerSeesaw[3].X, rotateBalancerSeesaw[3].Y, BalanceLeft.Left, BalanceLeft.Top);
-        g.DrawLine(Pens.Black, rotateBalancerSeesaw[3].X, rotateBalancerSeesaw[3].Y, BalanceLeft.Left + BalanceLeft.Width / 2, BalanceLeft.Top);
-        g.DrawLine(Pens.Black, rotateBalancerSeesaw[3].X, rotateBalancerSeesaw[3].Y, BalanceLeft.Right, BalanceLeft.Top);
-
-        g.DrawLine(Pens.Black, rotateBalancerSeesaw[2].X, rotateBalancerSeesaw[2].Y, BalanceRight.Left, BalanceRight.Top);
-        g.DrawLine(Pens.Black, rotateBalancerSeesaw[2].X, rotateBalancerSeesaw[2].Y, BalanceRight.Left + BalanceRight.Width / 2, BalanceRight.Top);
-        g.DrawLine(Pens.Black, rotateBalancerSeesaw[2].X, rotateBalancerSeesaw[2].Y, BalanceRight.Right, BalanceRight.Top);
-
-        g.TranslateTransform(
-            BalancerSeesaw.Left + BalancerSeesaw.Width / 2,
-            BalancerSeesaw.Top + BalancerSeesaw.Height / 2
+        var baseBalance = new RectangleF(
+            x - (width * 3f / 4f) / 2f,
+            y + height / 2f,
+            width * 3f / 4f,
+            height / 15f
+        );
+        var balancerAxis = new RectangleF(
+            x - (widthFactor * 10f / 2f),
+            y - height / 2f,
+            widthFactor * 10f,
+            height
+        );
+        var balancerSeesaw = new RectangleF(
+            x - width / 2f,
+            y - height / 2f + heightFactor * 40f,
+            width,
+            heightFactor * 40f
         );
 
+        g.FillRectangle(Brushes.Black, baseBalance);
+        g.FillRectangle(Brushes.Black, balancerAxis);
 
-        g.RotateTransform(angle);
-
-        g.TranslateTransform(
-            -(BalancerSeesaw.Left + BalancerSeesaw.Width / 2),
-            -(BalancerSeesaw.Top + BalancerSeesaw.Height / 2)
+        var rotatedBalancerSeesaw = Functions.ToPolygon(
+            balancerSeesaw,
+            new(
+                balancerSeesaw.Left + balancerSeesaw.Width / 2f,
+                balancerSeesaw.Top + balancerSeesaw.Height / 2f
+            ),
+            Angle
+        );
+        var balanceLeft = new RectangleF(
+            rotatedBalancerSeesaw[3].X - (baseBalance.Width / 2f + widthFactor * 180f) / 2f,
+            rotatedBalancerSeesaw[3].Y + (183f * heightFactor),
+            baseBalance.Width / 2f + widthFactor * 180f,
+            baseBalance.Height
+        );
+        var balanceRight = new RectangleF(
+            rotatedBalancerSeesaw[2].X - (baseBalance.Width / 2f + widthFactor * 180f) / 2f,
+            rotatedBalancerSeesaw[2].Y + (183f * heightFactor),
+            baseBalance.Width / 2f + widthFactor * 180f,
+            baseBalance.Height
         );
 
+        this.LeftHitbox = new RectangleF((float)balanceLeft.Left, (float)rotatedBalancerSeesaw[3].Y, (float)balanceLeft.Width, (float)balanceLeft.Bottom - (float)rotatedBalancerSeesaw[3].Y);
+        this.RightHitbox = new RectangleF((float)balanceRight.Left, (float)rotatedBalancerSeesaw[2].Y, (float)balanceRight.Width, (float)balanceRight.Bottom - (float)rotatedBalancerSeesaw[2].Y);
 
-        g.FillRectangle(Brushes.DarkBlue, BalancerSeesaw);
+
+        g.DrawLine(
+            Pens.Black,
+            rotatedBalancerSeesaw[3].X,
+            rotatedBalancerSeesaw[3].Y,
+            balanceLeft.Left,
+            balanceLeft.Top
+        );
+        g.DrawLine(
+            Pens.Black,
+            rotatedBalancerSeesaw[3].X,
+            rotatedBalancerSeesaw[3].Y,
+            balanceLeft.Left + balanceLeft.Width / 2,
+            balanceLeft.Top
+        );
+        g.DrawLine(
+            Pens.Black,
+            rotatedBalancerSeesaw[3].X,
+            rotatedBalancerSeesaw[3].Y,
+            balanceLeft.Right,
+            balanceLeft.Top
+        );
+
+        g.DrawLine(
+            Pens.Black,
+            rotatedBalancerSeesaw[2].X,
+            rotatedBalancerSeesaw[2].Y,
+            balanceRight.Left,
+            balanceRight.Top
+        );
+        g.DrawLine(
+            Pens.Black,
+            rotatedBalancerSeesaw[2].X,
+            rotatedBalancerSeesaw[2].Y,
+            balanceRight.Left + balanceRight.Width / 2,
+            balanceRight.Top
+        );
+        g.DrawLine(
+            Pens.Black,
+            rotatedBalancerSeesaw[2].X,
+            rotatedBalancerSeesaw[2].Y,
+            balanceRight.Right,
+            balanceRight.Top
+        );
+
+        g.TranslateTransform(
+            balancerSeesaw.Left + balancerSeesaw.Width / 2,
+            balancerSeesaw.Top + balancerSeesaw.Height / 2
+        );
+
+        g.RotateTransform(Angle);
+
+        g.TranslateTransform(
+            -(balancerSeesaw.Left + balancerSeesaw.Width / 2),
+            -(balancerSeesaw.Top + balancerSeesaw.Height / 2)
+        );
+
+        g.FillRectangle(Brushes.DarkBlue, balancerSeesaw);
 
         g.ResetTransform();
 
-        g.FillRectangle(Brushes.Gray, BalanceLeft);
-        g.FillRectangle(Brushes.Gray, BalanceRight);
+        g.FillRectangle(Brushes.Gray, balanceLeft);
+        g.FillRectangle(Brushes.Gray, balanceRight);
 
-        var position1 = new RectangleF(BalanceLeft.Left, BalanceLeft.Top - heightFactor * 70, widthFactor * 70, heightFactor * 70);
-        var position2 = new RectangleF(position1.Right - widthFactor * 5, BalanceLeft.Top - heightFactor * 70, widthFactor * 70, heightFactor * 70);
-        var position3 = new RectangleF(position2.Right - widthFactor * 5, BalanceLeft.Top - heightFactor * 70, widthFactor * 70, heightFactor * 70);
-        var position4 = new RectangleF(position3.Right - widthFactor * 5, BalanceLeft.Top - heightFactor * 70, widthFactor * 70, heightFactor * 70);
-        var position5 = new RectangleF(position4.Right - widthFactor * 5, BalanceLeft.Top - heightFactor * 70, widthFactor * 70, heightFactor * 70);
+        var position1 = new RectangleF(
+            balanceLeft.Left,
+            balanceLeft.Top - heightFactor * 70,
+            widthFactor * 70,
+            heightFactor * 70
+        );
+        var position2 = new RectangleF(
+            position1.Right - widthFactor * 5,
+            balanceLeft.Top - heightFactor * 70,
+            widthFactor * 70,
+            heightFactor * 70
+        );
+        var position3 = new RectangleF(
+            position2.Right - widthFactor * 5,
+            balanceLeft.Top - heightFactor * 70,
+            widthFactor * 70,
+            heightFactor * 70
+        );
+        var position4 = new RectangleF(
+            position3.Right - widthFactor * 5,
+            balanceLeft.Top - heightFactor * 70,
+            widthFactor * 70,
+            heightFactor * 70
+        );
+        var position5 = new RectangleF(
+            position4.Right - widthFactor * 5,
+            balanceLeft.Top - heightFactor * 70,
+            widthFactor * 70,
+            heightFactor * 70
+        );
+
+        var position6 = new RectangleF(
+            balanceRight.Left,
+            balanceRight.Top - heightFactor * 70,
+            widthFactor * 70,
+            heightFactor * 70
+        );
+        var position7 = new RectangleF(
+            position6.Right - widthFactor * 5,
+            balanceRight.Top - heightFactor * 70,
+            widthFactor * 70,
+            heightFactor * 70
+        );
+        var position8 = new RectangleF(
+            position7.Right - widthFactor * 5,
+            balanceRight.Top - heightFactor * 70,
+            widthFactor * 70,
+            heightFactor * 70
+        );
+        var position9 = new RectangleF(
+            position8.Right - widthFactor * 5,
+            balanceRight.Top - heightFactor * 70,
+            widthFactor * 70,
+            heightFactor * 70
+        );
+        var position10 = new RectangleF(
+            position9.Right - widthFactor * 5,
+            balanceRight.Top - heightFactor * 70,
+            widthFactor * 70,
+            heightFactor * 70
+        );
 
         g.FillRectangle(Brushes.Red, position1);
         g.FillRectangle(Brushes.Blue, position2);
         g.FillRectangle(Brushes.Green, position3);
         g.FillRectangle(Brushes.Yellow, position4);
         g.FillRectangle(Brushes.Orange, position5);
+        g.FillRectangle(Brushes.Red, position6);
+        g.FillRectangle(Brushes.Blue, position7);
+        g.FillRectangle(Brushes.Green, position8);
+        g.FillRectangle(Brushes.Yellow, position9);
+        g.FillRectangle(Brushes.Orange, position10);
+
+        g.DrawRectangle(Pens.Red, LeftHitbox);
+        g.DrawRectangle(Pens.Red, RightHitbox);
     }
 
-    public void Animate(){
+    public void Animate()
+    {
         SlowFrameRate += 1;
         State.ToString();
 
-        if(angle == State)
+        if (Angle == State)
             return;
 
-        if (SlowFrameRate > 2)
+        if (SlowFrameRate > 1)
         {
-            if(angle < State)
-                angle++;
+            if (Angle < State)
+                Angle++;
             else
-                angle--;
+                Angle--;
             SlowFrameRate = 0;
         }
     }
 
-    public int SumWeights(IEnumerable<Shape> shapes)
-        => shapes.Sum(x => x.Weight);
-
+    public int CalculateTotalWeight(IEnumerable<Shape> shapes) => shapes.Sum(x => x.Weight);
 }
