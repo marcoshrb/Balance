@@ -48,7 +48,7 @@ namespace Views
 
             this.tm = new Timer { Interval = 20 };
 
-            //sair
+            // sair
             // this.KeyDown += (o, e) =>
             // {
             //     if (e.KeyCode == Keys.Escape)
@@ -165,8 +165,7 @@ namespace Views
 
             foreach (var shape in shapes)
             {
-                // if (shape is Star)
-                // MessageBox.Show();
+                
                 var cusorInForm = shape.Rectangle.Contains(cursor);
 
                 if (isDown && cusorInForm && selected is null)
@@ -214,6 +213,22 @@ namespace Views
 
                 if (!isDown)
                     this.selected = null;
+            }
+            foreach (var item in balanceLeft.ShapesOnLeftSide)
+            {
+                item.DrawString(this.g);
+            }
+            foreach (var item in balanceLeft.ShapesOnRightSide)
+            {
+                item.DrawString(this.g);
+            }
+            foreach (var item in balanceRight.ShapesOnLeftSide)
+            {   
+                item.DrawString(this.g);
+            }
+            foreach (var item in balanceRight.ShapesOnRightSide)
+            {
+                item.DrawString(g);
             }
 
             foreach (var shape in shapes)

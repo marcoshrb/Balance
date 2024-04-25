@@ -39,6 +39,11 @@ public class FixedBalance
     }
     public void DrawString(Graphics g)
     {
+        foreach (var item in pieces)
+        {
+            item.Position = this.position;
+        }
+
         var format = new StringFormat();
         format.Alignment = StringAlignment.Center;
         format.LineAlignment = StringAlignment.Center;
@@ -51,7 +56,7 @@ public class FixedBalance
             format
             );
     }
-    public void AddPiece(Shape shape)
+    public void Add(Shape shape)
     {
         if (shape.Name == this.Name)
         {
