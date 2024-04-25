@@ -4,7 +4,7 @@ public class EmptyStar : FixedBalance
 {
     public EmptyStar(PointF pos)
     {
-        Sprite spriteCreate = new Sprite(Bitmap.FromFile(@"./imgs/piecesEmpty/Estrela.png") as Bitmap);
+        Sprite spriteCreate = new Sprite(Resources.Star);
         spriteCreate.Rect = new RectangleF( position.X, position.Y, 80, 80);
         this.Sprite = spriteCreate;
 

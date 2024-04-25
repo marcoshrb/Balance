@@ -132,19 +132,19 @@ namespace Views
 
             for (int i = 0; i < 5; i++)
             {
-                Square quadrado = new(350 * ClientScreen.WidthFactor, 800 * ClientScreen.HeightFactor, 80 * ClientScreen.WidthFactor, 5);
+                Square quadrado = new(350 * ClientScreen.WidthFactor, 800 * ClientScreen.HeightFactor, 100 * ClientScreen.WidthFactor, 5);
                 shapes.Add(quadrado);
 
-                Circle bola = new(550 * ClientScreen.WidthFactor, 800 * ClientScreen.HeightFactor, 80 * ClientScreen.WidthFactor, 5);
+                Circle bola = new(550 * ClientScreen.WidthFactor, 800 * ClientScreen.HeightFactor, 100 * ClientScreen.WidthFactor, 5);
                 shapes.Add(bola);
 
-                Triangle triangulo = new(750 * ClientScreen.WidthFactor, 800 * ClientScreen.HeightFactor, 80 * ClientScreen.WidthFactor, 80 * ClientScreen.WidthFactor, 5);
+                Triangle triangulo = new(750 * ClientScreen.WidthFactor, 800 * ClientScreen.HeightFactor, 100 * ClientScreen.WidthFactor, 100 * ClientScreen.WidthFactor, 5);
                 shapes.Add(triangulo);
 
-                Pentagon pentagono = new(950 * ClientScreen.WidthFactor, 800 * ClientScreen.HeightFactor, 80 * ClientScreen.WidthFactor, 80 * ClientScreen.WidthFactor, 5);
+                Pentagon pentagono = new(950 * ClientScreen.WidthFactor, 800 * ClientScreen.HeightFactor, 100 * ClientScreen.WidthFactor, 100 * ClientScreen.WidthFactor, 5);
                 shapes.Add(pentagono);
 
-                Star estrela = new(1150 * ClientScreen.WidthFactor, 800 * ClientScreen.HeightFactor, 80 * ClientScreen.WidthFactor, 80 * ClientScreen.WidthFactor, 10);
+                Star estrela = new(1150 * ClientScreen.WidthFactor, 800 * ClientScreen.HeightFactor, 100 * ClientScreen.WidthFactor, 100 * ClientScreen.WidthFactor, 10);
                 shapes.Add(estrela);
             }
         }
