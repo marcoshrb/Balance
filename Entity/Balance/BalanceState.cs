@@ -1,3 +1,4 @@
+namespace Entities;
 public enum BalanceState
 {
     None = 0,

@@ -1,11 +1,23 @@
 using System.Drawing;
 
+namespace Entities.Shapes;
+
 public abstract class Shape : Entity
 {
-    protected Shape(float x, float y, float width, float height, int weight)
+    protected Shape(float x, float y, float width, float height, int weight, string path)
         : base(x, y, width, height)
     {
+        this.Position = new PointF(x, y);
+        Sprite spriteCreate = new Sprite(Bitmap.FromFile(path) as Bitmap)
+        {
+            Rect = new RectangleF(0, 0, width, width)
+        };
+        this.Sprite = spriteCreate;
         this.Weight = weight;
+        this.Hitbox = new RectangleF(
+            this.Position, 
+            new SizeF(width, width)
+        );
     }
 
 
@@ -28,6 +40,8 @@ public abstract class Shape : Entity
             );
         }
     }
+
+    public RectangleF Hitbox = new();
     internal PointF? ptClick = null;
 
     public override void Draw(Graphics g)
@@ -38,8 +52,20 @@ public abstract class Shape : Entity
             (int)Size.Width,
             (int)Size.Height
         );
-
+        
+        g.DrawRectangle(Pens.Red, rect);
         Sprite.DrawSprite(g, rect);
+    }
+
+    public void UpdateHitbox()
+    {
+        var rect = new RectangleF(
+            (int)Position.X,
+            (int)Position.Y,
+            (int)Size.Width,
+            (int)Size.Height
+        );
+        Hitbox = rect;
     }
 
     public Shape OnSelect(Point cursor)

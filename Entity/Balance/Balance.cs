@@ -1,8 +1,10 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using System.Windows.Forms;
+using Entities.Shapes;
 using Utils;
+
+namespace Entities;
 
 public class Balance : Entity
 {
@@ -25,17 +27,16 @@ public class Balance : Entity
 
     public void AddLeftShape(Shape shape)
     {
-        MessageBox.Show(shape.Name + " Left");
         shape.CanMove = false;
-        // shape.Position = this.position;
+        shape.Position = new Point(0, 0);
         LeftShapes.Add(shape);
         UpdateBalanceState();
     }
 
     public void AddRightShape(Shape shape)
     {
-        MessageBox.Show(shape.Name + " Direita");
         shape.CanMove = false;
+        shape.Position = new Point(0, 0);
         RightShapes.Add(shape);
         UpdateBalanceState();
     }

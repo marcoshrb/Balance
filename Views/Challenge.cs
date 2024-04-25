@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms;
+using Entities;
+using Entities.Shapes;
 using Utils;
 
 namespace Views
@@ -15,6 +17,7 @@ namespace Views
         Bitmap bmp;
         Graphics g;
         Timer tm;
+
         Balance balanceLeft;
         Balance balanceRight;
         List<Shape> shapes;
@@ -130,19 +133,19 @@ namespace Views
 
             for (int i = 0; i < 5; i++)
             {
-                Square quadrado = new(350, 800, 80, 1);
+                Square quadrado = new(350, 800, 80, 5);
                 shapes.Add(quadrado);
 
-                Circle bola = new(550, 800, 80, 1);
+                Circle bola = new(550, 800, 80, 5);
                 shapes.Add(bola);
 
-                Triangle triangulo = new(750, 800, 80, 80, 1);
+                Triangle triangulo = new(750, 800, 80, 80, 5);
                 shapes.Add(triangulo);
 
-                Pentagon pentagono = new(950, 800, 80, 80, 1);
+                Pentagon pentagono = new(950, 800, 80, 80, 5);
                 shapes.Add(pentagono);
 
-                Star estrela = new(0, 0, 80, 80, 1);
+                Star estrela = new(1150, 800, 80, 80, 10);
                 shapes.Add(estrela);
             }
         }
@@ -163,7 +166,7 @@ namespace Views
             foreach (var shape in shapes)
             {
                 // if (shape is Star)
-                    // MessageBox.Show();
+                // MessageBox.Show();
                 var cusorInForm = shape.Rectangle.Contains(cursor);
 
                 if (isDown && cusorInForm && selected is null)
@@ -183,29 +186,38 @@ namespace Views
                 shape.Draw(this.g);
             }
 
-            var cusorInside = balanceLeft.LeftHitbox.Contains(cursor);
-            if(cusorInside && !isDown && selected is not null && selected.CanMove)
+            if (selected is not null)
             {
-                balanceLeft.AddLeftShape(selected);
-            }
-            cusorInside = balanceLeft.RightHitbox.Contains(cursor);
-            if(cusorInside && !isDown && selected is not null && selected.CanMove)
-            {
-                balanceLeft.AddRightShape(selected);
-            }
-            cusorInside = balanceRight.LeftHitbox.Contains(cursor);
-            if(cusorInside && !isDown && selected is not null && selected.CanMove)
-            {
-                balanceRight.AddLeftShape(selected);
-            }
-            cusorInside = balanceRight.RightHitbox.Contains(cursor);
-            if(cusorInside && !isDown && selected is not null && selected.CanMove)
-            {
-                balanceRight.AddRightShape(selected);
+                var cusorInside = balanceLeft.LeftHitbox.IntersectsWith(selected.Hitbox);
+                if (cusorInside && !isDown && selected.CanMove)
+                {
+                    balanceLeft.AddLeftShape(selected);
+                }
+                
+                cusorInside = balanceLeft.RightHitbox.IntersectsWith(selected.Hitbox);
+                if (cusorInside && !isDown && selected.CanMove)
+                {
+                    balanceLeft.AddRightShape(selected);
+                }
+
+                cusorInside = balanceRight.LeftHitbox.IntersectsWith(selected.Hitbox);
+                if (cusorInside && !isDown && selected.CanMove)
+                {
+                    balanceRight.AddLeftShape(selected);
+                }
+                
+                cusorInside = balanceRight.RightHitbox.IntersectsWith(selected.Hitbox);
+                if (cusorInside && !isDown && selected.CanMove)
+                {
+                    balanceRight.AddRightShape(selected);
+                }
+
+                if (!isDown)
+                    this.selected = null;
             }
 
-            if (!isDown)
-                this.selected = null;
+            foreach (var shape in shapes)
+                shape.UpdateHitbox();
         }
     }
 }
