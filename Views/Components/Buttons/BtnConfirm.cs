@@ -1,8 +1,6 @@
-using System;
 using System.Drawing;
-using System.Windows.Forms;
 
-namespace Views;
+namespace Views.Components;
 
 public class BtnConfirm : BtnBase
 {
