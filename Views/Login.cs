@@ -9,6 +9,7 @@ namespace Views;
 
 public class Login : Form
 {
+    public MainForm MainForm { get; set; }
     private PictureBox header;
     private PictureBox pb;
     private Bitmap bmp;
@@ -56,8 +57,24 @@ public class Login : Form
 
         this.KeyDown += (o, e) =>
         {
-            if (e.KeyCode == Keys.Escape)
-                Application.Exit();
+            bool isLetterOrDigit = char.IsLetterOrDigit((char)e.KeyCode);
+
+            if (!isLetterOrDigit)
+            {
+                if (MainForm == null)
+                {
+                    MainForm = new MainForm();
+                    MainForm.FormClosed += (sender, args) =>
+                    {
+                        MainForm = null;
+                    };
+                    MainForm.Show();
+                }
+                else
+                {
+                    MainForm.BringToFront();
+                }
+            }
 
         };
 
@@ -141,7 +158,7 @@ public class Login : Form
                     UserData.UserName = this.userName;
                     UserData.DateStart = DateTime.Now;
                     saveInstance.Salvar();
-                    MessageBox.Show("Nome vazio");
+                    MessageBox.Show("Salvei");
                     this.Hide();
                     challenge.Show();
                 }
