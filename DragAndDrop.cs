@@ -1,19 +1,20 @@
 using Timer = System.Windows.Forms.Timer;
+using DragAndDrop;
 
 namespace Balance;
 
-public partial class Form1 : Form
+public partial class DragAndDrop : Form
 {
     PictureBox pb;
     Bitmap bmp;
     Graphics g;
     Timer tm;
-
     Point cursor = new Point(0, 0);
-    List<Pieces> pieces = new List<Pieces>();
     List<FixedBalance> fixedBalances = new List<FixedBalance>();
+    List<Pieces> pieces = new List<Pieces>();
     Pieces selected; 
-    public Form1()
+    bool isDown = false;
+    public DragAndDrop()
     {
         InitializeComponent();
         this.WindowState = FormWindowState.Maximized;
@@ -21,7 +22,6 @@ public partial class Form1 : Form
         this.pb = new PictureBox();
         this.pb.Dock = DockStyle.Fill;
         this.Controls.Add(pb);
-
 
         this.tm = new Timer();
         this.tm.Interval = 10;
@@ -32,20 +32,12 @@ public partial class Form1 : Form
                 Application.Exit();
         };
 
-        this.pb.MouseMove += (o, e) =>
-        {
-            cursor = e.Location;
-        };
+        this.pb.MouseMove += (o, e) => cursor = e.Location;
 
-        this.pb.MouseDown += (o, e) =>
-        {
-            isDown = true;
-        };
+        this.pb.MouseDown += (o, e) => isDown = true;
 
-        this.pb.MouseUp += (o, e) =>
-        {
-            isDown = false;
-        };
+        this.pb.MouseUp += (o, e) => isDown = false;
+
 
         this.Load += (o, e) =>
         {
@@ -65,82 +57,80 @@ public partial class Form1 : Form
             g.Clear(Color.White);
 
             Frame();
+
             pb.Refresh();
         };
     }
-    bool isDown = false;
+
 
     void Onstart()
     {
-        // Shape 1
-        FixedBalance square1 = new QuadradoEmpty(new PointF(100, 400)); 
+        // Shape Space 1
+        FixedBalance square1 = new EmptySquare(new PointF(50, 400)); 
         fixedBalances.Add(square1);
-        FixedBalance circle1 = new BolaEmpty(new PointF(180, 400)); 
+        FixedBalance circle1 = new EmptyCircle(new PointF(130, 400)); 
         fixedBalances.Add(circle1);
-        FixedBalance triangle1 = new TrianguloEmpty(new PointF(260, 400)); 
+        FixedBalance triangle1 = new EmptyTriangle(new PointF(210, 400)); 
         fixedBalances.Add(triangle1);
-        FixedBalance pentagon1 = new PentagonoEmpty(new PointF(340, 400)); 
+        FixedBalance pentagon1 = new EmptyPentagon(new PointF(290, 400)); 
         fixedBalances.Add(pentagon1);
-        FixedBalance star1 = new EstrelaEmpty(new PointF(420, 400)); 
+        FixedBalance star1 = new EmptyStar(new PointF(370, 400)); 
         fixedBalances.Add(star1);
 
-        // Shape 2
-        FixedBalance square2 = new QuadradoEmpty(new PointF(500, 400)); 
+        // Shape Space 2
+        FixedBalance square2 = new EmptySquare(new PointF(500, 400)); 
         fixedBalances.Add(square2);
-        FixedBalance circle2 = new BolaEmpty(new PointF(580, 400)); 
+        FixedBalance circle2 = new EmptyCircle(new PointF(580, 400)); 
         fixedBalances.Add(circle2);
-        FixedBalance triangle2 = new TrianguloEmpty(new PointF(660, 400)); 
+        FixedBalance triangle2 = new EmptyTriangle(new PointF(660, 400)); 
         fixedBalances.Add(triangle2);
-        FixedBalance polygon2 = new PentagonoEmpty(new PointF(740, 400)); 
+        FixedBalance polygon2 = new EmptyPentagon(new PointF(740, 400)); 
         fixedBalances.Add(polygon2);
-        FixedBalance star2 = new EstrelaEmpty(new PointF(820, 400)); 
+        FixedBalance star2 = new EmptyStar(new PointF(820, 400)); 
         fixedBalances.Add(star2);
 
-        // Shape 3
-        FixedBalance square3 = new QuadradoEmpty(new PointF(900, 400)); 
+        // Shape Space 3
+        FixedBalance square3 = new EmptySquare(new PointF(950, 400)); 
         fixedBalances.Add(square3);
-        FixedBalance circle3 = new BolaEmpty(new PointF(980, 400)); 
+        FixedBalance circle3 = new EmptyCircle(new PointF(1030, 400)); 
         fixedBalances.Add(circle3);
-        FixedBalance triangle3 = new TrianguloEmpty(new PointF(1060, 400)); 
+        FixedBalance triangle3 = new EmptyTriangle(new PointF(1110, 400)); 
         fixedBalances.Add(triangle3);
-        FixedBalance polygon3 = new PentagonoEmpty(new PointF(1140, 400)); 
+        FixedBalance polygon3 = new EmptyPentagon(new PointF(1190, 400)); 
         fixedBalances.Add(polygon3);
-        FixedBalance star3 = new EstrelaEmpty(new PointF(1220, 400)); 
+        FixedBalance star3 = new EmptyStar(new PointF(1270, 400)); 
         fixedBalances.Add(star3);
 
-        // Shape 4
-        FixedBalance square4 = new QuadradoEmpty(new PointF(1300, 400)); 
+        // Shape Space 4
+        FixedBalance square4 = new EmptySquare(new PointF(1400, 400)); 
         fixedBalances.Add(square4);
-        FixedBalance circle4 = new BolaEmpty(new PointF(1380, 400)); 
+        FixedBalance circle4 = new EmptyCircle(new PointF(1480, 400)); 
         fixedBalances.Add(circle4);
-        FixedBalance triangle4 = new TrianguloEmpty(new PointF(1460, 400)); 
+        FixedBalance triangle4 = new EmptyTriangle(new PointF(1560, 400)); 
         fixedBalances.Add(triangle4);
-        FixedBalance polygon4 = new PentagonoEmpty(new PointF(1540, 400)); 
+        FixedBalance polygon4 = new EmptyPentagon(new PointF(1640, 400)); 
         fixedBalances.Add(polygon4);
-        FixedBalance star4 = new EstrelaEmpty(new PointF(1620, 400)); 
+        FixedBalance star4 = new EmptyStar(new PointF(1720, 400)); 
         fixedBalances.Add(star4);
 
-
-
+        // Add Shapes
         for (int i = 0; i < 5; i++)
         {
-            Quadrado quadrado = new Quadrado();
-            pieces.Add(quadrado);
+            Square square = new Square();
+            pieces.Add(square);
 
-            Bola bola = new Bola();
-            pieces.Add(bola);
+            Circle circle = new Circle();
+            pieces.Add(circle);
 
-            Triangulo triangulo = new Triangulo();
-            pieces.Add(triangulo);
+            Triangle triangle = new Triangle();
+            pieces.Add(triangle);
 
-            Pentagono pentagono = new Pentagono();
-            pieces.Add(pentagono);
+            Pentagon pentagon = new Pentagon();
+            pieces.Add(pentagon);
 
-            Estrela estrela = new Estrela();
-            pieces.Add(estrela);
+            Star star = new Star();
+            pieces.Add(star);
         }
-
-
     }
     
     void Frame()
@@ -160,13 +150,10 @@ public partial class Form1 : Form
                 selected.OnMove(cursor);
 
             if (!isDown && selected is not null)
-            {
                 selected.Position = selected.LastPosition;    
-            }
-
+            
 
             piece.DrawPieces(this.g);
-            
         }
 
         foreach (var fixedBalance in fixedBalances)
@@ -176,9 +163,7 @@ public partial class Form1 : Form
             fixedBalance.DrawFixedPiece(this.g);
 
             if(cusorInFixed && !isDown && selected is not null && selected.CanMove)
-            {
                 fixedBalance.AddPiece(selected);
-            }
         }
 
         if (!isDown)

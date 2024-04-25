@@ -1,3 +1,7 @@
+using Balance;
+
+namespace DragAndDrop;
+
 public class FixedBalance
 {
     public Sprite Sprite { get; set; }
@@ -5,7 +9,7 @@ public class FixedBalance
     public PointF position { get; set; }
     public List<Pieces> pieces = new List<Pieces>();
     public String Name { get; set; }
-    protected int qtd { get; set; } = 0;
+    protected int qty { get; set; } = 0;
     public RectangleF rectangle
     {
         get
@@ -33,10 +37,10 @@ public class FixedBalance
             (int)Size.Height
             );
 
-        var Qtd = pieces.Count;
+        var Qty = pieces.Count;
 
         g.DrawString(
-            Qtd.ToString(),
+            Qty.ToString(),
             SystemFonts.DefaultFont, 
             brush, this.position.X + (Size.Width / 2), this.position.Y + (Size.Height / 2), 
             format
@@ -50,7 +54,7 @@ public class FixedBalance
             pieces.Add(piece);
             piece.CanMove = false;
             piece.Position = this.position;
-            qtd++;
+            qty++;
         }
     }
 

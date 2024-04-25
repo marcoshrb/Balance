@@ -1,6 +1,10 @@
-public class Pentagono : Pieces
+using Balance;
+
+namespace DragAndDrop;
+
+public class Pentagon : Pieces
 {
-    public Pentagono()
+    public Pentagon()
     {
         Sprite spriteCreate = new Sprite(Bitmap.FromFile(@"./imgs/pieces/Pentagono.png") as Bitmap);
         spriteCreate.Rect = new RectangleF( Position.X, Position.Y, 80, 80);

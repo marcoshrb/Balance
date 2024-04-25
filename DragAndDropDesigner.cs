@@ -1,6 +1,6 @@
 ﻿namespace Balance;
 
-partial class Form1
+partial class DragAndDrop
 {
     /// <summary>
     ///  Required designer variable.

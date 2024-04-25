@@ -1,6 +1,10 @@
-public class Bola : Pieces
+using Balance;
+
+namespace DragAndDrop;
+
+public class Circle : Pieces
 {
-    public Bola()
+    public Circle()
     {
         Sprite spriteCreate = new Sprite(Bitmap.FromFile(@"./imgs/pieces/Bola.png") as Bitmap);
         spriteCreate.Rect = new RectangleF( Position.X, Position.Y, 80, 80);

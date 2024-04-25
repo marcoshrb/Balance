@@ -1,3 +1,7 @@
+using Balance;
+
+namespace DragAndDrop;
+
 public class Sprite
 {
     Bitmap img;

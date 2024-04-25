@@ -1,3 +1,8 @@
+
+using Balance;
+
+namespace DragAndDrop;
+
 public class Pieces
 {
     public Sprite Sprite { get; set; }

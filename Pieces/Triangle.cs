@@ -1,6 +1,10 @@
-public class Triangulo : Pieces
+using Balance;
+
+namespace DragAndDrop;
+
+public class Triangle : Pieces
 {
-    public Triangulo(){
+    public Triangle(){
         Sprite spriteCreate = new Sprite(Bitmap.FromFile(@"./imgs/pieces/Triangulo.png") as Bitmap);
         spriteCreate.Rect = new RectangleF( Position.X, Position.Y, 80, 80);
         this.Sprite = spriteCreate;  

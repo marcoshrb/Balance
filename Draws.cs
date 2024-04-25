@@ -3,8 +3,9 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 
+using Balance;
 
-
+namespace DragAndDrop;
 
 public static class Draws
 {

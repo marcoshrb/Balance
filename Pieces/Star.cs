@@ -1,6 +1,10 @@
-public class Estrela : Pieces
+using Balance;
+
+namespace DragAndDrop;
+
+public class Star : Pieces
 {
-    public Estrela()
+    public Star()
     {
         Sprite spriteCreate = new Sprite(Bitmap.FromFile(@"./imgs/pieces/Estrela.png") as Bitmap);
         spriteCreate.Rect = new RectangleF( Position.X, Position.Y, 80, 80);
