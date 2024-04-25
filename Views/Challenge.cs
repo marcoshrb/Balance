@@ -24,9 +24,18 @@ namespace Views
         Shape selected;
         Point cursor = new Point(0, 0);
         bool isDown = false;
+        InputUser inputCircle = null;
+        InputUser inputTriangle = null;
+        InputUser inputSquare = null;
+        InputUser inputPentagon = null;
+        InputUser inputStar = null;
+        bool showLine = false;
+        int counter = 0;
 
         public Challenge()
         {
+            TextBox textBox = null;
+            InputUser crrInput = null;
             this.balanceLeft = new Balance(200, 100, 350, 350);
             this.balanceRight = new Balance(950, 100, 350, 350);
             this.WindowState = FormWindowState.Maximized;
@@ -74,12 +83,12 @@ namespace Views
                         MainForm.BringToFront();
                     }
                 }
-                if (e.KeyCode == Keys.A)
-                    balanceLeft.State = (int)BalanceState.Left;
-                if (e.KeyCode == Keys.S)
-                    balanceLeft.State = (int)BalanceState.None;
-                if (e.KeyCode == Keys.D)
-                    balanceLeft.State = (int)BalanceState.Right;
+                // if (e.KeyCode == Keys.A)
+                //     balanceLeft.State = (int)BalanceState.Left;
+                // if (e.KeyCode == Keys.S)
+                //     balanceLeft.State = (int)BalanceState.None;
+                // if (e.KeyCode == Keys.D)
+                //     balanceLeft.State = (int)BalanceState.Right;
             };
 
             this.Load += (o, e) =>
@@ -91,6 +100,12 @@ namespace Views
                 this.pb.Image = bmp;
                 Onstart();
                 this.tm.Start();
+
+                inputCircle = new InputUser(pb.Width*0.85f, pb.Height*0.15f, pb.Width*0.1f, pb.Height*0.04f, Bitmap.FromFile(@"./imgs/pieces/Bola.png") as Bitmap);
+                inputTriangle = new InputUser(pb.Width*0.85f, pb.Height*0.20f, pb.Width*0.1f, pb.Height*0.04f, Bitmap.FromFile(@"./imgs/pieces/Triangulo.png") as Bitmap);
+                inputSquare = new InputUser(pb.Width*0.85f, pb.Height*0.25f, pb.Width*0.1f, pb.Height*0.04f, Bitmap.FromFile(@"./imgs/pieces/Quadrado.png") as Bitmap);
+                inputPentagon = new InputUser(pb.Width*0.85f, pb.Height*0.30f, pb.Width*0.1f, pb.Height*0.04f, Bitmap.FromFile(@"./imgs/pieces/Pentagono.png") as Bitmap);
+                inputStar = new InputUser(pb.Width*0.85f, pb.Height*0.35f, pb.Width*0.1f, pb.Height*0.04f, Bitmap.FromFile(@"./imgs/pieces/Estrela.png") as Bitmap);
             };
 
             this.pb.MouseMove += (o, e) =>
@@ -108,15 +123,149 @@ namespace Views
                 isDown = false;
             };
 
+            this.FormClosed  += delegate
+            {
+                Application.Exit();
+            };
+
             this.tm.Tick += (o, e) =>
             {
                 g.Clear(Color.FromArgb(250, 249, 246));
                 balanceLeft.Draw(this.g);
                 balanceRight.Draw(this.g);
+                inputCircle.DrawInputSprite(g, pb);
+                inputTriangle.DrawInputSprite(g, pb);
+                inputSquare.DrawInputSprite(g, pb);
+                inputPentagon.DrawInputSprite(g, pb);
+                inputStar.DrawInputSprite(g, pb);
+                textForResult(o, e);
                 Frame();
                 pb.Refresh();
             };
+
+            pb.MouseClick += (o, e) =>
+            {
+                if(inputCircle.Rect.Contains(e.X, e.Y) && !inputCircle.IsTyping)
+                {
+                    inputCircle.IsTyping = true;
+                    inputTriangle.IsTyping = false;
+                    inputSquare.IsTyping = false;
+                    inputPentagon.IsTyping = false;
+                    inputStar.IsTyping = false;
+                    if(inputCircle.Content == "")
+                        textBox.Text = "";
+                    else
+                        textBox.Text = inputCircle.Content;
+                    crrInput = inputCircle;
+                    textBox.Enabled = true;
+                    textBox.Focus();
+                }
+                else if(inputTriangle.Rect.Contains(e.X, e.Y) && !inputTriangle.IsTyping)
+                {
+                    inputTriangle.IsTyping = true;
+                    inputCircle.IsTyping = false;
+                    inputSquare.IsTyping = false;
+                    inputPentagon.IsTyping = false;
+                    inputStar.IsTyping = false;
+                    if(inputTriangle.Content == "")
+                        textBox.Text = "";
+                    else
+                        textBox.Text = inputTriangle.Content;
+                    crrInput = inputTriangle;
+                    textBox.Enabled = true;
+                    textBox.Focus();
+                }
+                else if(inputSquare.Rect.Contains(e.X, e.Y) && !inputSquare.IsTyping)
+                {
+                    inputSquare.IsTyping = true;
+                    inputCircle.IsTyping = false;
+                    inputTriangle.IsTyping = false;
+                    inputPentagon.IsTyping = false;
+                    inputStar.IsTyping = false;
+                    if(inputSquare.Content == "")
+                        textBox.Text = "";
+                    else
+                        textBox.Text = inputSquare.Content;
+                    crrInput = inputSquare;
+                    textBox.Enabled = true;
+                    textBox.Focus();
+                }
+                else if(inputPentagon.Rect.Contains(e.X, e.Y) && !inputPentagon.IsTyping)
+                {
+                    inputPentagon.IsTyping = true;
+                    inputCircle.IsTyping = false;
+                    inputTriangle.IsTyping = false;
+                    inputSquare.IsTyping = false;
+                    inputStar.IsTyping = false;
+                    if(inputPentagon.Content == "")
+                        textBox.Text = "";
+                    else
+                        textBox.Text = inputPentagon.Content;
+                    crrInput = inputPentagon;
+                    textBox.Enabled = true;
+                    textBox.Focus();
+                }
+                else if(inputStar.Rect.Contains(e.X, e.Y) && !inputStar.IsTyping)
+                {
+                    inputStar.IsTyping = true;
+                    inputCircle.IsTyping = false;
+                    inputTriangle.IsTyping = false;
+                    inputSquare.IsTyping = false;
+                    inputPentagon.IsTyping = false;
+                    if(inputStar.Content == "")
+                        textBox.Text = "";
+                    else
+                        textBox.Text = inputStar.Content;
+                    crrInput = inputStar;
+                    textBox.Enabled = true;
+                    textBox.Focus();
+                }
+                else
+                {
+                    inputCircle.IsTyping = false;
+                    inputTriangle.IsTyping = false;
+                    inputSquare.IsTyping = false;
+                    inputPentagon.IsTyping = false;
+                    inputStar.IsTyping = false;
+                    crrInput = null;
+                    textBox.Enabled = false;
+                }
+            };
+            
+            textBox = new TextBox();
+            textBox.Location = new Point(pb.Width / 2 - 75, pb.Height / 2 - 10);
+            textBox.Size = new Size(150, 20);
+            textBox.Visible = true;
+            textBox.ReadOnly = false;
+            textBox.TextChanged += textForResult;
+            
+            this.Controls.Add(textBox);
+
+            void textForResult(object sender, EventArgs e)
+            {
+                if(crrInput is null)
+                    return;
+                if(crrInput.IsTyping)
+                {
+                    crrInput.Content = textBox.Text;
+                    string text = "";
+                    if(counter % 15 == 0)
+                        this.showLine = !this.showLine;
+                    if(showLine)
+                        text = textBox.Text + "|";
+                    else
+                        text = textBox.Text;
+                    Font font = new Font("Arial", pb.Width*0.0125f);
+                    Brush brush = Brushes.Black;
+                    SolidBrush white = new SolidBrush(Color.FromArgb(250, 249, 246));
+                    g.FillRectangle(white, crrInput.Rect);
+                    crrInput.DrawInputSprite(g, pb);
+                    g.DrawString(text, font, brush, crrInput.Rect);
+                }
+            }
         }
+
+        
 
         void Onstart()
         {
@@ -152,6 +301,7 @@ namespace Views
 
         void Frame()
         {
+            this.counter++;
             Image logo = ImageProcessing.GetImage(@"Assets\logo.png");
             Size newSize = new Size(
                 (int)(170 * ClientScreen.WidthFactor),

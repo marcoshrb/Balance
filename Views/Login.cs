@@ -9,6 +9,7 @@ namespace Views;
 
 public class Login : Form
 {
+    public MainForm MainForm { get; set; }
     private PictureBox header;
     private PictureBox pb;
     private Bitmap bmp;
@@ -18,7 +19,6 @@ public class Login : Form
     private bool showLine = false;
     private int counter = 0;
     private InputUser input = null;
-    private string userName = "";
 
     public Login()
     {
@@ -54,7 +54,21 @@ public class Login : Form
         this.KeyDown += (o, e) =>
         {
             if (e.KeyCode == Keys.Escape)
-                Application.Exit();
+                {
+                    if (MainForm == null)
+                    {
+                        MainForm = new MainForm();
+                        MainForm.FormClosed += (sender, args) =>
+                        {
+                            MainForm = null;
+                        };
+                        MainForm.Show();
+                    }
+                    else
+                    {
+                        MainForm.BringToFront();
+                    }
+                }
                 
         };
 
@@ -68,9 +82,9 @@ public class Login : Form
             Onstart();
             this.tm.Start();
 
-            input = new InputUser(pb.Width*0.5f-200, pb.Height*0.4f, 400, 40, "Insira seu nome completo:");
+            input = new InputUser(pb.Width*0.5f-pb.Width*0.104f, pb.Height*0.4f, pb.Width*0.208f, pb.Height*0.037f, "Insira seu nome completo:");
             input.DrawInput(g);
-            btnConfirm = new BtnConfirm(pb.Width*0.85f, pb.Height*0.85f, 200, 100, "Confirmar");
+            btnConfirm = new BtnConfirm(pb.Width*0.85f, pb.Height*0.85f, pb.Width*0.104f, pb.Height*0.092f, "Confirmar");
             btnConfirm.DrawButton(g);
         };
         
@@ -78,7 +92,7 @@ public class Login : Form
         {
             if(isTyping)
             {
-                userName = textBox.Text;
+                input.Content = textBox.Text;
                 string text = "";
                 if(counter % 15 == 0)
                     this.showLine = !this.showLine;
@@ -86,7 +100,7 @@ public class Login : Form
                     text = textBox.Text + "|";
                 else
                     text = textBox.Text;
-                Font font = new Font("Arial", 24);
+                Font font = new Font("Arial", pb.Width*0.0125f);
                 SizeF textSize = g.MeasureString(text, font);
                 if((int)textSize.Width / (int)input.Rect.Width > countSize)
                 {
@@ -97,7 +111,7 @@ public class Login : Form
                 {
                     g.Clear(Color.FromArgb(250, 249, 246));
                     Onstart();
-                    input.Rect = new RectangleF(input.Rect.X, input.Rect.Y, input.Rect.Width, input.Rect.Height - textSize.Height);
+                    input.Rect = new RectangleF(input.Rect.X, input.Rect.Y, input.Rect.Width, textSize.Height);
                     input.DrawInput(g);
                     countSize = (int)textSize.Width / (int)input.Rect.Width;
                     btnConfirm.DrawButton(g);
@@ -114,7 +128,7 @@ public class Login : Form
         textBox.Location = new Point(pb.Width / 2 - 75, pb.Height / 2 - 10);
         textBox.Size = new Size(150, 20);
         textBox.Visible = true;
-        textBox.ReadOnly = false;
+        textBox.Enabled = true;
         textBox.TextChanged += textForResult;
         this.Controls.Add(textBox);
 
@@ -123,19 +137,20 @@ public class Login : Form
             if(input.Rect.Contains(e.X, e.Y) && !isTyping)
             {
                 isTyping = true;
-                textBox.ReadOnly = false;
+                textBox.Enabled = true;
+                textBox.Focus();
             }
             else
             {
                 isTyping = false;
-                textBox.ReadOnly = true;
+                textBox.Enabled = false;
             }
 
             if(btnConfirm.Rect.Contains(e.X, e.Y))
             {
-                if(this.userName.Length > 0)
+                if(input.Content.Length > 0)
                 {
-                    UserData.UserName = this.userName;
+                    UserData.UserName = input.Content;
                     UserData.DateStart = DateTime.Now;
                     this.Hide();
                     challenge.Show();
@@ -151,6 +166,7 @@ public class Login : Form
             pb.Refresh();
             textForResult(o, e);
         };
+        
     }
 
     void Onstart()
