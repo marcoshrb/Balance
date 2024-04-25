@@ -44,6 +44,7 @@ public class FixedBalance
             item.Position = this.position;
         }
 
+        Font font = new Font("Arial", 22);
         var format = new StringFormat();
         format.Alignment = StringAlignment.Center;
         format.LineAlignment = StringAlignment.Center;
@@ -51,7 +52,7 @@ public class FixedBalance
 
         g.DrawString(
             Qty.ToString(),
-            SystemFonts.DefaultFont,
+            font,
             brush, this.position.X + (Size.Width / 2), this.position.Y + (Size.Height / 2),
             format
             );
