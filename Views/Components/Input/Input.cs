@@ -1,7 +1,6 @@
 using System.Drawing;
-using System.Reflection.Emit;
 
-namespace Views;
+namespace Views.Components;
 
 public class InputUser
 {

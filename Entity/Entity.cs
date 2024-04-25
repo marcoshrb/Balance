@@ -1,5 +1,6 @@
 using System.Drawing;
 
+namespace Entities;
 public abstract class Entity
 {
     public float X { get; set; }

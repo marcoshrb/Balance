@@ -25,7 +25,7 @@ public class FixedBalance
         }
     }
     Brush brush = new SolidBrush(Color.Black);
-    Font font= new Font("Arial", 12);
+    Font font = new Font("Arial", 12);
     public void Draw(Graphics g)
     {
         var rect = new RectangleF(
@@ -51,8 +51,8 @@ public class FixedBalance
 
         g.DrawString(
             Qty.ToString(),
-            SystemFonts.DefaultFont, 
-            brush, this.position.X + (Size.Width / 2), this.position.Y + (Size.Height / 2), 
+            SystemFonts.DefaultFont,
+            brush, this.position.X + (Size.Width / 2), this.position.Y + (Size.Height / 2),
             format
             );
     }
