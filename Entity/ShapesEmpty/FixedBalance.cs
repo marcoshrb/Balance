@@ -67,5 +67,14 @@ public class FixedBalance
             qty++;
         }
     }
+    public void AddFirst(Shape shape)
+    {
+        if (shape.Name == this.Name)
+        {
+            pieces.Add(shape);
+            shape.Position = this.position;
+            qty++;
+        }
+    }
 
 }
