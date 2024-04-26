@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using Entities.Shapes;
+using Utils;
 
 public class FixedBalance
 {
@@ -62,6 +63,7 @@ public class FixedBalance
         if (shape.Name == this.Name)
         {
             pieces.Add(shape);
+            shape.Sprite.img = ImageProcessing.ResizeImage(shape.Sprite.img, new(80,80)) ;
             shape.CanMove = false;
             shape.Position = this.position;
             qty++;

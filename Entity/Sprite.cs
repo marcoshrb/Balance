@@ -1,8 +1,9 @@
 using System.Drawing;
+using Utils;
 
 public class Sprite
 {
-    Bitmap img;
+    public Bitmap img;
     public RectangleF Rect { get; set; }
     public PointF position;
 
@@ -10,6 +11,7 @@ public class Sprite
         => this.img = Bitmap.FromFile(path) as Bitmap;
     public Sprite(Bitmap bmp)
         => this.img = bmp;
+    
     
     public void DrawSprite(Graphics g, RectangleF drawRect)
     {

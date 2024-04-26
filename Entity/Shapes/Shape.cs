@@ -1,14 +1,15 @@
 using System.Drawing;
+using Utils;
 
 namespace Entities.Shapes;
 
 public abstract class Shape : Entity
 {
-    protected Shape(float x, float y, float width, float height, int weight, string path)
+    protected Shape(float x, float y, float width, float height, int weight, Bitmap Img)
         : base(x, y, width, height)
     {
         this.Position = new PointF(x, y);
-        Sprite spriteCreate = new Sprite(Bitmap.FromFile(path) as Bitmap)
+        Sprite spriteCreate = new Sprite(Img)
         {
             Rect = new RectangleF(0, 0, width, width)
         };
