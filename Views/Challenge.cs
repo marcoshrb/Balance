@@ -102,11 +102,11 @@ namespace Views
                 Onstart();
                 this.tm.Start();
 
-                inputCircle = new InputUser(pb.Width*0.85f, pb.Height*0.15f, pb.Width*0.1f, pb.Height*0.04f, Bitmap.FromFile(@"./imgs/pieces/Bola.png") as Bitmap);
-                inputTriangle = new InputUser(pb.Width*0.85f, pb.Height*0.20f, pb.Width*0.1f, pb.Height*0.04f, Bitmap.FromFile(@"./imgs/pieces/Triangulo.png") as Bitmap);
-                inputSquare = new InputUser(pb.Width*0.85f, pb.Height*0.25f, pb.Width*0.1f, pb.Height*0.04f, Bitmap.FromFile(@"./imgs/pieces/Quadrado.png") as Bitmap);
-                inputPentagon = new InputUser(pb.Width*0.85f, pb.Height*0.30f, pb.Width*0.1f, pb.Height*0.04f, Bitmap.FromFile(@"./imgs/pieces/Pentagono.png") as Bitmap);
-                inputStar = new InputUser(pb.Width*0.85f, pb.Height*0.35f, pb.Width*0.1f, pb.Height*0.04f, Bitmap.FromFile(@"./imgs/pieces/Estrela.png") as Bitmap);
+                inputCircle = new InputUser(pb.Width*0.85f, pb.Height*0.15f, pb.Width*0.1f, pb.Height*0.04f, Bitmap.FromFile(@"./Assets/Shapes/pieces/Bola.png") as Bitmap);
+                inputTriangle = new InputUser(pb.Width*0.85f, pb.Height*0.20f, pb.Width*0.1f, pb.Height*0.04f, Bitmap.FromFile(@"./Assets/Shapes/pieces/Triangulo.png") as Bitmap);
+                inputSquare = new InputUser(pb.Width*0.85f, pb.Height*0.25f, pb.Width*0.1f, pb.Height*0.04f, Bitmap.FromFile(@"./Assets/Shapes/pieces/Quadrado.png") as Bitmap);
+                inputPentagon = new InputUser(pb.Width*0.85f, pb.Height*0.30f, pb.Width*0.1f, pb.Height*0.04f, Bitmap.FromFile(@"./Assets/Shapes/pieces/Pentagono.png") as Bitmap);
+                inputStar = new InputUser(pb.Width*0.85f, pb.Height*0.35f, pb.Width*0.1f, pb.Height*0.04f, Bitmap.FromFile(@"./Assets/Shapes/pieces/Estrela.png") as Bitmap);
             };
 
             this.pb.MouseMove += (o, e) =>
@@ -159,6 +159,7 @@ namespace Views
                         textBox.Text = inputCircle.Content;
                     crrInput = inputCircle;
                     textBox.Enabled = true;
+                    textBox.Select(textBox.Text.Length, 0);
                     textBox.Focus();
                 }
                 else if(inputTriangle.Rect.Contains(e.X, e.Y) && !inputTriangle.IsTyping)
@@ -174,6 +175,7 @@ namespace Views
                         textBox.Text = inputTriangle.Content;
                     crrInput = inputTriangle;
                     textBox.Enabled = true;
+                    textBox.Select(textBox.Text.Length, 0);
                     textBox.Focus();
                 }
                 else if(inputSquare.Rect.Contains(e.X, e.Y) && !inputSquare.IsTyping)
@@ -189,6 +191,7 @@ namespace Views
                         textBox.Text = inputSquare.Content;
                     crrInput = inputSquare;
                     textBox.Enabled = true;
+                    textBox.Select(textBox.Text.Length, 0);
                     textBox.Focus();
                 }
                 else if(inputPentagon.Rect.Contains(e.X, e.Y) && !inputPentagon.IsTyping)
@@ -204,6 +207,7 @@ namespace Views
                         textBox.Text = inputPentagon.Content;
                     crrInput = inputPentagon;
                     textBox.Enabled = true;
+                    textBox.Select(textBox.Text.Length, 0);
                     textBox.Focus();
                 }
                 else if(inputStar.Rect.Contains(e.X, e.Y) && !inputStar.IsTyping)
@@ -219,6 +223,7 @@ namespace Views
                         textBox.Text = inputStar.Content;
                     crrInput = inputStar;
                     textBox.Enabled = true;
+                    textBox.Select(textBox.Text.Length, 0);
                     textBox.Focus();
                 }
                 else
