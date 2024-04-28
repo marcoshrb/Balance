@@ -9,18 +9,11 @@ public abstract class Shape : Entity
         : base(x, y, width, height)
     {
         this.Position = new PointF(x, y);
-        Sprite spriteCreate = new Sprite(Img)
-        {
-            Rect = new RectangleF(0, 0, width, width)
-        };
+        Sprite spriteCreate = new Sprite(Img) { Rect = new RectangleF(0, 0, width, width) };
         this.Sprite = spriteCreate;
         this.Weight = weight;
-        this.Hitbox = new RectangleF(
-            this.Position, 
-            new SizeF(width, width)
-        );
+        this.Hitbox = new RectangleF(this.Position, new SizeF(width, width));
     }
-
 
     public Sprite Sprite { get; set; }
     public SizeF Size => Sprite.Rect.Size;
@@ -53,7 +46,7 @@ public abstract class Shape : Entity
             (int)Size.Width,
             (int)Size.Height
         );
-        
+
         // g.DrawRectangle(Pens.Red, rect);
         Sprite.DrawSprite(g, rect);
     }

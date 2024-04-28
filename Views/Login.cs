@@ -41,22 +41,15 @@ public class Login : Form
         };
         this.Controls.Add(header);
 
-        this.pb = new PictureBox
-        {
-            Dock = DockStyle.Fill
-        };
+        this.pb = new PictureBox { Dock = DockStyle.Fill };
         this.Controls.Add(pb);
 
-        this.tm = new Timer
-        {
-            Interval = 20
-        };
+        this.tm = new Timer { Interval = 20 };
 
         this.KeyDown += (o, e) =>
         {
             if (e.KeyCode == Keys.Escape)
                 Application.Exit();
-                
         };
 
         this.Load += (o, e) =>
@@ -69,36 +62,52 @@ public class Login : Form
             Onstart();
             this.tm.Start();
 
-            input = new InputUser(pb.Width*0.5f-200, pb.Height*0.4f, 400, 40, "Insira seu nome completo:");
+            input = new InputUser(
+                pb.Width * 0.5f - 200,
+                pb.Height * 0.4f,
+                400,
+                40,
+                "Insira seu nome completo:"
+            );
             input.DrawInput(g);
-            btnConfirm = new BtnConfirm(pb.Width*0.85f, pb.Height*0.85f, 200, 100, "Confirmar");
+            btnConfirm = new BtnConfirm(pb.Width * 0.85f, pb.Height * 0.85f, 200, 100, "Confirmar");
             btnConfirm.DrawButton(g);
         };
-        
+
         void textForResult(object sender, EventArgs e)
         {
-            if(isTyping)
+            if (isTyping)
             {
                 userName = textBox.Text;
                 string text = "";
-                if(counter % 15 == 0)
+                if (counter % 15 == 0)
                     this.showLine = !this.showLine;
-                if(showLine)
+                if (showLine)
                     text = textBox.Text + "|";
                 else
                     text = textBox.Text;
                 Font font = new Font("Arial", 24);
                 SizeF textSize = g.MeasureString(text, font);
-                if((int)textSize.Width / (int)input.Rect.Width > countSize)
+                if ((int)textSize.Width / (int)input.Rect.Width > countSize)
                 {
-                    input.Rect = new RectangleF(input.Rect.X, input.Rect.Y, input.Rect.Width, input.Rect.Height + textSize.Height);
+                    input.Rect = new RectangleF(
+                        input.Rect.X,
+                        input.Rect.Y,
+                        input.Rect.Width,
+                        input.Rect.Height + textSize.Height
+                    );
                     countSize = (int)textSize.Width / (int)input.Rect.Width;
                 }
-                if((int)textSize.Width / (int)input.Rect.Width < countSize)
+                if ((int)textSize.Width / (int)input.Rect.Width < countSize)
                 {
                     g.Clear(Color.FromArgb(250, 249, 246));
                     Onstart();
-                    input.Rect = new RectangleF(input.Rect.X, input.Rect.Y, input.Rect.Width, input.Rect.Height - textSize.Height);
+                    input.Rect = new RectangleF(
+                        input.Rect.X,
+                        input.Rect.Y,
+                        input.Rect.Width,
+                        input.Rect.Height - textSize.Height
+                    );
                     input.DrawInput(g);
                     countSize = (int)textSize.Width / (int)input.Rect.Width;
                     btnConfirm.DrawButton(g);
@@ -123,7 +132,7 @@ public class Login : Form
 
         pb.MouseClick += (o, e) =>
         {
-            if(input.Rect.Contains(e.X, e.Y) && !isTyping)
+            if (input.Rect.Contains(e.X, e.Y) && !isTyping)
             {
                 isTyping = true;
                 textBox.ReadOnly = false;
@@ -134,9 +143,9 @@ public class Login : Form
                 textBox.ReadOnly = true;
             }
 
-            if(btnConfirm.Rect.Contains(e.X, e.Y))
+            if (btnConfirm.Rect.Contains(e.X, e.Y))
             {
-                if(this.userName.Length > 0)
+                if (this.userName.Length > 0)
                 {
                     UserData.UserName = this.userName;
                     UserData.DateStart = DateTime.Now;
@@ -159,7 +168,10 @@ public class Login : Form
     void Onstart()
     {
         Image logo = ImageProcessing.GetImage(@"Assets\logo.png");
-        Size newSize = new Size((int)(170 * ClientScreen.WidthFactor), (int)(38 * ClientScreen.WidthFactor));
+        Size newSize = new Size(
+            (int)(170 * ClientScreen.WidthFactor),
+            (int)(38 * ClientScreen.WidthFactor)
+        );
         Image resizedLogo = ImageProcessing.ResizeImage(logo, newSize);
         int margin = (int)(14 * ClientScreen.HeightFactor);
         int x = margin;

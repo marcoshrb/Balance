@@ -2,6 +2,7 @@ using System;
 using System.Drawing;
 
 namespace Utils;
+
 public static class Functions
 {
     public static PointF[] ToPolygon(this RectangleF rect, PointF Anchor, double Angle)
@@ -16,8 +17,14 @@ public static class Functions
             double deltaX = xCoords[i] - Anchor.X;
             double deltaY = yCoords[i] - Anchor.Y;
 
-            double newX = Anchor.X + deltaX * Math.Cos(Angle * Math.PI / 180) - deltaY * Math.Sin(Angle * Math.PI / 180);
-            double newY = Anchor.Y + deltaX * Math.Sin(Angle * Math.PI / 180) + deltaY * Math.Cos(Angle * Math.PI / 180);
+            double newX =
+                Anchor.X
+                + deltaX * Math.Cos(Angle * Math.PI / 180)
+                - deltaY * Math.Sin(Angle * Math.PI / 180);
+            double newY =
+                Anchor.Y
+                + deltaX * Math.Sin(Angle * Math.PI / 180)
+                + deltaY * Math.Cos(Angle * Math.PI / 180);
 
             vertices[i] = new PointF((float)newX, (float)newY);
         }

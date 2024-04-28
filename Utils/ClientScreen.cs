@@ -2,6 +2,7 @@ using System.Drawing;
 using System.Windows.Forms;
 
 namespace Utils;
+
 public static class ClientScreen
 {
     public static int Width { get; private set; } = Screen.PrimaryScreen.Bounds.Width;

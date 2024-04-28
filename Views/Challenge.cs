@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms;
 using Entities;
+using Entities.EmptyShapes;
 using Entities.Shapes;
 using Utils;
 
@@ -116,7 +117,7 @@ namespace Views
                 pb.Refresh();
             };
         }
-        private List<FixedBalance> fixedInitials = new List<FixedBalance>();
+        private List<EmptyShape> fixedInitials = new List<EmptyShape>();
 
         void Onstart()
         {
@@ -131,15 +132,15 @@ namespace Views
             int y = ClientScreen.Height - resizedLogo.Height - margin;
             g.DrawImage(resizedLogo, new Point(x, y));
 
-            EmptyCircle emptyCircle = new EmptyCircle(new PointF(350 * ClientScreen.WidthFactor, 800 * ClientScreen.HeightFactor));
+            EmptyCircle emptyCircle = new EmptyCircle(new PointF(350 * ClientScreen.WidthFactor, 800 * ClientScreen.HeightFactor), 100, 100);
 
-            EmptyPentagon emptyPentagon = new EmptyPentagon(new PointF(550 * ClientScreen.WidthFactor, 800 * ClientScreen.HeightFactor));
+            EmptyPentagon emptyPentagon = new EmptyPentagon(new PointF(550 * ClientScreen.WidthFactor, 800 * ClientScreen.HeightFactor), 100, 100);
 
-            EmptySquare emptySquare = new EmptySquare(new PointF(750 * ClientScreen.WidthFactor, 800 * ClientScreen.HeightFactor));
+            EmptySquare emptySquare = new EmptySquare(new PointF(750 * ClientScreen.WidthFactor, 800 * ClientScreen.HeightFactor), 100, 100);
 
-            EmptyStar emptyStar = new EmptyStar(new PointF(950 * ClientScreen.WidthFactor, 800 * ClientScreen.HeightFactor));
+            EmptyStar emptyStar = new EmptyStar(new PointF(950 * ClientScreen.WidthFactor, 800 * ClientScreen.HeightFactor), 100, 100);
 
-            EmptyTriangle emptyTriangle = new EmptyTriangle(new PointF(1150 * ClientScreen.WidthFactor, 800 * ClientScreen.HeightFactor));
+            EmptyTriangle emptyTriangle = new EmptyTriangle(new PointF(1150 * ClientScreen.WidthFactor, 800 * ClientScreen.HeightFactor), 100, 100);
 
             fixedInitials.Add(emptyCircle);
             fixedInitials.Add(emptyPentagon);
@@ -223,8 +224,8 @@ namespace Views
                     balanceLeft.AddLeftShape(selected);
                     foreach (var fixedInitial in fixedInitials)
                     {
-                        if (fixedInitial.pieces.Contains(selected))
-                            fixedInitial.pieces.Remove(selected);
+                        if (fixedInitial.Shapes.Contains(selected))
+                            fixedInitial.Shapes.Remove(selected);
                     }
                 }
 
@@ -234,8 +235,8 @@ namespace Views
                     balanceLeft.AddRightShape(selected);
                     foreach (var fixedInitial in fixedInitials)
                     {
-                        if (fixedInitial.pieces.Contains(selected))
-                            fixedInitial.pieces.Remove(selected);
+                        if (fixedInitial.Shapes.Contains(selected))
+                            fixedInitial.Shapes.Remove(selected);
                     }
                 }
 
@@ -245,8 +246,8 @@ namespace Views
                     balanceRight.AddLeftShape(selected);
                     foreach (var fixedInitial in fixedInitials)
                     {
-                        if (fixedInitial.pieces.Contains(selected))
-                            fixedInitial.pieces.Remove(selected);
+                        if (fixedInitial.Shapes.Contains(selected))
+                            fixedInitial.Shapes.Remove(selected);
                     }
                 }
 
@@ -256,8 +257,8 @@ namespace Views
                     balanceRight.AddRightShape(selected);
                     foreach (var fixedInitial in fixedInitials)
                     {
-                        if (fixedInitial.pieces.Contains(selected))
-                            fixedInitial.pieces.Remove(selected);
+                        if (fixedInitial.Shapes.Contains(selected))
+                            fixedInitial.Shapes.Remove(selected);
                     }
                 }
 
@@ -266,19 +267,19 @@ namespace Views
             }
 
             foreach (var item in balanceLeft.ShapesOnLeftSide)
-                if (item.pieces.Count != 0)
+                if (item.Shapes.Count != 0)
                     item.DrawString(this.g);
 
             foreach (var item in balanceLeft.ShapesOnRightSide)
-                if (item.pieces.Count != 0)
+                if (item.Shapes.Count != 0)
                     item.DrawString(this.g);
 
             foreach (var item in balanceRight.ShapesOnLeftSide)
-                if (item.pieces.Count != 0)
+                if (item.Shapes.Count != 0)
                     item.DrawString(this.g);
 
             foreach (var item in balanceRight.ShapesOnRightSide)
-                if (item.pieces.Count != 0)
+                if (item.Shapes.Count != 0)
                     item.DrawString(g);
 
 

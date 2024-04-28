@@ -28,16 +28,10 @@ namespace Views
             };
             this.Controls.Add(header);
 
-            this.pb = new PictureBox
-            {
-                Dock = DockStyle.Fill
-            };
+            this.pb = new PictureBox { Dock = DockStyle.Fill };
             this.Controls.Add(pb);
 
-            this.tm = new Timer
-            {
-                Interval = 20
-            };
+            this.tm = new Timer { Interval = 20 };
 
             this.KeyDown += (o, e) =>
             {
@@ -66,7 +60,10 @@ namespace Views
         void Onstart()
         {
             Image logo = ImageProcessing.GetImage(@"Assets\logo.png");
-            Size newSize = new Size((int)(170 * ClientScreen.WidthFactor), (int)(38 * ClientScreen.WidthFactor));
+            Size newSize = new Size(
+                (int)(170 * ClientScreen.WidthFactor),
+                (int)(38 * ClientScreen.WidthFactor)
+            );
             Image resizedLogo = ImageProcessing.ResizeImage(logo, newSize);
             int margin = (int)(14 * ClientScreen.HeightFactor);
             int x = margin;
@@ -74,7 +71,6 @@ namespace Views
             g.DrawImage(resizedLogo, new Point(x, y));
         }
 
-        void Frame()
-        { }
+        void Frame() { }
     }
 }
