@@ -4,13 +4,13 @@ using System.Windows.Forms;
 
 namespace Views
 {
-    public class MainForm : Form
+    public class Security : Form
     {
         private Image backgroundImage = Image.FromFile("./Assets/back.png");
         private TextBox inputTextBox;
         private Button validarBotao;
 
-        public MainForm()
+        public Security()
         {
             InitializeForm();
             this.DoubleBuffered = true;

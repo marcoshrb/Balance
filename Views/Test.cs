@@ -7,10 +7,11 @@ using Entities;
 using Entities.EmptyShapes;
 using Entities.Shapes;
 using Utils;
+using Views.Components;
 
 namespace Views
 {
-    public class Challenge : Form
+    public class Test : Form
     {
         Label horario;
         PictureBox cronometro;
@@ -39,11 +40,12 @@ namespace Views
         InputUser inputStar = null;
         bool showLine = false;
         int counter = 0;
-
         int[] wheights;
+        Challenge challenge = null;
         DateTime horarioFuturo;
+        BtnReset btnReset;
 
-        public Challenge()
+        public Test()
         {
             horario = new Label
             {
@@ -74,8 +76,7 @@ namespace Views
             };
             Controls.Add(borda);
 
-            horarioFuturo = DateTime.Now.AddMinutes(25);
-
+            horarioFuturo = DateTime.Now.AddMinutes(5);
             int[] array = { 2, 3, 5, 8, 10 };
             this.wheights = Functions.ShuffleWeights(array);
             this.balanceLeft = new Balance(
@@ -92,7 +93,7 @@ namespace Views
             );
             this.WindowState = FormWindowState.Maximized;
             this.FormBorderStyle = FormBorderStyle.None;
-            this.Text = "Desafio";
+            this.Text = "Teste";
             this.shapes = new List<Shape>();
 
             this.header = new PictureBox
@@ -146,6 +147,9 @@ namespace Views
                 this.pb.Image = bmp;
                 Onstart();
                 this.tm.Start();
+
+                btnReset = new BtnReset(pb.Width * 0.85f, pb.Height * 0.85f, 200, 100, "Resetar");
+                btnReset.DrawButton(g);
 
                 inputCircle = new InputUser(
                     pb.Width * 0.85f,
@@ -209,6 +213,7 @@ namespace Views
                 g.Clear(Color.FromArgb(250, 249, 246));
                 balanceLeft.Draw(this.g);
                 balanceRight.Draw(this.g);
+                btnReset.DrawButton(g);
                 inputCircle.DrawInputSprite(g, pb);
                 inputTriangle.DrawInputSprite(g, pb);
                 inputSquare.DrawInputSprite(g, pb);
@@ -331,6 +336,112 @@ namespace Views
                     inputStar.IsTyping = false;
                     crrInput = null;
                     textBox.Enabled = false;
+                }
+
+                if (btnReset.Rect.Contains(e.X, e.Y))
+                {
+                    EmptyCircle emptyCircle = new EmptyCircle(
+                new PointF(350 * ClientScreen.WidthFactor, 800 * ClientScreen.HeightFactor),
+                100,
+                100
+            );
+
+                    EmptyPentagon emptyPentagon = new EmptyPentagon(
+                        new PointF(550 * ClientScreen.WidthFactor, 800 * ClientScreen.HeightFactor),
+                        100,
+                        100
+                    );
+
+                    EmptySquare emptySquare = new EmptySquare(
+                        new PointF(750 * ClientScreen.WidthFactor, 800 * ClientScreen.HeightFactor),
+                        100,
+                        100
+                    );
+
+                    EmptyStar emptyStar = new EmptyStar(
+                        new PointF(950 * ClientScreen.WidthFactor, 800 * ClientScreen.HeightFactor),
+                        100,
+                        100
+                    );
+
+                    EmptyTriangle emptyTriangle = new EmptyTriangle(
+                        new PointF(1150 * ClientScreen.WidthFactor, 800 * ClientScreen.HeightFactor),
+                        100,
+                        100
+                    );
+
+                    fixedInitials = new()
+                    {
+                        emptyCircle,
+                        emptyPentagon,
+                        emptySquare,
+                        emptyStar,
+                        emptyTriangle
+                    };
+
+                    shapes = new();
+                    for (int i = 0; i < 5; i++)
+                    {
+                        circle = new(
+                            550 * ClientScreen.WidthFactor,
+                            800 * ClientScreen.HeightFactor,
+                            100 * ClientScreen.WidthFactor,
+                            wheights[0]
+                        );
+                        shapes.Add(circle);
+                        emptyCircle.AddFirst(circle);
+
+                        pentagon = new(
+                            950 * ClientScreen.WidthFactor,
+                            800 * ClientScreen.HeightFactor,
+                            100 * ClientScreen.WidthFactor,
+                            100 * ClientScreen.WidthFactor,
+                            wheights[1]
+                        );
+                        shapes.Add(pentagon);
+                        emptyPentagon.AddFirst(pentagon);
+
+                        square = new(
+                            350 * ClientScreen.WidthFactor,
+                            800 * ClientScreen.HeightFactor,
+                            100 * ClientScreen.WidthFactor,
+                            wheights[2]
+                        );
+                        shapes.Add(square);
+                        emptySquare.AddFirst(square);
+
+                        star = new(
+                            1150 * ClientScreen.WidthFactor,
+                            800 * ClientScreen.HeightFactor,
+                            100 * ClientScreen.WidthFactor,
+                            100 * ClientScreen.WidthFactor,
+                            wheights[3]
+                        );
+                        shapes.Add(star);
+                        emptyStar.AddFirst(star);
+
+                        triangle = new(
+                            750 * ClientScreen.WidthFactor,
+                            800 * ClientScreen.HeightFactor,
+                            100 * ClientScreen.WidthFactor,
+                            100 * ClientScreen.WidthFactor,
+                            wheights[4]
+                        );
+                        shapes.Add(triangle);
+                        emptyTriangle.AddFirst(triangle);
+                    }
+                    this.balanceLeft = new Balance(
+                200 * ClientScreen.WidthFactor,
+                100 * ClientScreen.HeightFactor,
+                350 * ClientScreen.WidthFactor,
+                350 * ClientScreen.HeightFactor
+            );
+                    this.balanceRight = new Balance(
+                        950 * ClientScreen.WidthFactor,
+                        100 * ClientScreen.HeightFactor,
+                        350 * ClientScreen.WidthFactor,
+                        350 * ClientScreen.HeightFactor
+                    );
                 }
             };
             textBox = new TextBox
@@ -513,6 +624,14 @@ namespace Views
                 }
 
                 shape.Draw(this.g);
+
+                var horarioAtual = DateTime.Now;
+                if (0 > (horarioFuturo - horarioAtual).TotalMinutes && challenge is null)
+                {
+                    this.Hide();
+                    this.challenge = new();
+                    challenge.Show();
+                }
             }
 
             if (selected is not null)

@@ -1,6 +1,5 @@
 using System;
 using System.Drawing;
-using System.Drawing.Design;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms;
 using Utils;
@@ -11,6 +10,7 @@ namespace Views;
 
 public class Login : Form
 {
+    public Security Security { get; set; }
     private PictureBox header;
     private PictureBox pb;
     private Bitmap bmp;
@@ -21,6 +21,7 @@ public class Login : Form
     private int counter = 0;
     private InputUser input = null;
     private string userName = "";
+    private Test test;
 
     public Login()
     {
@@ -31,7 +32,6 @@ public class Login : Form
         bool isTyping = false;
         int countSize = 0;
         BtnConfirm btnConfirm = null;
-        Challenge challenge = new Challenge();
 
         this.header = new PictureBox
         {
@@ -47,11 +47,7 @@ public class Login : Form
 
         this.tm = new Timer { Interval = 20 };
 
-        this.KeyDown += (o, e) =>
-        {
-            if (e.KeyCode == Keys.Escape)
-                Application.Exit();
-        };
+        this.KeyDown += (o, e) => { };
 
         this.Load += (o, e) =>
         {
@@ -148,10 +144,12 @@ public class Login : Form
             {
                 if (this.userName.Length > 0)
                 {
-                    UserData.UserName = this.userName;
-                    UserData.DateStart = DateTime.Now;
+                    UserData.Current.UserName = this.userName;
+                    UserData.Current.DateStart = DateTime.Now;
+                    UserData.Current.Save();
                     this.Hide();
-                    challenge.Show();
+                    this.test = new();
+                    test.Show();
                 }
                 else
                     MessageBox.Show("Vazio");
