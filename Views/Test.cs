@@ -53,10 +53,15 @@ namespace Views
             horario = new Label
             {
                 Text = "Horas",
-                Size = new Size(185, 50),
+                Size = new Size(
+                    (int)(185 * ClientScreen.WidthFactor), 
+                    (int)(50 * ClientScreen.HeightFactor)
+                    ),
                 BackColor = Color.White,
                 Font = new Font("Arial", 30, FontStyle.Bold),
-                Location = new Point(ClientSize.Width - 242, 43),
+                Location = new Point(
+                    (int)(- 242 * ClientScreen.WidthFactor), 
+                    (int)((43)* ClientScreen.HeightFactor)),
                 Anchor = AnchorStyles.Top | AnchorStyles.Right
             };
             Controls.Add(horario);
@@ -64,8 +69,14 @@ namespace Views
             cronometro = new PictureBox
             {
                 BackColor = Color.White,
-                Size = new Size(190, 55),
-                Location = new Point(ClientSize.Width - 245, 40),
+                Size = new Size(
+                    (int)(190 * ClientScreen.WidthFactor), 
+                    (int)(55 * ClientScreen.HeightFactor)
+                    ),
+                Location = new Point(
+                    (int)(- 245 * ClientScreen.WidthFactor), 
+                    (int)(40 * ClientScreen.HeightFactor)
+                    ),
                 Anchor = AnchorStyles.Top | AnchorStyles.Right
             };
             Controls.Add(cronometro);
@@ -73,8 +84,14 @@ namespace Views
             borda = new PictureBox
             {
                 BackColor = Color.Black,
-                Size = new Size(200, 65),
-                Location = new Point(ClientSize.Width - 250, 35),
+                Size = new Size(
+                    (int)(200 * ClientScreen.WidthFactor), 
+                    (int)(65* ClientScreen.HeightFactor)
+                    ),
+                Location = new Point(
+                    (int)(- 250 * ClientScreen.WidthFactor), 
+                    (int)(35 * ClientScreen.HeightFactor)
+                    ),
                 Anchor = AnchorStyles.Top | AnchorStyles.Right
             };
             Controls.Add(borda);
@@ -222,8 +239,6 @@ namespace Views
                     brush,
                     x_Title,
                     y_Title);
-                // DrawRectangleBack(30, 270, 690, 420);
-                // DrawRectangleBack(780, 270, 690, 420);
                 DrawRectangleBack(290, 750, 1000, 200);
                 DrawRectangleBack(1550, -100, 500, 1300);
                 balanceLeft.Draw(this.g);
