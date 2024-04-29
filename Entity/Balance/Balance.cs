@@ -18,7 +18,7 @@ public class Balance : Entity
     public List<EmptyShape> ShapesOnLeftSide => LeftShapes.ToList();
     public List<EmptyShape> ShapesOnRightSide => RightShapes.ToList();
     private int SlowFrameRate = 0;
-    private int Angle = 10;
+    private int Angle = 0;
     private EmptyCircle emptyCircle;
     private EmptyPentagon emptyPentagon;
     private EmptySquare emptySquare;

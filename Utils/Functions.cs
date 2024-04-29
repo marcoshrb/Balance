@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 
 namespace Utils;
@@ -30,5 +31,22 @@ public static class Functions
         }
 
         return vertices;
+    }
+    public static int[] ShuffleWeights(int[] array)
+    {
+        List<int> lista = new List<int>(array);
+        int meio = lista[lista.Count / 2];
+        lista.RemoveAt(lista.Count / 2);
+        Random rand = new Random();
+        for (int i = 0; i < lista.Count; i++)
+        {
+            int j = rand.Next(i, lista.Count);
+            int temp = lista[i];
+            lista[i] = lista[j];
+            lista[j] = temp;
+        }
+        int indiceInsercao = lista.Count / 2;
+        lista.Insert(indiceInsercao, meio);
+        return lista.ToArray();
     }
 }

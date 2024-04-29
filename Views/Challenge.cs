@@ -37,10 +37,12 @@ namespace Views
         bool showLine = false;
         int counter = 0;
 
-        int[] wheights = { 2, 3, 5, 8, 10 };
+        int[] wheights;
 
         public Challenge()
         {
+            int[] array = { 2, 3, 5, 8, 10 };
+            this.wheights = Functions.ShuffleWeights(array);
             this.balanceLeft = new Balance(
                 200 * ClientScreen.WidthFactor,
                 100 * ClientScreen.HeightFactor,
@@ -98,12 +100,6 @@ namespace Views
                         MainForm.BringToFront();
                     }
                 }
-                if (e.KeyCode == Keys.A)
-                    balanceLeft.State = (int)BalanceState.Left;
-                if (e.KeyCode == Keys.S)
-                    balanceLeft.State = (int)BalanceState.None;
-                if (e.KeyCode == Keys.D)
-                    balanceLeft.State = (int)BalanceState.Right;
             };
 
             this.Load += (o, e) =>
@@ -301,11 +297,13 @@ namespace Views
                     textBox.Enabled = false;
                 }
             };
-            textBox = new TextBox();
-            textBox.Location = new Point(pb.Width / 2 - 75, pb.Height / 2 - 10);
-            textBox.Size = new Size(150, 20);
-            textBox.Visible = true;
-            textBox.ReadOnly = false;
+            textBox = new TextBox
+            {
+                Location = new Point(pb.Width / 2 - 75, pb.Height / 2 - 10),
+                Size = new Size(150, 20),
+                Visible = true,
+                ReadOnly = false
+            };
             textBox.TextChanged += textForResult;
 
             this.Controls.Add(textBox);
@@ -445,6 +443,7 @@ namespace Views
 
         void Frame()
         {
+            this.counter++;
             Image logo = ImageProcessing.GetImage(@"Assets\logo.png");
             Size newSize = new Size(
                 (int)(170 * ClientScreen.WidthFactor),
