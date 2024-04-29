@@ -183,8 +183,8 @@ namespace Views
                     brush, 
                     x_Title, 
                     y_Title);
-                DrawRectangleBack(30, 270, 690, 420);
-                DrawRectangleBack(780, 270, 690, 420);
+                // DrawRectangleBack(30, 270, 690, 420);
+                // DrawRectangleBack(780, 270, 690, 420);
                 DrawRectangleBack(290, 750, 1000, 200);
                 DrawRectangleBack(1550, -100, 500, 1300);
                 balanceLeft.Draw(this.g);
