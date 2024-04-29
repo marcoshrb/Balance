@@ -7,8 +7,6 @@ namespace Views
     public class MainForm : Form
     {
         private Image backgroundImage = Image.FromFile("./Assets/back.png");
-
-        // private Image botao = Image.FromFile("./Assets/confirmar.png");
         private TextBox inputTextBox;
         private Button validarBotao;
 
