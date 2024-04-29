@@ -102,6 +102,10 @@ namespace Views
                         MainForm.BringToFront();
                     }
                 }
+                if(e.KeyCode == Keys.J)
+                {
+                    btnFinish.CsvToExcel();
+                }
             };
 
             this.Load += (o, e) =>
