@@ -61,6 +61,8 @@ public class BtnFinish : BtnBase
             },{UserData.Current.InputTriangleWeight
         }");
 
+        MessageBox.Show("Acabou");
+
         writer.Flush();
         writer.Close();
     }

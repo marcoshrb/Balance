@@ -224,13 +224,20 @@ namespace Views
             {
                 if(btnFinish.Rect.Contains(e.X, e.Y))
                 {
-                    UserData.Current.InputCircleWeight = Convert.ToInt32(inputCircle.Content);
-                    UserData.Current.InputPentagonWeight = Convert.ToInt32(inputPentagon.Content);
-                    UserData.Current.InputSquareWeight = Convert.ToInt32(inputSquare.Content);
-                    UserData.Current.InputStarWeight = Convert.ToInt32(inputStar.Content);
-                    UserData.Current.InputTriangleWeight = Convert.ToInt32(inputTriangle.Content);
-                    UserData.Current.DateFinish = DateTime.Now;
-                    btnFinish.FinishChallenge();
+                    try
+                    {
+                        UserData.Current.InputCircleWeight = Convert.ToInt32(inputCircle.Content);
+                        UserData.Current.InputPentagonWeight = Convert.ToInt32(inputPentagon.Content);
+                        UserData.Current.InputSquareWeight = Convert.ToInt32(inputSquare.Content);
+                        UserData.Current.InputStarWeight = Convert.ToInt32(inputStar.Content);
+                        UserData.Current.InputTriangleWeight = Convert.ToInt32(inputTriangle.Content);
+                        UserData.Current.DateFinish = DateTime.Now;
+                        btnFinish.FinishChallenge();
+                    }
+                    catch (System.Exception)
+                    {
+                        MessageBox.Show("Valores inválidos");
+                    }
                     // foreach(var weight in wheights)
                     //     MessageBox.Show(weight.ToString());
                 }
