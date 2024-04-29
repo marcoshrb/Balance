@@ -15,6 +15,7 @@ namespace Views
         Graphics g;
         Timer tm;
         Font font = new Font("Arial", 36, FontStyle.Bold);
+        Font font2 = new Font("Arial", 24);
         Screen screen = Screen.PrimaryScreen;
         StringFormat format = new StringFormat();
         public Completed()
@@ -35,7 +36,14 @@ namespace Views
             this.pb = new PictureBox { Dock = DockStyle.Fill };
             this.Controls.Add(pb);
 
-            this.tm = new Timer { Interval = 20 };
+            this.tm = new Timer { Interval = 10 };
+
+            this.KeyDown += (o, e) =>
+            {
+                if (e.KeyCode == Keys.Escape)
+                    Application.Exit();
+            };
+
 
             this.Load += (o, e) =>
             {
@@ -65,7 +73,8 @@ namespace Views
             format.Alignment = StringAlignment.Center;
             format.LineAlignment = StringAlignment.Center;
 
-            g.DrawString("Desafio Completo", font, Brushes.Black, new PointF(screen.Bounds.Width / 2 ,screen.Bounds.Height / 2 ), format);
+            g.DrawString("Desafio Completo!", font, Brushes.Black, new PointF(screen.Bounds.Width / 2 ,screen.Bounds.Height / 2 - 50), format);
+            g.DrawString("Chame o Instrutor para receber mais informações sobre o proximo passo que você deve seguir.", font2, Brushes.Black, new PointF(screen.Bounds.Width / 2 ,screen.Bounds.Height / 2 + 50), format);
 
         }
 
