@@ -78,6 +78,5 @@ namespace Views
 
         }
 
-        void Frame() { }
     }
 }

@@ -15,6 +15,21 @@ namespace Views
             InitializeForm();
             this.DoubleBuffered = true;
 
+            var fecharBotao = new Button
+            {
+                Text = "Fechar",
+                Size = new Size(100, 30),
+                Location = new Point(
+                    (this.ClientSize.Width - 100) / 2,
+                    (this.ClientSize.Height + 10) / 2 + 160
+                ),
+                Font = new Font("Arial", 12, FontStyle.Bold),
+                BackColor = Color.White
+            };
+            fecharBotao.Click += (sender, e) => this.Close();
+            this.Controls.Add(fecharBotao);
+
+
             validarBotao = new Button
             {
                 Text = "Confirmar",
@@ -117,6 +132,22 @@ namespace Views
             {
                 Application.Exit();
             }
+        }
+        private void ButtonClose(object sender, EventArgs e)
+        {
+            var fecharBotao = new Button
+            {
+                Text = "Fechar",
+                Size = new Size(100, 30),
+                Location = new Point(
+                    (this.ClientSize.Width - 100) / 2,
+                    (this.ClientSize.Height + 10) / 2 + 170
+                ),
+                Font = new Font("Arial", 12, FontStyle.Bold),
+                BackColor = Color.White
+            };
+            fecharBotao.Click += (sender, e) => this.Close();
+            this.Controls.Add(fecharBotao);
         }
     }
 }
