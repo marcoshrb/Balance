@@ -79,7 +79,7 @@ namespace Views
             };
             Controls.Add(borda);
 
-            horarioFuturo = DateTime.Now.AddMinutes(5);
+            horarioFuturo = DateTime.Now.AddMinutes(3);
             int[] array = { 2, 3, 5, 8, 10 };
             this.wheights = Functions.ShuffleWeights(array);
             this.balanceLeft = new Balance(
