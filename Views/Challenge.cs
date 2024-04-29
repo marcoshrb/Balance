@@ -75,7 +75,7 @@ namespace Views
             this.pb = new PictureBox { Dock = DockStyle.Fill };
             this.Controls.Add(pb);
 
-            this.tm = new Timer { Interval = 20 };
+            this.tm = new Timer { Interval = 10 };
 
             // sair
             // this.KeyDown += (o, e) =>
