@@ -31,7 +31,7 @@ public class Login : Form
         bool isTyping = false;
         int countSize = 0;
         BtnConfirm btnConfirm = null;
-        Challenge challenge = new Challenge();
+        Test test = new();
 
         this.header = new PictureBox
         {
@@ -154,7 +154,8 @@ public class Login : Form
                     UserData.Current.UserName = this.userName;
                     UserData.Current.DateStart = DateTime.Now;
                     this.Hide();
-                    challenge.Show();
+                    test = new();
+                    test.Show();
                 }
                 else
                     MessageBox.Show("Vazio");

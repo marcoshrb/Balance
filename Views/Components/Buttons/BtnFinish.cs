@@ -61,8 +61,6 @@ public class BtnFinish : BtnBase
             },{UserData.Current.InputTriangleWeight
         }");
 
-        MessageBox.Show("Acabou");
-
         writer.Flush();
         writer.Close();
     }
@@ -98,10 +96,9 @@ public class BtnFinish : BtnBase
             }
 
             // Salvar o arquivo Excel
+                // package.Save();
             SaveExcel(package);
         }
-
-        MessageBox.Show("Na teoria funcionou.");
     }
 
     private void SaveExcel(ExcelPackage package)
@@ -113,6 +110,7 @@ public class BtnFinish : BtnBase
             {
                 package.Save();
                 saved = true;
+                package.Dispose();
             }
             catch (System.Exception)
             {

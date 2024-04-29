@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
-using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using Entities;
 using Entities.EmptyShapes;
@@ -12,14 +11,12 @@ using Views.Components;
 
 namespace Views
 {
-    public class Challenge : Form
+    public class Test : Form
     {
-        bool saveFlag = false;
         Label horario;
         PictureBox cronometro;
         PictureBox borda;
-        DateTime horarioFuturo;
-        public MainForm MainForm { get; set; }
+        public MainForm mainform { get; set; }
         PictureBox header;
         PictureBox pb;
         Bitmap bmp;
@@ -43,17 +40,17 @@ namespace Views
         InputUser inputStar = null;
         bool showLine = false;
         int counter = 0;
+        int[] wheights;
+        Challenge challenge = null;
+        DateTime horarioFuturo;
+        BtnReset btnReset;
         Font font = new Font("neology", 72, FontStyle.Bold);
         SolidBrush brush = new SolidBrush(Color.FromArgb(234, 0, 22));
-
-        int[] weights;
-
-        public Challenge()
+        Image BackRect;
+        public Test()
         {
-            UserData.Current.DateStart = DateTime.Now;
-            Completed completed = new();
-
-            BtnFinish btnFinish = null;
+            BtnConfirm btnContinue = null;
+            BackRect = Resources.BackRect;
             horario = new Label
             {
                 Text = "Horas",
@@ -83,10 +80,9 @@ namespace Views
             };
             Controls.Add(borda);
 
-            horarioFuturo = DateTime.Now.AddMinutes(0.2); //tempo
-
+            horarioFuturo = DateTime.Now.AddMinutes(3);
             int[] array = { 2, 3, 5, 8, 10 };
-            this.weights = Functions.ShuffleWeights(array);
+            this.wheights = Functions.ShuffleWeights(array);
             this.balanceLeft = new Balance(
                 200 * ClientScreen.WidthFactor,
                 300 * ClientScreen.HeightFactor,
@@ -99,10 +95,9 @@ namespace Views
                 350 * ClientScreen.WidthFactor,
                 350 * ClientScreen.HeightFactor
             );
-
             this.WindowState = FormWindowState.Maximized;
             this.FormBorderStyle = FormBorderStyle.None;
-            this.Text = "Desafio";
+            this.Text = "Teste";
             this.shapes = new List<Shape>();
 
             this.header = new PictureBox
@@ -131,28 +126,25 @@ namespace Views
             {
                 if (e.KeyCode == Keys.Escape)
                 {
-                    if (MainForm == null)
+                    if (mainform == null)
                     {
-                        MainForm = new MainForm();
-                        MainForm.FormClosed += (sender, args) =>
+                        mainform = new MainForm();
+                        mainform.FormClosed += (sender, args) =>
                         {
-                            MainForm = null;
+                            mainform = null;
                         };
-                        MainForm.Show();
+                        mainform.Show();
                     }
                     else
                     {
-                        MainForm.BringToFront();
+                        mainform.BringToFront();
                     }
-                }
-                if (e.KeyCode == Keys.J)
-                {
-                    btnFinish.CsvToExcel();
                 }
             };
 
             this.Load += (o, e) =>
             {
+                btnContinue = new BtnConfirm(pb.Width * 0.85f, pb.Height * 0.72f, pb.Width*0.104f, pb.Height*0.092f, "Continuar");
                 this.bmp = new Bitmap(pb.Width, pb.Height);
                 g = Graphics.FromImage(this.bmp);
                 g.InterpolationMode = InterpolationMode.NearestNeighbor;
@@ -161,11 +153,8 @@ namespace Views
                 Onstart();
                 this.tm.Start();
 
-                UserData.Current.RealCircleWeight = weights[0];
-                UserData.Current.RealPentagonWeight = weights[1];
-                UserData.Current.RealSquareWeight = weights[2];
-                UserData.Current.RealStarWeight = weights[3];
-                UserData.Current.RealTriangleWeight = weights[4];
+                btnReset = new BtnReset(pb.Width * 0.85f, pb.Height * 0.85f, pb.Width*0.104f, pb.Height*0.092f, "Resetar");
+                btnReset.DrawButton(g);
 
                 inputCircle = new InputUser(
                     pb.Width * 0.85f,
@@ -174,12 +163,12 @@ namespace Views
                     pb.Height * 0.04f,
                     ImageProcessing.GetImage(@"./Assets/Shapes/pieces/Bola.png") as Bitmap
                 );
-                inputPentagon = new InputUser(
+                inputTriangle = new InputUser(
                     pb.Width * 0.85f,
                     pb.Height * 0.20f,
                     pb.Width * 0.1f,
                     pb.Height * 0.04f,
-                    ImageProcessing.GetImage(@"./Assets/Shapes/pieces/Pentagono.png") as Bitmap
+                    ImageProcessing.GetImage(@"./Assets/Shapes/pieces/Triangulo.png") as Bitmap
                 );
                 inputSquare = new InputUser(
                     pb.Width * 0.85f,
@@ -189,26 +178,24 @@ namespace Views
                     ImageProcessing.GetImage(@"./Assets/Shapes/pieces/Quadrado.png") as Bitmap
                 )
                 {
-                    Content = weights[2].ToString(),
+                    Content = wheights[2].ToString(),
                     Disable = true
                 };
-                inputStar = new InputUser(
+
+                inputPentagon = new InputUser(
                     pb.Width * 0.85f,
                     pb.Height * 0.30f,
                     pb.Width * 0.1f,
                     pb.Height * 0.04f,
-                    ImageProcessing.GetImage(@"./Assets/Shapes/pieces/Estrela.png") as Bitmap
+                    ImageProcessing.GetImage(@"./Assets/Shapes/pieces/Pentagono.png") as Bitmap
                 );
-                inputTriangle = new InputUser(
+                inputStar = new InputUser(
                     pb.Width * 0.85f,
                     pb.Height * 0.35f,
                     pb.Width * 0.1f,
                     pb.Height * 0.04f,
-                    ImageProcessing.GetImage(@"./Assets/Shapes/pieces/Triangulo.png") as Bitmap
+                    ImageProcessing.GetImage(@"./Assets/Shapes/pieces/Estrela.png") as Bitmap
                 );
-
-                btnFinish = new BtnFinish(pb.Width * 0.85f, pb.Height * 0.85f, pb.Width * 0.104f, pb.Height * 0.092f, "Finalizar");
-                btnFinish.DrawButton(g);
             };
 
             this.pb.MouseMove += (o, e) =>
@@ -226,19 +213,13 @@ namespace Views
                 isDown = false;
             };
 
-            //Tirar quando for gerar o executavel
-            this.FormClosed += delegate
-            {
-                Application.Exit();
-            };
-
             this.tm.Tick += (o, e) =>
             {
                 g.Clear(Color.FromArgb(250, 249, 246));
                 int x_Title = (int)(500 * ClientScreen.WidthFactor);
                 int y_Title = (int)(100 * ClientScreen.HeightFactor);
                 g.DrawString(
-                    "DESAFIO",
+                    "TESTE",
                     font,
                     brush,
                     x_Title,
@@ -247,6 +228,8 @@ namespace Views
                 DrawRectangleBack(1550, -100, 500, 1300);
                 balanceLeft.Draw(this.g);
                 balanceRight.Draw(this.g);
+                btnReset.DrawButton(g);
+                btnContinue.DrawButton(g);
                 inputCircle.DrawInputSprite(g, pb);
                 inputTriangle.DrawInputSprite(g, pb);
                 inputSquare.DrawInputSprite(g, pb);
@@ -254,62 +237,18 @@ namespace Views
                 inputStar.DrawInputSprite(g, pb);
                 textForResult(o, e);
                 horario.Text = string.Format("{0:mm\\:ss}", horarioFuturo - DateTime.Now);
-                if (0 > (horarioFuturo - DateTime.Now).TotalMinutes && !saveFlag)
-                {
-                    try
-                    {
-                        UserData.Current.InputCircleWeight = TryParseOrDefault(inputCircle.Content);
-                        UserData.Current.InputPentagonWeight = TryParseOrDefault(inputPentagon.Content);
-                        UserData.Current.InputSquareWeight = TryParseOrDefault(inputSquare.Content);
-                        UserData.Current.InputStarWeight = TryParseOrDefault(inputStar.Content);
-                        UserData.Current.InputTriangleWeight = TryParseOrDefault(inputTriangle.Content);
-                        UserData.Current.DateFinish = DateTime.Now;
-                        btnFinish.FinishChallenge();
-                        btnFinish.CsvToExcel();
-                        this.Hide();
-                        completed.Show();
-                        saveFlag = true;
-                    }
-                    catch(System.Exception)
-                    { }
-                }
-                btnFinish.DrawButton(g);
                 Frame();
                 pb.Refresh();
             };
 
-            int TryParseOrDefault(string content)
-            {
-                // Remove todos os caracteres não numéricos da string
-                string numericOnly = Regex.Replace(content, @"[^\d]", "");
-
-                int result;
-                return int.TryParse(numericOnly, out result) ? result : 0;
-            }
-
             pb.MouseClick += (o, e) =>
             {
-                if (btnFinish.Rect.Contains(e.X, e.Y))
+                if(btnContinue.Rect.Contains(e.X, e.Y))
                 {
-                    try
-                    {
-                        UserData.Current.InputCircleWeight = TryParseOrDefault(inputCircle.Content);
-                        UserData.Current.InputPentagonWeight = TryParseOrDefault(inputPentagon.Content);
-                        UserData.Current.InputSquareWeight = TryParseOrDefault(inputSquare.Content);
-                        UserData.Current.InputStarWeight = TryParseOrDefault(inputStar.Content);
-                        UserData.Current.InputTriangleWeight = TryParseOrDefault(inputTriangle.Content);
-                        UserData.Current.DateFinish = DateTime.Now;
-                        btnFinish.FinishChallenge();
-                        btnFinish.CsvToExcel();
-                        this.Hide();
-                        completed.Show();
-                    }
-                    catch (System.Exception)
-                    {
-                        MessageBox.Show("Valores inválidos");
-                    }
+                    this.Hide();
+                    this.challenge = new();
+                    challenge.Show();
                 }
-
                 if (
                     inputCircle.Rect.Contains(e.X, e.Y)
                     && !inputCircle.IsTyping
@@ -420,6 +359,112 @@ namespace Views
                     crrInput = null;
                     textBox.Enabled = false;
                 }
+
+                if (btnReset.Rect.Contains(e.X, e.Y))
+                {
+                    EmptyCircle emptyCircle = new EmptyCircle(
+                        new PointF(350 * ClientScreen.WidthFactor, 800 * ClientScreen.HeightFactor),
+                        100,
+                        100
+                    );
+
+                    EmptyPentagon emptyPentagon = new EmptyPentagon(
+                        new PointF(550 * ClientScreen.WidthFactor, 800 * ClientScreen.HeightFactor),
+                        100,
+                        100
+                    );
+
+                    EmptySquare emptySquare = new EmptySquare(
+                        new PointF(750 * ClientScreen.WidthFactor, 800 * ClientScreen.HeightFactor),
+                        100,
+                        100
+                    );
+
+                    EmptyStar emptyStar = new EmptyStar(
+                        new PointF(950 * ClientScreen.WidthFactor, 800 * ClientScreen.HeightFactor),
+                        100,
+                        100
+                    );
+
+                    EmptyTriangle emptyTriangle = new EmptyTriangle(
+                        new PointF(1150 * ClientScreen.WidthFactor, 800 * ClientScreen.HeightFactor),
+                        100,
+                        100
+                    );
+
+                    fixedInitials = new()
+                    {
+                        emptyCircle,
+                        emptyPentagon,
+                        emptySquare,
+                        emptyStar,
+                        emptyTriangle
+                    };
+
+                    shapes = new();
+                    for (int i = 0; i < 5; i++)
+                    {
+                        circle = new(
+                            550 * ClientScreen.WidthFactor,
+                            800 * ClientScreen.HeightFactor,
+                            100 * ClientScreen.WidthFactor,
+                            wheights[0]
+                        );
+                        shapes.Add(circle);
+                        emptyCircle.AddFirst(circle);
+
+                        pentagon = new(
+                            950 * ClientScreen.WidthFactor,
+                            800 * ClientScreen.HeightFactor,
+                            100 * ClientScreen.WidthFactor,
+                            100 * ClientScreen.WidthFactor,
+                            wheights[1]
+                        );
+                        shapes.Add(pentagon);
+                        emptyPentagon.AddFirst(pentagon);
+
+                        square = new(
+                            350 * ClientScreen.WidthFactor,
+                            800 * ClientScreen.HeightFactor,
+                            100 * ClientScreen.WidthFactor,
+                            wheights[2]
+                        );
+                        shapes.Add(square);
+                        emptySquare.AddFirst(square);
+
+                        star = new(
+                            1150 * ClientScreen.WidthFactor,
+                            800 * ClientScreen.HeightFactor,
+                            100 * ClientScreen.WidthFactor,
+                            100 * ClientScreen.WidthFactor,
+                            wheights[3]
+                        );
+                        shapes.Add(star);
+                        emptyStar.AddFirst(star);
+
+                        triangle = new(
+                            750 * ClientScreen.WidthFactor,
+                            800 * ClientScreen.HeightFactor,
+                            100 * ClientScreen.WidthFactor,
+                            100 * ClientScreen.WidthFactor,
+                            wheights[4]
+                        );
+                        shapes.Add(triangle);
+                        emptyTriangle.AddFirst(triangle);
+                    }
+                    this.balanceLeft = new Balance(
+                        200 * ClientScreen.WidthFactor,
+                        300 * ClientScreen.HeightFactor,
+                        350 * ClientScreen.WidthFactor,
+                        350 * ClientScreen.HeightFactor
+                    );
+                    this.balanceRight = new Balance(
+                        950 * ClientScreen.WidthFactor,
+                        300 * ClientScreen.HeightFactor,
+                        350 * ClientScreen.WidthFactor,
+                        350 * ClientScreen.HeightFactor
+                    );
+                }
             };
             textBox = new TextBox
             {
@@ -457,10 +502,9 @@ namespace Views
         }
 
         private List<EmptyShape> fixedInitials = new List<EmptyShape>();
-        Image BackRect;
+
         void Onstart()
         {
-            BackRect = Resources.BackRect;
             Image logo = ImageProcessing.GetImage(@"Assets\logo.png");
             Size newSize = new Size(
                 (int)(170 * ClientScreen.WidthFactor),
@@ -473,10 +517,10 @@ namespace Views
             g.DrawImage(resizedLogo, new Point(x, y));
 
             EmptyCircle emptyCircle = new EmptyCircle(
-                new PointF(350 * ClientScreen.WidthFactor, 800 * ClientScreen.HeightFactor),
-                100,
-                100
-            );
+                 new PointF(350 * ClientScreen.WidthFactor, 800 * ClientScreen.HeightFactor),
+                 100,
+                 100
+             );
 
             EmptyPentagon emptyPentagon = new EmptyPentagon(
                 new PointF(550 * ClientScreen.WidthFactor, 800 * ClientScreen.HeightFactor),
@@ -514,7 +558,7 @@ namespace Views
                     550 * ClientScreen.WidthFactor,
                     800 * ClientScreen.HeightFactor,
                     100 * ClientScreen.WidthFactor,
-                    weights[0]
+                    wheights[0]
                 );
                 shapes.Add(circle);
                 emptyCircle.AddFirst(circle);
@@ -524,7 +568,7 @@ namespace Views
                     800 * ClientScreen.HeightFactor,
                     100 * ClientScreen.WidthFactor,
                     100 * ClientScreen.WidthFactor,
-                    weights[1]
+                    wheights[1]
                 );
                 shapes.Add(pentagon);
                 emptyPentagon.AddFirst(pentagon);
@@ -533,7 +577,7 @@ namespace Views
                     350 * ClientScreen.WidthFactor,
                     800 * ClientScreen.HeightFactor,
                     100 * ClientScreen.WidthFactor,
-                    weights[2]
+                    wheights[2]
                 );
                 shapes.Add(square);
                 emptySquare.AddFirst(square);
@@ -543,7 +587,7 @@ namespace Views
                     800 * ClientScreen.HeightFactor,
                     100 * ClientScreen.WidthFactor,
                     100 * ClientScreen.WidthFactor,
-                    weights[3]
+                    wheights[3]
                 );
                 shapes.Add(star);
                 emptyStar.AddFirst(star);
@@ -553,7 +597,7 @@ namespace Views
                     800 * ClientScreen.HeightFactor,
                     100 * ClientScreen.WidthFactor,
                     100 * ClientScreen.WidthFactor,
-                    weights[4]
+                    wheights[4]
                 );
                 shapes.Add(triangle);
                 emptyTriangle.AddFirst(triangle);
@@ -602,6 +646,14 @@ namespace Views
                 }
 
                 shape.Draw(this.g);
+
+            }
+            var horarioAtual = DateTime.Now;
+            if (0 > (horarioFuturo - horarioAtual).TotalMinutes && challenge is null)
+            {
+                this.Hide();
+                this.challenge = new();
+                challenge.Show();
             }
 
             if (selected is not null)
@@ -675,8 +727,6 @@ namespace Views
 
             foreach (var fixedInitial in fixedInitials)
                 fixedInitial.DrawString(this.g);
-
-
         }
         void DrawRectangleBack(int x_, int y_, int width_, int height_)
         {
