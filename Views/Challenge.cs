@@ -36,6 +36,8 @@ namespace Views
         InputUser inputStar = null;
         bool showLine = false;
         int counter = 0;
+        Font font = new Font("neology", 72, FontStyle.Bold);
+        SolidBrush brush = new SolidBrush(Color.FromArgb(234, 0, 22));
 
         int[] wheights = { 2, 3, 5, 8, 10 };
 
@@ -43,16 +45,17 @@ namespace Views
         {
             this.balanceLeft = new Balance(
                 200 * ClientScreen.WidthFactor,
-                100 * ClientScreen.HeightFactor,
+                300 * ClientScreen.HeightFactor,
                 350 * ClientScreen.WidthFactor,
                 350 * ClientScreen.HeightFactor
             );
             this.balanceRight = new Balance(
                 950 * ClientScreen.WidthFactor,
-                100 * ClientScreen.HeightFactor,
+                300 * ClientScreen.HeightFactor,
                 350 * ClientScreen.WidthFactor,
                 350 * ClientScreen.HeightFactor
             );
+
             this.WindowState = FormWindowState.Maximized;
             this.FormBorderStyle = FormBorderStyle.None;
             this.Text = "Desafio";
@@ -73,31 +76,31 @@ namespace Views
             this.tm = new Timer { Interval = 20 };
 
             // sair
-            // this.KeyDown += (o, e) =>
-            // {
-            //     if (e.KeyCode == Keys.Escape)
-            //         Application.Exit();
-            // };
+            this.KeyDown += (o, e) =>
+            {
+                if (e.KeyCode == Keys.Escape)
+                    Application.Exit();
+            };
 
             //popup
             this.KeyDown += (o, e) =>
             {
-                if (e.KeyCode == Keys.Escape)
-                {
-                    if (MainForm == null)
-                    {
-                        MainForm = new MainForm();
-                        MainForm.FormClosed += (sender, args) =>
-                        {
-                            MainForm = null;
-                        };
-                        MainForm.Show();
-                    }
-                    else
-                    {
-                        MainForm.BringToFront();
-                    }
-                }
+                // if (e.KeyCode == Keys.Escape)
+                // {
+                //     if (MainForm == null)
+                //     {
+                //         MainForm = new MainForm();
+                //         MainForm.FormClosed += (sender, args) =>
+                //         {
+                //             MainForm = null;
+                //         };
+                //         MainForm.Show();
+                //     }
+                //     else
+                //     {
+                //         MainForm.BringToFront();
+                //     }
+                // }
                 if (e.KeyCode == Keys.A)
                     balanceLeft.State = (int)BalanceState.Left;
                 if (e.KeyCode == Keys.S)
@@ -176,6 +179,18 @@ namespace Views
             this.tm.Tick += (o, e) =>
             {
                 g.Clear(Color.FromArgb(250, 249, 246));
+                int x_Title = (int)(500 * ClientScreen.WidthFactor);
+                int y_Title = (int)(100 * ClientScreen.HeightFactor);
+                g.DrawString(
+                    "DESAFIO", 
+                    font, 
+                    brush, 
+                    x_Title, 
+                    y_Title);
+                DrawRectangleBack(30, 270, 690, 420);
+                DrawRectangleBack(780, 270, 690, 420);
+                DrawRectangleBack(290, 750, 1000, 200);
+                DrawRectangleBack(1550, -100, 500, 1300);
                 balanceLeft.Draw(this.g);
                 balanceRight.Draw(this.g);
                 inputCircle.DrawInputSprite(g, pb);
@@ -335,9 +350,10 @@ namespace Views
         }
 
         private List<EmptyShape> fixedInitials = new List<EmptyShape>();
-
+        Image BackRect;
         void Onstart()
         {
+            BackRect = Resources.BackRect;
             Image logo = ImageProcessing.GetImage(@"Assets\logo.png");
             Size newSize = new Size(
                 (int)(170 * ClientScreen.WidthFactor),
@@ -551,6 +567,19 @@ namespace Views
 
             foreach (var fixedInitial in fixedInitials)
                 fixedInitial.DrawString(this.g);
+
+
+        }
+        void DrawRectangleBack(int x_, int y_, int width_, int height_)
+        {
+            Size backSize = new Size(
+                (int)(width_ * ClientScreen.WidthFactor),
+                (int)(height_ * ClientScreen.HeightFactor)
+            );
+            Image resizedBack = ImageProcessing.ResizeImage(BackRect, backSize);
+            int x_Back = (int)(x_ * ClientScreen.WidthFactor);
+            int y_Back = (int)(y_ * ClientScreen.HeightFactor);
+            g.DrawImage(resizedBack, new Point(x_Back, y_Back));
         }
     }
 }
