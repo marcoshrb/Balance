@@ -76,31 +76,31 @@ namespace Views
             this.tm = new Timer { Interval = 20 };
 
             // sair
-            this.KeyDown += (o, e) =>
-            {
-                if (e.KeyCode == Keys.Escape)
-                    Application.Exit();
-            };
+            // this.KeyDown += (o, e) =>
+            // {
+            //     if (e.KeyCode == Keys.Escape)
+            //         Application.Exit();
+            // };
 
             //popup
             this.KeyDown += (o, e) =>
             {
-                // if (e.KeyCode == Keys.Escape)
-                // {
-                //     if (MainForm == null)
-                //     {
-                //         MainForm = new MainForm();
-                //         MainForm.FormClosed += (sender, args) =>
-                //         {
-                //             MainForm = null;
-                //         };
-                //         MainForm.Show();
-                //     }
-                //     else
-                //     {
-                //         MainForm.BringToFront();
-                //     }
-                // }
+                if (e.KeyCode == Keys.Escape)
+                {
+                    if (MainForm == null)
+                    {
+                        MainForm = new MainForm();
+                        MainForm.FormClosed += (sender, args) =>
+                        {
+                            MainForm = null;
+                        };
+                        MainForm.Show();
+                    }
+                    else
+                    {
+                        MainForm.BringToFront();
+                    }
+                }
                 if (e.KeyCode == Keys.A)
                     balanceLeft.State = (int)BalanceState.Left;
                 if (e.KeyCode == Keys.S)
