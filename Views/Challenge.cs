@@ -7,6 +7,7 @@ using Entities;
 using Entities.EmptyShapes;
 using Entities.Shapes;
 using Utils;
+using Views.Components;
 
 namespace Views
 {
@@ -37,12 +38,13 @@ namespace Views
         bool showLine = false;
         int counter = 0;
 
-        int[] wheights;
+        int[] weights;
 
         public Challenge()
         {
+            BtnFinish btnFinish = null;
             int[] array = { 2, 3, 5, 8, 10 };
-            this.wheights = Functions.ShuffleWeights(array);
+            this.weights = Functions.ShuffleWeights(array);
             this.balanceLeft = new Balance(
                 200 * ClientScreen.WidthFactor,
                 100 * ClientScreen.HeightFactor,
@@ -112,6 +114,12 @@ namespace Views
                 Onstart();
                 this.tm.Start();
 
+                UserData.Current.RealCircleWeight = weights[0];
+                UserData.Current.RealPentagonWeight = weights[1];
+                UserData.Current.RealSquareWeight = weights[2];
+                UserData.Current.RealStarWeight = weights[3];
+                UserData.Current.RealTriangleWeight = weights[4];
+
                 inputCircle = new InputUser(
                     pb.Width * 0.85f,
                     pb.Height * 0.15f,
@@ -119,12 +127,12 @@ namespace Views
                     pb.Height * 0.04f,
                     ImageProcessing.GetImage(@"./Assets/Shapes/pieces/Bola.png") as Bitmap
                 );
-                inputTriangle = new InputUser(
+                inputPentagon = new InputUser(
                     pb.Width * 0.85f,
                     pb.Height * 0.20f,
                     pb.Width * 0.1f,
                     pb.Height * 0.04f,
-                    ImageProcessing.GetImage(@"./Assets/Shapes/pieces/Triangulo.png") as Bitmap
+                    ImageProcessing.GetImage(@"./Assets/Shapes/pieces/Pentagono.png") as Bitmap
                 );
                 inputSquare = new InputUser(
                     pb.Width * 0.85f,
@@ -134,24 +142,26 @@ namespace Views
                     ImageProcessing.GetImage(@"./Assets/Shapes/pieces/Quadrado.png") as Bitmap
                 )
                 {
-                    Content = wheights[2].ToString(),
+                    Content = weights[2].ToString(),
                     Disable = true
                 };
-
-                inputPentagon = new InputUser(
+                inputStar = new InputUser(
                     pb.Width * 0.85f,
                     pb.Height * 0.30f,
                     pb.Width * 0.1f,
                     pb.Height * 0.04f,
-                    ImageProcessing.GetImage(@"./Assets/Shapes/pieces/Pentagono.png") as Bitmap
+                    ImageProcessing.GetImage(@"./Assets/Shapes/pieces/Estrela.png") as Bitmap
                 );
-                inputStar = new InputUser(
+                inputTriangle = new InputUser(
                     pb.Width * 0.85f,
                     pb.Height * 0.35f,
                     pb.Width * 0.1f,
                     pb.Height * 0.04f,
-                    ImageProcessing.GetImage(@"./Assets/Shapes/pieces/Estrela.png") as Bitmap
+                    ImageProcessing.GetImage(@"./Assets/Shapes/pieces/Triangulo.png") as Bitmap
                 );
+                
+                btnFinish = new BtnFinish(pb.Width * 0.85f, pb.Height * 0.85f, pb.Width*0.104f, pb.Height*0.092f, "Finalizar");
+                btnFinish.DrawButton(g);
             };
 
             this.pb.MouseMove += (o, e) =>
@@ -169,6 +179,12 @@ namespace Views
                 isDown = false;
             };
 
+            //Tirar quando for gerar o executavel
+            this.FormClosed  += delegate
+            {
+                Application.Exit();
+            };
+
             this.tm.Tick += (o, e) =>
             {
                 g.Clear(Color.FromArgb(250, 249, 246));
@@ -180,12 +196,26 @@ namespace Views
                 inputPentagon.DrawInputSprite(g, pb);
                 inputStar.DrawInputSprite(g, pb);
                 textForResult(o, e);
+                btnFinish.DrawButton(g);
                 Frame();
                 pb.Refresh();
             };
 
             pb.MouseClick += (o, e) =>
             {
+                if(btnFinish.Rect.Contains(e.X, e.Y))
+                {
+                    UserData.Current.InputCircleWeight = Convert.ToInt32(inputCircle.Content);
+                    UserData.Current.InputPentagonWeight = Convert.ToInt32(inputPentagon.Content);
+                    UserData.Current.InputSquareWeight = Convert.ToInt32(inputSquare.Content);
+                    UserData.Current.InputStarWeight = Convert.ToInt32(inputStar.Content);
+                    UserData.Current.InputTriangleWeight = Convert.ToInt32(inputTriangle.Content);
+                    UserData.Current.DateFinish = DateTime.Now;
+                    btnFinish.FinishChallenge();
+                    // foreach(var weight in wheights)
+                    //     MessageBox.Show(weight.ToString());
+                }
+
                 if (
                     inputCircle.Rect.Contains(e.X, e.Y)
                     && !inputCircle.IsTyping
@@ -389,7 +419,7 @@ namespace Views
                     550 * ClientScreen.WidthFactor,
                     800 * ClientScreen.HeightFactor,
                     100 * ClientScreen.WidthFactor,
-                    wheights[0]
+                    weights[0]
                 );
                 shapes.Add(circle);
                 emptyCircle.AddFirst(circle);
@@ -399,7 +429,7 @@ namespace Views
                     800 * ClientScreen.HeightFactor,
                     100 * ClientScreen.WidthFactor,
                     100 * ClientScreen.WidthFactor,
-                    wheights[1]
+                    weights[1]
                 );
                 shapes.Add(pentagon);
                 emptyPentagon.AddFirst(pentagon);
@@ -408,7 +438,7 @@ namespace Views
                     350 * ClientScreen.WidthFactor,
                     800 * ClientScreen.HeightFactor,
                     100 * ClientScreen.WidthFactor,
-                    wheights[2]
+                    weights[2]
                 );
                 shapes.Add(square);
                 emptySquare.AddFirst(square);
@@ -418,7 +448,7 @@ namespace Views
                     800 * ClientScreen.HeightFactor,
                     100 * ClientScreen.WidthFactor,
                     100 * ClientScreen.WidthFactor,
-                    wheights[3]
+                    weights[3]
                 );
                 shapes.Add(star);
                 emptyStar.AddFirst(star);
@@ -428,7 +458,7 @@ namespace Views
                     800 * ClientScreen.HeightFactor,
                     100 * ClientScreen.WidthFactor,
                     100 * ClientScreen.WidthFactor,
-                    wheights[4]
+                    weights[4]
                 );
                 shapes.Add(triangle);
                 emptyTriangle.AddFirst(triangle);

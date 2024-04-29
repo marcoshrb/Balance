@@ -12,7 +12,7 @@ public class EmptyStar : EmptyShape
     }
 
     public EmptyStar(PointF pos, float width, float height)
-        : base(Resources.Star, width, height)
+        : base(Resources.StarEmpty, width, height)
     {
         this.Position = pos;
         this.Name = "Estrela";

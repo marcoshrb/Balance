@@ -55,6 +55,7 @@ public class Login : Form
 
         this.Load += (o, e) =>
         {
+            UserData.New();
             this.bmp = new Bitmap(pb.Width, pb.Height);
             g = Graphics.FromImage(this.bmp);
             g.InterpolationMode = InterpolationMode.NearestNeighbor;
@@ -71,7 +72,7 @@ public class Login : Form
                 "Insira seu nome completo:"
             );
             input.DrawInput(g);
-            btnConfirm = new BtnConfirm(pb.Width * 0.85f, pb.Height * 0.85f, 200, 100, "Confirmar");
+            btnConfirm = new BtnConfirm(pb.Width * 0.85f, pb.Height * 0.85f, pb.Width*0.104f, pb.Height*0.092f, "Confirmar");
             btnConfirm.DrawButton(g);
         };
 
@@ -126,7 +127,7 @@ public class Login : Form
             Location = new Point(pb.Width / 2 - 75, pb.Height / 2 - 10),
             Size = new Size(150, 20),
             Visible = true,
-            ReadOnly = false
+            Enabled = false
         };
         textBox.TextChanged += textForResult;
         this.Controls.Add(textBox);
@@ -136,20 +137,22 @@ public class Login : Form
             if (input.Rect.Contains(e.X, e.Y) && !isTyping)
             {
                 isTyping = true;
-                textBox.ReadOnly = false;
+                textBox.Enabled = true;
+                textBox.Focus();
             }
             else
             {
                 isTyping = false;
-                textBox.ReadOnly = true;
+                textBox.Enabled = false;
+                this.showLine = false;
             }
 
             if (btnConfirm.Rect.Contains(e.X, e.Y))
             {
                 if (this.userName.Length > 0)
                 {
-                    UserData.UserName = this.userName;
-                    UserData.DateStart = DateTime.Now;
+                    UserData.Current.UserName = this.userName;
+                    UserData.Current.DateStart = DateTime.Now;
                     this.Hide();
                     challenge.Show();
                 }
