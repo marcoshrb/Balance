@@ -2,4 +2,4 @@ using System.Windows.Forms;
 using Views;
 
 ApplicationConfiguration.Initialize();
-Application.Run(new Completed());
+Application.Run(new Login());
