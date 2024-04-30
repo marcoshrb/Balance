@@ -18,6 +18,7 @@ public class Login : Form
     private Timer tm;
     public string UserName;
     private bool showLine = false;
+    public MainForm MainForm { get; set; }
     private int counter = 0;
     private InputUser input = null;
     private string userName = "";
@@ -50,7 +51,21 @@ public class Login : Form
         this.KeyDown += (o, e) =>
         {
             if (e.KeyCode == Keys.Escape)
-                Application.Exit();
+                {
+                    if (MainForm == null)
+                    {
+                        MainForm = new MainForm();
+                        MainForm.FormClosed += (sender, args) =>
+                        {
+                            MainForm = null;
+                        };
+                        MainForm.Show();
+                    }
+                    else
+                    {
+                        MainForm.BringToFront();
+                    }
+                }
         };
 
         this.Load += (o, e) =>

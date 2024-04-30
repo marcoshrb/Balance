@@ -44,22 +44,9 @@ public class BtnFinish : BtnBase
         StreamWriter writer = new StreamWriter(csvPath, false);
         // if(!fileExists)
         //     writer.WriteLine("Name,Start,End,RealCircle,RealPentagon,RealSquare,RealStar,RealTriangle,InputCircle,InputPentagon,InputSquare,InputStar,InputTriangle");
-        
+
         writer.WriteLine(
-            $"{UserData.Current.UserName
-            },{UserData.Current.DateStart
-            },{UserData.Current.DateFinish
-            },{UserData.Current.RealCircleWeight
-            },{UserData.Current.RealPentagonWeight
-            },{UserData.Current.RealSquareWeight
-            },{UserData.Current.RealStarWeight
-            },{UserData.Current.RealTriangleWeight
-            },{UserData.Current.InputCircleWeight
-            },{UserData.Current.InputPentagonWeight
-            },{UserData.Current.InputSquareWeight
-            },{UserData.Current.InputStarWeight
-            },{UserData.Current.InputTriangleWeight
-        }");
+            $"{UserData.Current.UserName},{UserData.Current.DateStart},{UserData.Current.DateFinish},{UserData.Current.RealCircleWeight},{UserData.Current.RealPentagonWeight},{UserData.Current.RealSquareWeight},{UserData.Current.RealStarWeight},{UserData.Current.RealTriangleWeight},{UserData.Current.InputCircleWeight},{UserData.Current.InputPentagonWeight},{UserData.Current.InputSquareWeight},{UserData.Current.InputStarWeight},{UserData.Current.InputTriangleWeight}");
 
         writer.Flush();
         writer.Close();
@@ -96,15 +83,17 @@ public class BtnFinish : BtnBase
             }
 
             // Salvar o arquivo Excel
-                // package.Save();
-            SaveExcel(package);
+            package.Save();
         }
+
+        // Limpar o arquivo CSV
+        File.WriteAllText(csvFilePath, string.Empty);
     }
 
     private void SaveExcel(ExcelPackage package)
     {
         bool saved = false;
-        while(!saved)
+        while (!saved)
         {
             try
             {
