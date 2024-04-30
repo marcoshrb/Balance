@@ -48,19 +48,25 @@ namespace Views
 
         int[] weights;
 
+        BtnFinish btnFinish = null;
         public Challenge()
         {
             UserData.Current.DateStart = DateTime.Now;
             Completed completed = new();
 
-            BtnFinish btnFinish = null;
             horario = new Label
             {
                 Text = "Horas",
-                Size = new Size(185, 50),
+                Size = new Size(
+                    (int)(185 * ClientScreen.WidthFactor),
+                    (int)(50 * ClientScreen.HeightFactor)
+                    ),
                 BackColor = Color.White,
-                Font = new Font("Arial", 30, FontStyle.Bold),
-                Location = new Point(ClientSize.Width - 242, 43),
+                Font = new Font("Arial", 30 * ClientScreen.WidthFactor, FontStyle.Bold),
+                Location = new Point(
+                    ClientSize.Width - (int)(282 * ClientScreen.WidthFactor),
+                    (int)(43 * ClientScreen.HeightFactor)
+                ),
                 Anchor = AnchorStyles.Top | AnchorStyles.Right
             };
             Controls.Add(horario);
@@ -68,8 +74,14 @@ namespace Views
             cronometro = new PictureBox
             {
                 BackColor = Color.White,
-                Size = new Size(190, 55),
-                Location = new Point(ClientSize.Width - 245, 40),
+                Size = new Size(
+                    (int)(190 * ClientScreen.WidthFactor),
+                    (int)(55 * ClientScreen.HeightFactor)
+                    ),
+                Location = new Point(
+                    ClientSize.Width - (int)(285 * ClientScreen.WidthFactor),
+                    (int)(40 * ClientScreen.HeightFactor)
+                ),
                 Anchor = AnchorStyles.Top | AnchorStyles.Right
             };
             Controls.Add(cronometro);
@@ -77,8 +89,11 @@ namespace Views
             borda = new PictureBox
             {
                 BackColor = Color.Black,
-                Size = new Size(200, 65),
-                Location = new Point(ClientSize.Width - 250, 35),
+                Size = new Size(
+                    (int)(200 * ClientScreen.WidthFactor),
+                    (int)(65 * ClientScreen.HeightFactor)
+                    ),
+                Location = new Point(ClientSize.Width - (int)(290 * ClientScreen.WidthFactor), (int)(35 * ClientScreen.HeightFactor)),
                 Anchor = AnchorStyles.Top | AnchorStyles.Right
             };
             Controls.Add(borda);
@@ -214,6 +229,9 @@ namespace Views
             this.pb.MouseMove += (o, e) =>
             {
                 cursor = e.Location;
+                if (btnFinish.Rect.Contains(cursor))
+                    Cursor.Current = Cursors.Hand;
+
             };
 
             this.pb.MouseDown += (o, e) =>
@@ -270,7 +288,7 @@ namespace Views
                         completed.Show();
                         saveFlag = true;
                     }
-                    catch(System.Exception)
+                    catch (System.Exception)
                     { }
                 }
                 btnFinish.DrawButton(g);
@@ -293,7 +311,7 @@ namespace Views
                 {
                     try
                     {
-                        if(!int.TryParse(inputCircle.Content, out var valor1) || 
+                        if (!int.TryParse(inputCircle.Content, out var valor1) ||
                             !int.TryParse(inputPentagon.Content, out var valor2) ||
                             !int.TryParse(inputSquare.Content, out var valor3) ||
                             !int.TryParse(inputStar.Content, out var valor4) ||
@@ -578,6 +596,8 @@ namespace Views
 
         void Frame()
         {
+
+
             this.counter++;
             Image logo = ImageProcessing.GetImage(@"Assets\logo.png");
             Size newSize = new Size(

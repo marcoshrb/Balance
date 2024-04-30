@@ -55,14 +55,15 @@ namespace Views
             {
                 Text = "Horas",
                 Size = new Size(
-                    (int)(185 * ClientScreen.WidthFactor), 
+                    (int)(185 * ClientScreen.WidthFactor),
                     (int)(50 * ClientScreen.HeightFactor)
                     ),
                 BackColor = Color.White,
-                Font = new Font("Arial", 30, FontStyle.Bold),
+                Font = new Font("Arial", 30 * ClientScreen.WidthFactor, FontStyle.Bold),
                 Location = new Point(
-                    (int)(- 242 * ClientScreen.WidthFactor), 
-                    (int)((43)* ClientScreen.HeightFactor)),
+                    ClientSize.Width - (int)(282 * ClientScreen.WidthFactor),
+                    (int)(43 * ClientScreen.HeightFactor)
+                ),
                 Anchor = AnchorStyles.Top | AnchorStyles.Right
             };
             Controls.Add(horario);
@@ -71,13 +72,13 @@ namespace Views
             {
                 BackColor = Color.White,
                 Size = new Size(
-                    (int)(190 * ClientScreen.WidthFactor), 
+                    (int)(190 * ClientScreen.WidthFactor),
                     (int)(55 * ClientScreen.HeightFactor)
                     ),
                 Location = new Point(
-                    (int)(- 245 * ClientScreen.WidthFactor), 
+                    ClientSize.Width - (int)(285 * ClientScreen.WidthFactor),
                     (int)(40 * ClientScreen.HeightFactor)
-                    ),
+                ),
                 Anchor = AnchorStyles.Top | AnchorStyles.Right
             };
             Controls.Add(cronometro);
@@ -86,13 +87,10 @@ namespace Views
             {
                 BackColor = Color.Black,
                 Size = new Size(
-                    (int)(200 * ClientScreen.WidthFactor), 
-                    (int)(65* ClientScreen.HeightFactor)
+                    (int)(200 * ClientScreen.WidthFactor),
+                    (int)(65 * ClientScreen.HeightFactor)
                     ),
-                Location = new Point(
-                    (int)(- 250 * ClientScreen.WidthFactor), 
-                    (int)(35 * ClientScreen.HeightFactor)
-                    ),
+                Location = new Point(ClientSize.Width - (int)(290 * ClientScreen.WidthFactor), (int)(35 * ClientScreen.HeightFactor)),
                 Anchor = AnchorStyles.Top | AnchorStyles.Right
             };
             Controls.Add(borda);
@@ -161,7 +159,7 @@ namespace Views
 
             this.Load += (o, e) =>
             {
-                btnContinue = new BtnConfirm(pb.Width * 0.85f, pb.Height * 0.72f, pb.Width*0.104f, pb.Height*0.092f, "Continuar");
+                btnContinue = new BtnConfirm(pb.Width * 0.85f, pb.Height * 0.72f, pb.Width * 0.104f, pb.Height * 0.092f, "Continuar");
                 this.bmp = new Bitmap(pb.Width, pb.Height);
                 g = Graphics.FromImage(this.bmp);
                 g.InterpolationMode = InterpolationMode.NearestNeighbor;
@@ -170,7 +168,7 @@ namespace Views
                 Onstart();
                 this.tm.Start();
 
-                btnReset = new BtnReset(pb.Width * 0.85f, pb.Height * 0.85f, pb.Width*0.104f, pb.Height*0.092f, "Resetar");
+                btnReset = new BtnReset(pb.Width * 0.85f, pb.Height * 0.85f, pb.Width * 0.104f, pb.Height * 0.092f, "Resetar");
                 btnReset.DrawButton(g);
 
                 inputCircle = new InputUser(
@@ -218,6 +216,10 @@ namespace Views
             this.pb.MouseMove += (o, e) =>
             {
                 cursor = e.Location;
+                if (btnContinue.Rect.Contains(cursor))
+                    Cursor.Current = Cursors.Hand;
+                if (btnReset.Rect.Contains(cursor))
+                    Cursor.Current = Cursors.Hand;
             };
 
             this.pb.MouseDown += (o, e) =>
@@ -260,7 +262,7 @@ namespace Views
 
             pb.MouseClick += (o, e) =>
             {
-                if(btnContinue.Rect.Contains(e.X, e.Y))
+                if (btnContinue.Rect.Contains(e.X, e.Y))
                 {
                     this.Hide();
                     this.challenge = new();
