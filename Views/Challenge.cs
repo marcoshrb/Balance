@@ -83,7 +83,7 @@ namespace Views
             };
             Controls.Add(borda);
 
-            horarioFuturo = DateTime.Now.AddMinutes(0.2); //tempo
+            horarioFuturo = DateTime.Now.AddMinutes(30); //tempo
 
             int[] array = { 2, 3, 5, 8, 10 };
             this.weights = Functions.ShuffleWeights(array);
@@ -293,11 +293,21 @@ namespace Views
                 {
                     try
                     {
-                        UserData.Current.InputCircleWeight = TryParseOrDefault(inputCircle.Content);
-                        UserData.Current.InputPentagonWeight = TryParseOrDefault(inputPentagon.Content);
-                        UserData.Current.InputSquareWeight = TryParseOrDefault(inputSquare.Content);
-                        UserData.Current.InputStarWeight = TryParseOrDefault(inputStar.Content);
-                        UserData.Current.InputTriangleWeight = TryParseOrDefault(inputTriangle.Content);
+                        if(!int.TryParse(inputCircle.Content, out var valor1) || 
+                            !int.TryParse(inputPentagon.Content, out var valor2) ||
+                            !int.TryParse(inputSquare.Content, out var valor3) ||
+                            !int.TryParse(inputStar.Content, out var valor4) ||
+                            !int.TryParse(inputTriangle.Content, out var valor5)
+                        )
+                        {
+                            MessageBox.Show("Valores inválidos");
+                            return;
+                        }
+                        UserData.Current.InputCircleWeight = valor1;
+                        UserData.Current.InputPentagonWeight = valor2;
+                        UserData.Current.InputSquareWeight = valor3;
+                        UserData.Current.InputStarWeight = valor4;
+                        UserData.Current.InputTriangleWeight = valor5;
                         UserData.Current.DateFinish = DateTime.Now;
                         btnFinish.FinishChallenge();
                         btnFinish.CsvToExcel();

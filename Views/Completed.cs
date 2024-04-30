@@ -15,7 +15,7 @@ namespace Views
         Graphics g;
         Timer tm;
         Font font = new Font("Arial", 36, FontStyle.Bold);
-        Font font2 = new Font("Arial", 24);
+        Font font2 = new Font("Arial", 24 * ClientScreen.WidthFactor);
         Screen screen = Screen.PrimaryScreen;
         StringFormat format = new StringFormat();
         public Completed()
