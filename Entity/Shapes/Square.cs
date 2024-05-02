@@ -18,5 +18,6 @@ public class Square : Shape
         this.Name = "Quadrado";
     }
 
-    public override void Update() { }
+    public override object Clone()
+        => new Square(this.X, this.Y, this.Width, this.Weight);
 }

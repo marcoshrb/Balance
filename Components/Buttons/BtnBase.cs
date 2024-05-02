@@ -1,6 +1,6 @@
 using System.Drawing;
 
-namespace Views.Components;
+namespace Components;
 
 public abstract class BtnBase
 {

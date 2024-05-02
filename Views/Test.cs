@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms;
+using Components;
 using Entities;
 using Entities.EmptyShapes;
 using Entities.Shapes;
 using Utils;
-using Views.Components;
 
 namespace Views
 {
@@ -724,28 +724,6 @@ namespace Views
                 if (!isDown)
                     this.selected = null;
             }
-
-            foreach (var item in balanceLeft.ShapesOnLeftSide)
-                if (item.Shapes.Count != 0)
-                    item.DrawString(this.g);
-
-            foreach (var item in balanceLeft.ShapesOnRightSide)
-                if (item.Shapes.Count != 0)
-                    item.DrawString(this.g);
-
-            foreach (var item in balanceRight.ShapesOnLeftSide)
-                if (item.Shapes.Count != 0)
-                    item.DrawString(this.g);
-
-            foreach (var item in balanceRight.ShapesOnRightSide)
-                if (item.Shapes.Count != 0)
-                    item.DrawString(g);
-
-            foreach (var shape in shapes)
-                shape.UpdateHitbox();
-
-            foreach (var fixedInitial in fixedInitials)
-                fixedInitial.DrawString(this.g);
         }
         void DrawRectangleBack(int x_, int y_, int width_, int height_)
         {

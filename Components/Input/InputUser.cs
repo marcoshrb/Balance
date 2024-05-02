@@ -3,7 +3,7 @@ using System.Reflection.Emit;
 using System.Runtime.CompilerServices;
 using System.Windows.Forms;
 
-namespace Views;
+namespace Components;
 
 public class InputUser
 {

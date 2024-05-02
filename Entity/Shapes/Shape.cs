@@ -1,9 +1,10 @@
+using System;
 using System.Drawing;
 using Utils;
 
 namespace Entities.Shapes;
 
-public abstract class Shape : Entity
+public abstract class Shape : Entity, ICloneable
 {
     protected Shape(float x, float y, float width, float height, int weight, Bitmap Img)
         : base(x, y, width, height)
@@ -82,4 +83,8 @@ public abstract class Shape : Entity
             Position = new PointF(cursor.X - ptClick.Value.X, cursor.Y - ptClick.Value.Y);
         }
     }
+
+    public abstract object Clone();
+        
+
 }

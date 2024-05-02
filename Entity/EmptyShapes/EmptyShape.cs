@@ -29,7 +29,8 @@ public abstract class EmptyShape
     Brush brush = new SolidBrush(Color.Black);
     Font font = new Font("Arial", 12);
 
-    public EmptyShape(Bitmap image, float width, float height){
+    public EmptyShape(Bitmap image, float width, float height)
+    {
         Sprite spriteCreate = new Sprite(
             ImageProcessing.ResizeImage(
                 image,
@@ -60,19 +61,28 @@ public abstract class EmptyShape
         );
 
         Sprite.DrawSprite(g, rect);
+
+        foreach (var shape in Shapes)
+            shape.Draw(g);
+
+        DrawString(g);
     }
 
-    public void DrawString(Graphics g)
+    public void DrawString(Graphics g, bool drawZero = false)
     {
+        var count = Shapes.Count;
+        if (!drawZero && count < 0)
+            return;
+
         foreach (var item in Shapes)
-        {
             item.Position = this.Position;
-        }
 
         Font font = new Font("Arial", 22);
-        var format = new StringFormat();
-        format.Alignment = StringAlignment.Center;
-        format.LineAlignment = StringAlignment.Center;
+        var format = new StringFormat
+        {
+            Alignment = StringAlignment.Center,
+            LineAlignment = StringAlignment.Center
+        };
         var Qty = Shapes.Count;
 
         g.DrawString(
@@ -106,4 +116,5 @@ public abstract class EmptyShape
             qtd++;
         }
     }
+
 }

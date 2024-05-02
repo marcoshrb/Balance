@@ -17,4 +17,7 @@ public class Star : Shape
     {
         this.Name = "Estrela";
     }
+
+    public override object Clone()
+        => new Star(this.X, this.Y, this.Width, this.Height, this.Weight);
 }

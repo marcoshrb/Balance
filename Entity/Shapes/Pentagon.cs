@@ -17,4 +17,7 @@ public class Pentagon : Shape
     {
         this.Name = "Pentagono";
     }
+
+    public override object Clone()
+        => new Pentagon(this.X, this.Y, this.Width, this.Height, this.Weight);
 }

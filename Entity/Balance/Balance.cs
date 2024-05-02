@@ -81,7 +81,6 @@ public class Balance : Entity
                 shape.CanMove = false;
                 shape.Position = fixedBalance.Position;
                 fixedBalance.Add(shape);
-                UpdateBalanceState();
             }
         }
     }
@@ -95,7 +94,6 @@ public class Balance : Entity
                 shape.CanMove = false;
                 shape.Position = fixedBalance.Position;
                 fixedBalance.Add(shape);
-                UpdateBalanceState();
             }
         }
     }

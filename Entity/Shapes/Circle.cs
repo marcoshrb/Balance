@@ -1,5 +1,4 @@
 using System.Drawing;
-using System.Drawing;
 using Utils;
 
 namespace Entities.Shapes;
@@ -18,4 +17,8 @@ public class Circle : Shape
     {
         this.Name = "Bola";
     }
+
+    public override object Clone()
+        => new Circle(this.X, this.Y, this.Width, this.Weight);
+    
 }

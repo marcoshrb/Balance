@@ -17,4 +17,7 @@ public class Triangle : Shape
     {
         this.Name = "Triangulo";
     }
+
+    public override object Clone()
+        => new Triangle(this.X, this.Y, this.Width, this.Height, this.Weight);
 }

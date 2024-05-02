@@ -1,13 +1,10 @@
 using System.Drawing;
 using System.IO;
-using System;
-using System.Reflection.Metadata.Ecma335;
-using System.Windows.Forms;
 using OfficeOpenXml;
 using System.Linq;
 using System.Threading;
 
-namespace Views.Components;
+namespace Components;
 
 public class BtnFinish : BtnBase
 {
