@@ -53,4 +53,8 @@ public class InputUser
         if(!this.IsTyping)
             g.DrawString(this.Content, font, brush, this.Rect);
     }
+
+    public void Select(){
+        
+    }
 }

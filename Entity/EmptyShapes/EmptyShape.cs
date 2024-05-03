@@ -62,8 +62,8 @@ public abstract class EmptyShape
 
         Sprite.DrawSprite(g, rect);
 
-        foreach (var shape in Shapes)
-            shape.Draw(g);
+        // foreach (var shape in Shapes)
+        //     shape.Draw(g);
 
         DrawString(g);
     }
@@ -71,7 +71,7 @@ public abstract class EmptyShape
     public void DrawString(Graphics g, bool drawZero = false)
     {
         var count = Shapes.Count;
-        if (!drawZero && count < 0)
+        if (!drawZero && count == 0)
             return;
 
         foreach (var item in Shapes)
