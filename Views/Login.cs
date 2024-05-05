@@ -5,36 +5,32 @@ using System.Windows.Forms;
 using Components;
 using Utils;
 
+
 namespace Views;
 
 public class Login : Form
 {
     private PictureBox header;
-
-    private Security security { get; set; }
-
     private PictureBox pb;
     private Bitmap bmp;
     private Graphics g;
     private Timer tm;
-
     private bool showLine = false;
+    public Security security { get; set; }
     private int counter = 0;
-
     private InputUser input = null;
     private string userName = "";
-    BtnConfirm btnConfirm = null;
 
-    TextBox textBox = null;
-
-    bool isTyping = false;
-    int countSize = 0;
-    Test test = new();
     public Login()
     {
+        TextBox textBox = null;
         this.WindowState = FormWindowState.Maximized;
         this.FormBorderStyle = FormBorderStyle.None;
         this.Text = "Desafio";
+        bool isTyping = false;
+        int countSize = 0;
+        BtnConfirm btnConfirm = null;
+        Test test = new();
 
         this.header = new PictureBox
         {
@@ -52,20 +48,22 @@ public class Login : Form
 
         this.KeyDown += (o, e) =>
         {
-            switch (e.KeyCode)
-            {
-                case Keys.Escape:
-                    if (security is not null)
-                        security.BringToFront();
-
-                    security = new Security();
-                    security.FormClosed += (sender, args) =>
+            if (e.KeyCode == Keys.Escape)
+                {
+                    if (security == null)
                     {
-                        security = null;
-                    };
-                    security.Show();
-                    break;
-            }
+                        security = new Security();
+                        security.FormClosed += (sender, args) =>
+                        {
+                            security = null;
+                        };
+                        security.Show();
+                    }
+                    else
+                    {
+                        security.BringToFront();
+                    }
+                }
         };
 
         this.Load += (o, e) =>
@@ -76,6 +74,7 @@ public class Login : Form
             g.InterpolationMode = InterpolationMode.NearestNeighbor;
             g.Clear(Color.FromArgb(250, 249, 246));
             this.pb.Image = bmp;
+            DrawLogo();
             this.tm.Start();
 
             input = new InputUser(
@@ -85,8 +84,56 @@ public class Login : Form
                 40,
                 "Insira seu nome completo:"
             );
-            btnConfirm = new BtnConfirm(pb.Width * 0.85f, pb.Height * 0.85f, pb.Width * 0.104f, pb.Height * 0.092f, "Confirmar");
+            input.DrawInput(g);
+            btnConfirm = new BtnConfirm(pb.Width * 0.85f, pb.Height * 0.85f, pb.Width*0.104f, pb.Height*0.092f, "Confirmar");
+            btnConfirm.DrawButton(g);
         };
+
+        void textForResult(object sender, EventArgs e)
+        {
+            if (isTyping)
+            {
+                userName = textBox.Text;
+                string text = "";
+                if (counter % 15 == 0)
+                    this.showLine = !this.showLine;
+                if (showLine)
+                    text = textBox.Text + "|";
+                else
+                    text = textBox.Text;
+                Font font = new Font("Arial", 24);
+                SizeF textSize = g.MeasureString(text, font);
+                if ((int)textSize.Width / (int)input.Rect.Width > countSize)
+                {
+                    input.Rect = new RectangleF(
+                        input.Rect.X,
+                        input.Rect.Y,
+                        input.Rect.Width,
+                        input.Rect.Height + textSize.Height
+                    );
+                    countSize = (int)textSize.Width / (int)input.Rect.Width;
+                }
+                if ((int)textSize.Width / (int)input.Rect.Width < countSize)
+                {
+                    g.Clear(Color.FromArgb(250, 249, 246));
+                    DrawLogo();
+                    input.Rect = new RectangleF(
+                        input.Rect.X,
+                        input.Rect.Y,
+                        input.Rect.Width,
+                        input.Rect.Height - textSize.Height
+                    );
+                    input.DrawInput(g);
+                    countSize = (int)textSize.Width / (int)input.Rect.Width;
+                    btnConfirm.DrawButton(g);
+                }
+                Brush brush = Brushes.Black;
+                SolidBrush white = new SolidBrush(Color.FromArgb(250, 249, 246));
+                g.FillRectangle(white, input.Rect);
+                input.DrawInputRect(g);
+                g.DrawString(text, font, brush, input.Rect);
+            }
+        }
 
         textBox = new TextBox
         {
@@ -130,63 +177,13 @@ public class Login : Form
 
         tm.Tick += (o, e) =>
         {
-            g.Clear(Color.FromArgb(250, 249, 246));
             Frame();
             pb.Refresh();
             textForResult(o, e);
         };
     }
-    void textForResult(object sender, EventArgs e)
-    {
-        if (isTyping)
-        {
-            userName = textBox.Text;
-            string text = "";
-            if (counter % 15 == 0)
-                this.showLine = !this.showLine;
-            if (showLine)
-                text = textBox.Text + "|";
-            else
-                text = textBox.Text;
-            Font font = new Font("Arial", 24);
-            SizeF textSize = g.MeasureString(text, font);
-            if ((int)textSize.Width / (int)input.Rect.Width > countSize)
-            {
-                input.Rect = new RectangleF(
-                    input.Rect.X,
-                    input.Rect.Y,
-                    input.Rect.Width,
-                    input.Rect.Height + textSize.Height
-                );
-                countSize = (int)textSize.Width / (int)input.Rect.Width;
-            }
-            if ((int)textSize.Width / (int)input.Rect.Width < countSize)
-            {
-                input.Rect = new RectangleF(
-                    input.Rect.X,
-                    input.Rect.Y,
-                    input.Rect.Width,
-                    input.Rect.Height - textSize.Height
-                );
-                countSize = (int)textSize.Width / (int)input.Rect.Width;
-                btnConfirm.DrawButton(g);
-            }
-            Brush brush = Brushes.Black;
-            SolidBrush white = new SolidBrush(Color.FromArgb(250, 249, 246));
-            g.FillRectangle(white, input.Rect);
-            input.DrawInputRect(g);
-            g.DrawString(text, font, brush, input.Rect);
-        }
-    }
 
-    void Frame()
-    {
-        DrawLogo();
-        input.DrawInput(g);
-        this.counter++;
-    }
-
-    public void DrawLogo()
+    void DrawLogo()
     {
         Image logo = ImageProcessing.GetImage(@"Assets\logo.png");
         Size newSize = new Size(
@@ -198,5 +195,10 @@ public class Login : Form
         int x = margin;
         int y = ClientScreen.Height - resizedLogo.Height - margin;
         g.DrawImage(resizedLogo, new Point(x, y));
+    }
+
+    void Frame()
+    {
+        this.counter++;
     }
 }
