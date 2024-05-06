@@ -72,13 +72,13 @@ public class Balance : Entity
 
     public void AddLeftShape(Shape shape)
     {
-        foreach (var fixedBalance in LeftShapes)
+        foreach (var fixedPositions in LeftShapes)
         {
-            if (shape.Name == fixedBalance.Name)
+            if (shape.Name == fixedPositions.Name)
             {
                 shape.CanMove = false;
-                shape.Position = fixedBalance.Position;
-                fixedBalance.Add(shape);
+                shape.Location = fixedPositions.Location;
+                fixedPositions.Add(shape);
             }
         }
     }
@@ -90,7 +90,7 @@ public class Balance : Entity
             if (shape.Name == fixedBalance.Name)
             {
                 shape.CanMove = false;
-                shape.Position = fixedBalance.Position;
+                shape.Location = fixedBalance.Location;
                 fixedBalance.Add(shape);
             }
         }
@@ -109,15 +109,14 @@ public class Balance : Entity
             State = (int)BalanceState.None;
     }
 
-    public int CalculateTotalWeight(IEnumerable<EmptyShape> SideBalance)
+    public int CalculateTotalWeight(IEnumerable<EmptyShape> BalanceSide)
     {
         var sum = 0;
-        foreach (var fixedBalance in SideBalance)
+        foreach (var fixedPosition in BalanceSide)
         {
-            foreach (var item in fixedBalance.Shapes)
-            {
-                sum += item.Weight;
-            }
+            foreach (var shape in fixedPosition.Shapes)
+                sum += shape.Weight;
+
         }
         return sum;
     }
@@ -333,19 +332,19 @@ public class Balance : Entity
 
         // LeftShapes
 
-        emptyCircle.Position = new(position1.Left, position1.Top);
-        emptyPentagon.Position = new(position2.Left, position2.Top);
-        emptySquare.Position = new(position3.Left, position3.Top);
-        emptyStar.Position = new(position4.Left, position4.Top);
-        emptyTriangle.Position = new(position5.Left, position5.Top);
+        emptyCircle.Location = new(position1.Left, position1.Top);
+        emptyPentagon.Location = new(position2.Left, position2.Top);
+        emptySquare.Location = new(position3.Left, position3.Top);
+        emptyStar.Location = new(position4.Left, position4.Top);
+        emptyTriangle.Location = new(position5.Left, position5.Top);
 
         // RightShapes
 
-        emptyCircle2.Position = new(position6.Left, position6.Top);
-        emptyPentagon2.Position = new(position7.Left, position7.Top);
-        emptySquare2.Position = new(position8.Left, position8.Top);
-        emptyStar2.Position = new(position9.Left, position9.Top);
-        emptyTriangle2.Position = new(position10.Left, position10.Top);
+        emptyCircle2.Location = new(position6.Left, position6.Top);
+        emptyPentagon2.Location = new(position7.Left, position7.Top);
+        emptySquare2.Location = new(position8.Left, position8.Top);
+        emptyStar2.Location = new(position9.Left, position9.Top);
+        emptyTriangle2.Location = new(position10.Left, position10.Top);
     }
 
     public void Animate()

@@ -9,27 +9,27 @@ public abstract class Shape : Entity, ICloneable
     protected Shape(float x, float y, float width, float height, int weight, Bitmap Img)
         : base(x, y, width, height)
     {
-        this.Position = new PointF(x, y);
+        this.Location = new PointF(x, y);
         Sprite spriteCreate = new Sprite(Img) { Rect = new RectangleF(0, 0, width, width) };
         this.Sprite = spriteCreate;
         this.Weight = weight;
-        this.Hitbox = new RectangleF(this.Position, new SizeF(width, width));
+        this.Hitbox = new RectangleF(this.Location, new SizeF(width, width));
     }
 
     public Sprite Sprite { get; set; }
     public SizeF Size => Sprite.Rect.Size;
-    public PointF Position { get; set; }
+    public PointF Location { get; set; }
     public bool CanMove = true;
     public string Name { get; set; }
-    public PointF LastPosition { get; set; }
+    public PointF LastLocation { get; set; }
     public int Weight { get; set; }
     public RectangleF Rectangle
     {
         get
         {
             return new RectangleF(
-                (int)Position.X,
-                (int)Position.Y,
+                (int)Location.X,
+                (int)Location.Y,
                 (int)Size.Width,
                 (int)Size.Height
             );
@@ -42,8 +42,8 @@ public abstract class Shape : Entity, ICloneable
     public override void Draw(Graphics g)
     {
         var rect = new RectangleF(
-            (int)Position.X,
-            (int)Position.Y,
+            (int)Location.X,
+            (int)Location.Y,
             (int)Size.Width,
             (int)Size.Height
         );
@@ -55,8 +55,8 @@ public abstract class Shape : Entity, ICloneable
     public void UpdateHitbox()
     {
         var rect = new RectangleF(
-            (int)Position.X,
-            (int)Position.Y,
+            (int)Location.X,
+            (int)Location.Y,
             (int)Size.Width,
             (int)Size.Height
         );
@@ -67,8 +67,8 @@ public abstract class Shape : Entity, ICloneable
     {
         float _x,
             _y;
-        _x = cursor.X - this.Position.X;
-        _y = cursor.Y - this.Position.Y;
+        _x = cursor.X - this.Location.X;
+        _y = cursor.Y - this.Location.Y;
         ptClick = new PointF(_x, _y);
         return this;
     }
@@ -80,7 +80,7 @@ public abstract class Shape : Entity, ICloneable
             if (ptClick is null)
                 return;
 
-            Position = new PointF(cursor.X - ptClick.Value.X, cursor.Y - ptClick.Value.Y);
+            Location = new PointF(cursor.X - ptClick.Value.X, cursor.Y - ptClick.Value.Y);
         }
     }
 

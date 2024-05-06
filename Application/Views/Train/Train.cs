@@ -67,7 +67,7 @@ public partial class Train : Form
         {
             Dock = DockStyle.Top,
             Height = (int)(16 * ClientScreen.HeightFactor),
-            BackgroundImage = Image.FromFile(@"Assets\rainbow.png"),
+            BackgroundImage = Resources.Rainbow,
             BackgroundImageLayout = ImageLayout.Stretch
         };
         this.Controls.Add(header);
@@ -110,11 +110,11 @@ public partial class Train : Form
         this.pb.MouseMove += (o, e) =>
         {
             this.cursor = e.Location;
-            if (btnContinue.Rect.Contains(cursor))
+            if (btnContinue.Hitbox.Contains(cursor))
                 Cursor.Current = Cursors.Hand;
-            if (btnReset.Rect.Contains(cursor))
+            if (btnReset.Hitbox.Contains(cursor))
                 Cursor.Current = Cursors.Hand;
-            if (btnVerify.Rect.Contains(cursor))
+            if (btnVerify.Hitbox.Contains(cursor))
                 Cursor.Current = Cursors.Hand;
         };
 
@@ -132,9 +132,6 @@ public partial class Train : Form
         {
             g.Clear(Color.FromArgb(250, 249, 246));
 
-            // DrawRectangleBack(290, 750, 1000, 200);
-            // DrawRectangleBack(1550, -100, 500, 1300);
-
             textForResult(o, e);
             Frame();
 
@@ -151,17 +148,17 @@ public partial class Train : Form
 
         pb.MouseClick += (o, e) =>
         {
-            if (btnVerify.Rect.Contains(e.X, e.Y))
+            if (btnVerify.Hitbox.Contains(e.X, e.Y))
                 btnVerify.OnClick(balanceRight, balanceLeft);
 
-            if (btnContinue.Rect.Contains(e.X, e.Y))
+            if (btnContinue.Hitbox.Contains(e.X, e.Y))
             {
                 this.Hide();
                 this.challenge = new();
                 challenge.Show();
             }
 
-            if (btnReset.Rect.Contains(e.X, e.Y))
+            if (btnReset.Hitbox.Contains(e.X, e.Y))
                 Onstart();
 
             if (
@@ -312,11 +309,11 @@ public partial class Train : Form
 
     private void Onstart()
     {
+        InitializeWeights();
         InitializeBalances();
         InitializeButtons();
         InitializeInputs();
         InitializeShapes();
-        InitializeWeights();
     }
 
     private void Frame()
@@ -331,9 +328,9 @@ public partial class Train : Form
         DrawInput();
         DrawBalances();
 
-        btnReset.DrawButton(g);
-        btnContinue.DrawButton(g);
-        btnVerify.DrawButton(g);
+        btnReset.Draw(g);
+        btnContinue.Draw(g);
+        btnVerify.Draw(g);
 
         DrawShapes();
     }

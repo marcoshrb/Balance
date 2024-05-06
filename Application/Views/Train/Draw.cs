@@ -52,7 +52,7 @@ public partial class Train
         if (isDown && cusorInForm && selected is null)
         {
             this.selected = shape.OnSelect(cursor);
-            selected.LastPosition = selected.Position;
+            selected.LastLocation = selected.Location;
         }
 
         if (selected is not null)
@@ -60,7 +60,7 @@ public partial class Train
             if (isDown)
                 selected.OnMove(cursor);
             if (!isDown)
-                selected.Position = selected.LastPosition;
+                selected.Location = selected.LastLocation;
         }
         shape.Draw(this.g);
     }
@@ -96,7 +96,7 @@ public partial class Train
 
     public void DrawLogo()
     {
-        Image logo = ImageProcessing.GetImage(@"Assets\logo.png");
+        Image logo = Resources.Logo;
         Size newSize = new Size(
             (int)(170 * ClientScreen.WidthFactor),
             (int)(38 * ClientScreen.WidthFactor)

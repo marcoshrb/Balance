@@ -14,7 +14,7 @@ public class EmptyCircle : EmptyShape
     public EmptyCircle(PointF pos, float width, float height)
         : base(Resources.CircleEmpty, width, height)
     {
-        this.Position = pos;
+        this.Location = pos;
         this.Name = "Bola";
     }
 }

@@ -12,26 +12,26 @@ public class BtnFinish : BtnBase
 
     public BtnFinish(float X, float Y, float width, float height, string text)
     {
-        this.Rect = new RectangleF(X, Y, width, height);
+        this.Hitbox = new RectangleF(X, Y, width, height);
         this.text = text;
     }
 
-    public override void DrawButton(Graphics g)
+    public override void Draw(Graphics g)
     {
-        Font font = new Font("Arial bold", this.Rect.Width * 0.12f);
+        Font font = new Font("Arial bold", this.Hitbox.Width * 0.12f);
         SizeF textSize = g.MeasureString(this.text, font);
 
-        ShadowRect(this.Rect);
+        ShadowRect(this.Hitbox);
         DrawShadow(g);
 
-        g.FillRectangle(Brushes.Green, this.Rect);
+        g.FillRectangle(Brushes.Green, this.Hitbox);
         g.DrawString(
             this.text,
             font,
             Brushes.White,
             new PointF(
-                this.Rect.X + (this.Rect.Width / 2 - textSize.Width / 2),
-                this.Rect.Y + (this.Rect.Height / 2 - textSize.Height / 2)
+                this.Hitbox.X + (this.Hitbox.Width / 2 - textSize.Width / 2),
+                this.Hitbox.Y + (this.Hitbox.Height / 2 - textSize.Height / 2)
             )
         );
     }
@@ -53,8 +53,6 @@ public class BtnFinish : BtnBase
         string excelFilePath = @"S:\COM\Human_Resources\01.Engineering_Tech_School\02.Internal\5 - Aprendizes\2 - Desenvolvimento de Sistemas\3 - Desenvolvimento de Sistemas 2023\Marcos Henrique\teste.xlsx";
         string csvFilePath = "teste.csv";
         string defaultCsvFilePath = "default.csv";
-
-        bool exists = File.Exists(excelFilePath);
 
         using (ExcelPackage package = new ExcelPackage(new FileInfo(excelFilePath)))
         {
@@ -89,7 +87,6 @@ public class BtnFinish : BtnBase
                 }
                 newRow++;
             }
-
             SaveExcel(package, excelFilePath);
         }
     }

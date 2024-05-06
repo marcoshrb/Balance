@@ -14,7 +14,7 @@ public class EmptySquare : EmptyShape
     public EmptySquare(PointF pos, float width, float height)
         : base(Resources.SquareEmpty, width, height)
     {
-        this.Position = pos;
+        this.Location = pos;
         this.Name = "Quadrado";
     }
 }

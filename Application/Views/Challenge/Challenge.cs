@@ -70,7 +70,7 @@ public partial class Challenge : Form
         {
             Dock = DockStyle.Top,
             Height = (int)(16 * ClientScreen.HeightFactor),
-            BackgroundImage = ImageProcessing.GetImage(@"Assets\rainbow.png"),
+            BackgroundImage = Resources.Rainbow,
             BackgroundImageLayout = ImageLayout.Stretch
         };
         this.Controls.Add(header);
@@ -113,7 +113,7 @@ public partial class Challenge : Form
         this.pb.MouseMove += (o, e) =>
         {
             this.cursor = e.Location;
-            if (btnFinish.Rect.Contains(cursor))
+            if (btnFinish.Hitbox.Contains(cursor))
                 Cursor.Current = Cursors.Hand;
         };
 
@@ -130,9 +130,6 @@ public partial class Challenge : Form
         this.tm.Tick += (o, e) =>
         {
             g.Clear(Color.FromArgb(250, 249, 246));
-
-            // DrawRectangleBack(290, 750, 1000, 200);
-            // DrawRectangleBack(1550, -100, 500, 1300);
 
             textForResult(o, e);
             stopwatch.Update();
@@ -171,10 +168,10 @@ public partial class Challenge : Form
 
         pb.MouseClick += (o, e) =>
         {
-            if (btnFinish.Rect.Contains(e.X, e.Y))
+            if (btnFinish.Hitbox.Contains(e.X, e.Y))
                 SaveData(completed);
 
-            if (btnVerify.Rect.Contains(e.X, e.Y))
+            if (btnVerify.Hitbox.Contains(e.X, e.Y))
                 btnVerify.OnClick(balanceRight, balanceLeft);
 
             if (
@@ -327,11 +324,11 @@ public partial class Challenge : Form
     {
         BackRect = Resources.BackRect;
 
+        InitializeWeights();
         InitializeBalances();
         InitializeButtons();
         InitializeInputs();
         InitializeShapes();
-        InitializeWeights();
     }
 
     private void Frame()
@@ -346,8 +343,8 @@ public partial class Challenge : Form
         DrawInput();
         DrawBalances();
 
-        btnFinish.DrawButton(g);
-        btnVerify.DrawButton(g);
+        btnFinish.Draw(g);
+        btnVerify.Draw(g);
 
         DrawShapes();
     }
@@ -420,13 +417,13 @@ public partial class Challenge : Form
         try
         {
             if (!int.TryParse(inputCircle.Content, out var valor1) ||
-                !int.TryParse(inputPentagon.Content, out var valor2) ||
-                !int.TryParse(inputSquare.Content, out var valor3) ||
-                !int.TryParse(inputStar.Content, out var valor4) ||
-                !int.TryParse(inputTriangle.Content, out var valor5)
-            )
+                        !int.TryParse(inputPentagon.Content, out var valor2) ||
+                        !int.TryParse(inputSquare.Content, out var valor3) ||
+                        !int.TryParse(inputStar.Content, out var valor4) ||
+                        !int.TryParse(inputTriangle.Content, out var valor5)
+                    )
             {
-                MessageBox.Show("Valores inválidos");
+                MessageBox.Show("Valores são inválidos");
                 return;
             }
             UserData.Current.InputCircleWeight = valor1;
@@ -440,9 +437,9 @@ public partial class Challenge : Form
             this.Hide();
             nextForm.Show();
         }
-        catch (Exception)
+        catch (Exception ex)
         {
-            MessageBox.Show("Valores inválidos");
+            MessageBox.Show(ex.Message);
         }
     }
 }

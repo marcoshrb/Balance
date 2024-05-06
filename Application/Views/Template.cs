@@ -23,7 +23,7 @@ namespace Views
             {
                 Dock = DockStyle.Top,
                 Height = (int)(16 * ClientScreen.HeightFactor),
-                BackgroundImage = Image.FromFile(@"Assets\rainbow.png"),
+                BackgroundImage = Resources.Rainbow,
                 BackgroundImageLayout = ImageLayout.Stretch
             };
             this.Controls.Add(header);
@@ -59,7 +59,7 @@ namespace Views
 
         void Onstart()
         {
-            Image logo = ImageProcessing.GetImage(@"Assets\logo.png");
+            Image logo = Resources.Logo;
             Size newSize = new Size(
                 (int)(170 * ClientScreen.WidthFactor),
                 (int)(38 * ClientScreen.WidthFactor)

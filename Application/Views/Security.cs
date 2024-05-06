@@ -124,7 +124,7 @@ namespace Views
         {
             if (inputTextBox.Text != "0000")
             {
-                MessageBox.Show("Senha incorreta. Tente novamente.");
+                MessageBox.Show("Senha inserida incorreta. Tente novamente.");
                 inputTextBox.Text = "";
                 this.Close();
             }

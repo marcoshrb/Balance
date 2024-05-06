@@ -10,17 +10,17 @@ public abstract class EmptyShape
 {
     public Sprite Sprite { get; set; }
     public SizeF Size => Sprite.Rect.Size;
-    public PointF Position { get; set; }
+    public PointF Location { get; set; }
     public List<Shape> Shapes = new List<Shape>();
-    public String Name { get; set; }
+    public string Name { get; set; }
     protected int qtd { get; set; } = 0;
     public RectangleF Rectangle
     {
         get
         {
             return new RectangleF(
-                (int)Position.X,
-                (int)Position.Y,
+                (int)Location.X,
+                (int)Location.Y,
                 (int)Size.Width,
                 (int)Size.Height
             );
@@ -42,8 +42,8 @@ public abstract class EmptyShape
         )
         {
             Rect = new RectangleF(
-            Position.X,
-            Position.Y,
+            Location.X,
+            Location.Y,
             (int)(width * ClientScreen.WidthFactor),
             (int)(height * ClientScreen.WidthFactor)
         )
@@ -54,8 +54,8 @@ public abstract class EmptyShape
     public void Draw(Graphics g)
     {
         var rect = new RectangleF(
-            (int)Position.X,
-            (int)Position.Y,
+            (int)Location.X,
+            (int)Location.Y,
             (int)Size.Width,
             (int)Size.Height
         );
@@ -75,7 +75,7 @@ public abstract class EmptyShape
             return;
 
         foreach (var item in Shapes)
-            item.Position = this.Position;
+            item.Location = this.Location;
 
         Font font = new Font("Arial", 22);
         var format = new StringFormat
@@ -89,8 +89,8 @@ public abstract class EmptyShape
             Qty.ToString(),
             font,
             brush,
-            this.Position.X + (Size.Width / 2),
-            this.Position.Y + (Size.Height / 2),
+            this.Location.X + (Size.Width / 2),
+            this.Location.Y + (Size.Height / 2),
             format
         );
     }
@@ -102,7 +102,7 @@ public abstract class EmptyShape
             Shapes.Add(shape);
             shape.Sprite.img = ImageProcessing.ResizeImage(shape.Sprite.img, new((int)this.Size.Width, (int)this.Size.Height));
             shape.CanMove = false;
-            shape.Position = this.Position;
+            shape.Location = this.Location;
             qtd++;
         }
     }
@@ -112,7 +112,7 @@ public abstract class EmptyShape
         if (shape.Name == this.Name)
         {
             Shapes.Add(shape);
-            shape.Position = this.Position;
+            shape.Location = this.Location;
             qtd++;
         }
     }

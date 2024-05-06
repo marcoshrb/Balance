@@ -36,7 +36,7 @@ public class Login : Form
         {
             Dock = DockStyle.Top,
             Height = (int)(16 * ClientScreen.HeightFactor),
-            BackgroundImage = Image.FromFile(@"Assets\rainbow.png"),
+            BackgroundImage = Resources.Rainbow,
             BackgroundImageLayout = ImageLayout.Stretch
         };
         this.Controls.Add(header);
@@ -86,7 +86,7 @@ public class Login : Form
             );
             input.DrawInput(g);
             btnConfirm = new BtnConfirm(pb.Width * 0.85f, pb.Height * 0.85f, pb.Width*0.104f, pb.Height*0.092f, "Confirmar");
-            btnConfirm.DrawButton(g);
+            btnConfirm.Draw(g);
         };
 
         void textForResult(object sender, EventArgs e)
@@ -125,7 +125,7 @@ public class Login : Form
                     );
                     input.DrawInput(g);
                     countSize = (int)textSize.Width / (int)input.Rect.Width;
-                    btnConfirm.DrawButton(g);
+                    btnConfirm.Draw(g);
                 }
                 Brush brush = Brushes.Black;
                 SolidBrush white = new SolidBrush(Color.FromArgb(250, 249, 246));
@@ -160,7 +160,7 @@ public class Login : Form
                 this.showLine = false;
             }
 
-            if (btnConfirm.Rect.Contains(e.X, e.Y))
+            if (btnConfirm.Hitbox.Contains(e.X, e.Y))
             {
                 if (this.userName.Length > 0)
                 {
@@ -171,7 +171,7 @@ public class Login : Form
                     train.Show();
                 }
                 else
-                    MessageBox.Show("Vazio");
+                    MessageBox.Show("Vazio, Preencha os campos com seus dados");
             }
         };
 
@@ -185,7 +185,7 @@ public class Login : Form
 
     void DrawLogo()
     {
-        Image logo = ImageProcessing.GetImage(@"Assets\logo.png");
+        Image logo = Resources.Logo;
         Size newSize = new Size(
             (int)(170 * ClientScreen.WidthFactor),
             (int)(38 * ClientScreen.WidthFactor)

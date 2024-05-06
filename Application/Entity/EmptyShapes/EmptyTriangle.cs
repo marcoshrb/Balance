@@ -14,7 +14,7 @@ public class EmptyTriangle : EmptyShape
     public EmptyTriangle(PointF pos, float width, float height)
         : base(Resources.TriangleEmpty, width, height)
     {
-        this.Position = pos;
+        this.Location = pos;
         this.Name = "Triangulo";
     }
 }

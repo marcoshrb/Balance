@@ -27,7 +27,7 @@ public class Completed : Form
         {
             Dock = DockStyle.Top,
             Height = (int)(16 * ClientScreen.HeightFactor),
-            BackgroundImage = Image.FromFile(@"Assets\rainbow.png"),
+            BackgroundImage = Resources.Rainbow,
             BackgroundImageLayout = ImageLayout.Stretch
         };
         this.Controls.Add(header);
@@ -51,23 +51,13 @@ public class Completed : Form
             g.InterpolationMode = InterpolationMode.NearestNeighbor;
             g.Clear(Color.FromArgb(250, 249, 246));
             this.pb.Image = bmp;
-            Onstart();
+            Start();
         };
     }
 
-    void Onstart()
+    private void Start()
     {
-        Image logo = ImageProcessing.GetImage(@"Assets\logo.png");
-        Size newSize = new Size(
-            (int)(170 * ClientScreen.WidthFactor),
-            (int)(38 * ClientScreen.WidthFactor)
-        );
-        Image resizedLogo = ImageProcessing.ResizeImage(logo, newSize);
-        int margin = (int)(14 * ClientScreen.HeightFactor);
-        int x = margin;
-        int y = ClientScreen.Height - resizedLogo.Height - margin;
-        g.DrawImage(resizedLogo, new Point(x, y));
-
+        DrawLogo();
 
         format.Alignment = StringAlignment.Center;
         format.LineAlignment = StringAlignment.Center;
@@ -77,5 +67,18 @@ public class Completed : Form
 
     }
 
+    public void DrawLogo()
+    {
+        Image logo = Resources.Logo;
+        Size newSize = new Size(
+            (int)(170 * ClientScreen.WidthFactor),
+            (int)(38 * ClientScreen.WidthFactor)
+        );
+        Image resizedLogo = ImageProcessing.ResizeImage(logo, newSize);
+        int margin = (int)(14 * ClientScreen.HeightFactor);
+        int x = margin;
+        int y = ClientScreen.Height - resizedLogo.Height - margin;
+        g.DrawImage(resizedLogo, new Point(x, y));
+    }
 }
 
