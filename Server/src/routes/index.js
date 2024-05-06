@@ -1,9 +1,9 @@
 const bodyParser = require('body-parser');
-const person = require('./person.js');
+const challenge = require('./challenge.js');
 
 module.exports = (app) => {
     app.use(
         bodyParser.json(),
-        person
+        challenge
     )
 }
