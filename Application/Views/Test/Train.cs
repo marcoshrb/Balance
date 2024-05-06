@@ -11,7 +11,7 @@ using Utils;
 
 namespace Views;
 
-public partial class Test : Form
+public partial class Train : Form
 {
     Security security;
 
@@ -54,7 +54,7 @@ public partial class Test : Form
 
     Image BackRect;
 
-    public Test()
+    public Train()
     {
         stopwatch = new(new(10, 100), new(200, 60));
         BackRect = Resources.BackRect;
@@ -62,7 +62,6 @@ public partial class Test : Form
         this.WindowState = FormWindowState.Maximized;
         this.FormBorderStyle = FormBorderStyle.None;
         this.Text = "Teste";
-        this.shapes = new List<Shape>();
 
         this.header = new PictureBox
         {
@@ -110,7 +109,7 @@ public partial class Test : Form
 
         this.pb.MouseMove += (o, e) =>
         {
-            cursor = e.Location;
+            this.cursor = e.Location;
             if (btnContinue.Rect.Contains(cursor))
                 Cursor.Current = Cursors.Hand;
             if (btnReset.Rect.Contains(cursor))
@@ -135,10 +134,6 @@ public partial class Test : Form
 
             // DrawRectangleBack(290, 750, 1000, 200);
             // DrawRectangleBack(1550, -100, 500, 1300);
-
-            btnReset.DrawButton(g);
-            btnContinue.DrawButton(g);
-            btnVerify.DrawButton(g);
 
             textForResult(o, e);
             Frame();
@@ -317,22 +312,40 @@ public partial class Test : Form
 
     private void Onstart()
     {
-        InitializeWeights();
         InitializeBalances();
-        InitializeShapes();
-        InitializeInputs();
         InitializeButtons();
+        InitializeInputs();
+        InitializeShapes();
+        InitializeWeights();
     }
 
     private void Frame()
     {
         this.counter++;
+
         DrawTitle("TESTE");
         DrawLogo();
+
         stopwatch.Draw(g);
+
         DrawInput();
         DrawBalances();
+
+        btnReset.DrawButton(g);
+        btnContinue.DrawButton(g);
+        btnVerify.DrawButton(g);
+
         DrawShapes();
+    }
+
+    private void AddShapes(EmptyShape emptyShape, Shape shape, int qtd = 5)
+    {
+        for (int i = 0; i < qtd; i++)
+        {
+            var clonedShape = shape.Clone() as Shape;
+            emptyShape.AddFirst(clonedShape);
+            this.shapes.Add(clonedShape);
+        }
     }
 
     private void DropShape()
@@ -385,16 +398,6 @@ public partial class Test : Form
 
             if (!isDown)
                 this.selected = null;
-        }
-    }
-
-    private void AddShapes(EmptyShape emptyShape, Shape shape, int qtd = 5)
-    {
-        for (int i = 0; i < qtd; i++)
-        {
-            var clonedShape = shape.Clone() as Shape;
-            emptyShape.AddFirst(clonedShape);
-            this.shapes.Add(clonedShape);
         }
     }
 }

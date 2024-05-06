@@ -4,7 +4,7 @@ using Utils;
 
 namespace Views;
 
-public partial class Test
+public partial class Train
 {
     Font font = new Font("neology", 72 * ClientScreen.WidthFactor, FontStyle.Bold);
     SolidBrush brush = new SolidBrush(Color.FromArgb(234, 0, 22));

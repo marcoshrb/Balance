@@ -7,7 +7,7 @@ using System.Drawing;
 using Utils;
 
 namespace Views;
-public partial class Test
+public partial class Train
 {
     private void InitializeWeights()
     {

@@ -82,6 +82,7 @@ public partial class Challenge
 
     private void InitializeShapes()
     {
+        this.fixedPositions = new List<EmptyShape>();
         this.shapes = new List<Shape>();
         EmptyCircle emptyCircle = new EmptyCircle(
             new PointF(350 * ClientScreen.WidthFactor, 800 * ClientScreen.HeightFactor),
@@ -161,5 +162,11 @@ public partial class Challenge
             UserData.Current.RealTriangleWeight
         );
         AddShapes(emptyTriangle, triangle);
+    }
+
+    private void InitializeButtons()
+    {
+        btnFinish = new BtnFinish(pb.Width * 0.85f, pb.Height * 0.85f, pb.Width * 0.104f, pb.Height * 0.092f, "Finalizar");
+        btnVerify = new BtnInitial(pb.Width * 0.344f, pb.Height * 0.60f, pb.Width * 0.104f, pb.Height * 0.092f, "Verificar");
     }
 }
