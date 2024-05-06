@@ -22,8 +22,7 @@ public partial class Train : Form
     Graphics g;
     Timer tm;
 
-    Balance balanceLeft;
-    Balance balanceRight;
+    Balance balance;
 
     List<Shape> shapes;
     private List<EmptyShape> fixedPositions;
@@ -56,17 +55,17 @@ public partial class Train : Form
 
     public Train()
     {
-        stopwatch = new(new(10, 100), new(200, 60));
+        stopwatch = new(new(1460, 96), new(310, 90));
         BackRect = Resources.BackRect;
 
         this.WindowState = FormWindowState.Maximized;
         this.FormBorderStyle = FormBorderStyle.None;
-        this.Text = "Teste";
+        this.Text = "Treino";
 
         this.header = new PictureBox
         {
             Dock = DockStyle.Top,
-            Height = (int)(16 * ClientScreen.HeightFactor),
+            Height = (int)(25 * ClientScreen.HeightFactor),
             BackgroundImage = Image.FromFile(@"Assets\rainbow.png"),
             BackgroundImageLayout = ImageLayout.Stretch
         };
@@ -100,7 +99,7 @@ public partial class Train : Form
             this.bmp = new Bitmap(pb.Width, pb.Height);
             g = Graphics.FromImage(this.bmp);
             g.InterpolationMode = InterpolationMode.NearestNeighbor;
-            g.Clear(Color.FromArgb(250, 249, 246));
+            g.Clear(Color.FromArgb(250, 250, 250));
             this.pb.Image = bmp;
             this.tm.Start();
 
@@ -130,10 +129,10 @@ public partial class Train : Form
 
         this.tm.Tick += (o, e) =>
         {
-            g.Clear(Color.FromArgb(250, 249, 246));
+            g.Clear(Color.FromArgb(250, 250, 250));
 
-            // DrawRectangleBack(290, 750, 1000, 200);
-            // DrawRectangleBack(1550, -100, 500, 1300);
+            DrawRectangleBack(362, 830, 688, 192);
+            DrawRectangleBack(1415, 54, 407, 974);
 
             textForResult(o, e);
             Frame();
@@ -152,7 +151,7 @@ public partial class Train : Form
         pb.MouseClick += (o, e) =>
         {
             if (btnVerify.Rect.Contains(e.X, e.Y))
-                btnVerify.OnClick(balanceRight, balanceLeft);
+                btnVerify.OnClick(balance);
 
             if (btnContinue.Rect.Contains(e.X, e.Y))
             {
@@ -173,8 +172,6 @@ public partial class Train : Form
                 inputCircle.IsTyping = true;
                 inputTriangle.IsTyping = false;
                 inputSquare.IsTyping = false;
-                inputPentagon.IsTyping = false;
-                inputStar.IsTyping = false;
                 if (inputCircle.Content == "")
                     textBox.Text = "";
                 else
@@ -193,8 +190,6 @@ public partial class Train : Form
                 inputTriangle.IsTyping = true;
                 inputCircle.IsTyping = false;
                 inputSquare.IsTyping = false;
-                inputPentagon.IsTyping = false;
-                inputStar.IsTyping = false;
                 if (inputTriangle.Content == "")
                     textBox.Text = "";
                 else
@@ -213,8 +208,6 @@ public partial class Train : Form
                 inputSquare.IsTyping = true;
                 inputCircle.IsTyping = false;
                 inputTriangle.IsTyping = false;
-                inputPentagon.IsTyping = false;
-                inputStar.IsTyping = false;
                 if (inputSquare.Content == "")
                     textBox.Text = "";
                 else
@@ -224,53 +217,11 @@ public partial class Train : Form
                 textBox.Select(textBox.Text.Length, 0);
                 textBox.Focus();
             }
-            else if (
-                inputPentagon.Rect.Contains(e.X, e.Y)
-                && !inputPentagon.IsTyping
-                && !inputPentagon.Disable
-            )
-            {
-                inputPentagon.IsTyping = true;
-                inputCircle.IsTyping = false;
-                inputTriangle.IsTyping = false;
-                inputSquare.IsTyping = false;
-                inputStar.IsTyping = false;
-                if (inputPentagon.Content == "")
-                    textBox.Text = "";
-                else
-                    textBox.Text = inputPentagon.Content;
-                crrInput = inputPentagon;
-                textBox.Enabled = true;
-                textBox.Select(textBox.Text.Length, 0);
-                textBox.Focus();
-            }
-            else if (
-                inputStar.Rect.Contains(e.X, e.Y)
-                && !inputStar.IsTyping
-                && !inputStar.Disable
-            )
-            {
-                inputStar.IsTyping = true;
-                inputCircle.IsTyping = false;
-                inputTriangle.IsTyping = false;
-                inputSquare.IsTyping = false;
-                inputPentagon.IsTyping = false;
-                if (inputStar.Content == "")
-                    textBox.Text = "";
-                else
-                    textBox.Text = inputStar.Content;
-                crrInput = inputStar;
-                textBox.Enabled = true;
-                textBox.Select(textBox.Text.Length, 0);
-                textBox.Focus();
-            }
             else
             {
                 inputCircle.IsTyping = false;
                 inputTriangle.IsTyping = false;
                 inputSquare.IsTyping = false;
-                inputPentagon.IsTyping = false;
-                inputStar.IsTyping = false;
                 crrInput = null;
                 textBox.Enabled = false;
             }
@@ -312,18 +263,18 @@ public partial class Train : Form
 
     private void Onstart()
     {
+        InitializeWeights();
         InitializeBalances();
         InitializeButtons();
         InitializeInputs();
         InitializeShapes();
-        InitializeWeights();
     }
 
     private void Frame()
     {
         this.counter++;
 
-        DrawTitle("TESTE");
+        DrawTitle("TREINO");
         DrawLogo();
 
         stopwatch.Draw(g);
@@ -352,10 +303,10 @@ public partial class Train : Form
     {
         if (selected is not null)
         {
-            var cusorInside = balanceLeft.LeftHitbox.IntersectsWith(selected.Hitbox);
+            var cusorInside = balance.LeftHitbox.IntersectsWith(selected.Hitbox);
             if (cusorInside && !isDown && selected.CanMove)
             {
-                balanceLeft.AddLeftShape(selected);
+                balance.AddLeftShape(selected);
                 foreach (var fixedInitial in fixedPositions)
                 {
                     if (fixedInitial.Shapes.Contains(selected))
@@ -363,39 +314,16 @@ public partial class Train : Form
                 }
             }
 
-            cusorInside = balanceLeft.RightHitbox.IntersectsWith(selected.Hitbox);
+            cusorInside = balance.RightHitbox.IntersectsWith(selected.Hitbox);
             if (cusorInside && !isDown && selected.CanMove)
             {
-                balanceLeft.AddRightShape(selected);
+                balance.AddRightShape(selected);
                 foreach (var fixedInitial in fixedPositions)
                 {
                     if (fixedInitial.Shapes.Contains(selected))
                         fixedInitial.Shapes.Remove(selected);
                 }
             }
-
-            cusorInside = balanceRight.LeftHitbox.IntersectsWith(selected.Hitbox);
-            if (cusorInside && !isDown && selected.CanMove)
-            {
-                balanceRight.AddLeftShape(selected);
-                foreach (var fixedPosition in fixedPositions)
-                {
-                    if (fixedPosition.Shapes.Contains(selected))
-                        fixedPosition.Shapes.Remove(selected);
-                }
-            }
-
-            cusorInside = balanceRight.RightHitbox.IntersectsWith(selected.Hitbox);
-            if (cusorInside && !isDown && selected.CanMove)
-            {
-                balanceRight.AddRightShape(selected);
-                foreach (var fixedPosition in fixedPositions)
-                {
-                    if (fixedPosition.Shapes.Contains(selected))
-                        fixedPosition.Shapes.Remove(selected);
-                }
-            }
-
             if (!isDown)
                 this.selected = null;
         }

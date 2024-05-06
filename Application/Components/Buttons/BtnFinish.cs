@@ -3,6 +3,7 @@ using System.IO;
 using OfficeOpenXml;
 using System.Linq;
 using System.Threading;
+using System.Drawing.Drawing2D;
 
 namespace Components;
 
@@ -20,11 +21,12 @@ public class BtnFinish : BtnBase
     {
         Font font = new Font("Arial bold", this.Rect.Width * 0.12f);
         SizeF textSize = g.MeasureString(this.text, font);
+        LinearGradientBrush gradientGreen = new LinearGradientBrush(this.Rect, Color.FromArgb(29, 123, 23), Color.FromArgb(79, 209, 52), LinearGradientMode.Horizontal);
 
         ShadowRect(this.Rect);
         DrawShadow(g);
 
-        g.FillRectangle(Brushes.Green, this.Rect);
+        g.FillRectangle(gradientGreen, this.Rect);
         g.DrawString(
             this.text,
             font,

@@ -1,4 +1,5 @@
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using Entities;
 
 namespace Components;
@@ -17,12 +18,13 @@ public class BtnInitial : BtnBase
     {
         Font font = new Font("Arial bold", this.Rect.Width * 0.085f);
         SizeF textSize = g.MeasureString(this.text, font);
+        LinearGradientBrush gradientOrange = new LinearGradientBrush(this.Rect ,Color.FromArgb(255, 145, 77), Color.FromArgb(255, 222, 89), LinearGradientMode.Horizontal);
 
         ShadowRect(this.Rect);
         DrawShadow(g);
 
 
-        g.FillRectangle(Brushes.Orange, this.Rect);
+        g.FillRectangle(gradientOrange, this.Rect);
         g.DrawString(
             this.text,
             font,
@@ -38,5 +40,9 @@ public class BtnInitial : BtnBase
     {
         balanceRigth.Update();
         balanceLeft.Update();
+    }
+    public void OnClick(Balance balance)
+    {
+        balance.Update();
     }
 }

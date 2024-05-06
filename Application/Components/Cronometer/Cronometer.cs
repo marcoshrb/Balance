@@ -28,9 +28,9 @@ namespace Components
                             (int)(size.Height * ClientScreen.HeightFactor - 15 * ClientScreen.HeightFactor)
                         ),
                 BackColor = Color.Transparent,
-                Font = new Font("Arial", 40 * ClientScreen.WidthFactor, FontStyle.Bold),
+                Font = new Font("Arial", 52 * ClientScreen.WidthFactor, FontStyle.Bold),
                 Location = new Point(
-                                (int)(location.X + 21 * ClientScreen.WidthFactor),
+                                (int)(location.X + 60 * ClientScreen.WidthFactor),
                                 (int)location.Y
                             ),
                 Anchor = AnchorStyles.Top | AnchorStyles.Right

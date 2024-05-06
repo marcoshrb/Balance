@@ -2,6 +2,7 @@ using System.Drawing;
 using System.Reflection.Emit;
 using System.Runtime.CompilerServices;
 using System.Windows.Forms;
+using Utils;
 
 namespace Components;
 
@@ -45,7 +46,7 @@ public class InputUser
 
     public void DrawInputSprite(Graphics g, PictureBox pb)
     {
-        g.DrawImage(this.Bmp, new RectangleF(Rect.X - this.Bmp.Width*0.6f, Rect.Y, pb.Width*0.0208f, pb.Width*0.0208f));
+        g.DrawImage(this.Bmp, new RectangleF(Rect.X - 100 * ClientScreen.WidthFactor, Rect.Y - 17 * ClientScreen.HeightFactor, ClientScreen.WidthFactor * 80, ClientScreen.WidthFactor * 80));
         g.DrawRectangle(new Pen(Brushes.Black), this.Rect);
         Brush brush = Brushes.Black;
         SolidBrush white = new SolidBrush(Color.FromArgb(250, 249, 246));
