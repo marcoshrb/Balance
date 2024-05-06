@@ -44,7 +44,7 @@ public partial class Challenge
                 pb.Height * 0.15f,
                 pb.Width * 0.1f,
                 pb.Height * 0.04f,
-                ImageProcessing.GetImage(@"./Assets/Shapes/pieces/Bola.png") as Bitmap
+                Resources.Circle
         )
         {
             Content = UserData.Current.RealCircleWeight.ToString(),
@@ -55,28 +55,28 @@ public partial class Challenge
             pb.Height * 0.20f,
             pb.Width * 0.1f,
             pb.Height * 0.04f,
-            ImageProcessing.GetImage(@"./Assets/Shapes/pieces/Pentagono.png") as Bitmap
+            Resources.Pentagon
         );
         inputSquare = new InputUser(
             pb.Width * 0.85f,
             pb.Height * 0.25f,
             pb.Width * 0.1f,
             pb.Height * 0.04f,
-            ImageProcessing.GetImage(@"./Assets/Shapes/pieces/Quadrado.png") as Bitmap
+            Resources.Square
         );
         inputStar = new InputUser(
             pb.Width * 0.85f,
             pb.Height * 0.30f,
             pb.Width * 0.1f,
             pb.Height * 0.04f,
-            ImageProcessing.GetImage(@"./Assets/Shapes/pieces/Estrela.png") as Bitmap
+            Resources.Star
         );
         inputTriangle = new InputUser(
             pb.Width * 0.85f,
             pb.Height * 0.35f,
             pb.Width * 0.1f,
             pb.Height * 0.04f,
-            ImageProcessing.GetImage(@"./Assets/Shapes/pieces/Triangulo.png") as Bitmap
+            Resources.Triangle
         );
     }
 
