@@ -4,6 +4,7 @@ using Entities.EmptyShapes;
 using Entities.Shapes;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 using Utils;
 
 namespace Views;
@@ -14,11 +15,7 @@ public partial class Challenge
         int[] array = { 2, 3, 5, 8, 10 };
         array = Functions.ShuffleWeights(array);
 
-        UserData.Current.RealCircleWeight = array[2];
-        UserData.Current.RealPentagonWeight = array[1];
-        UserData.Current.RealSquareWeight = array[0];
-        UserData.Current.RealStarWeight = array[3];
-        UserData.Current.RealTriangleWeight = array[4];
+        UserData.Current.RealValues = array.ToArray();
     }
 
     private void InitializeBalances()
@@ -47,7 +44,7 @@ public partial class Challenge
                 Resources.Circle
         )
         {
-            Content = UserData.Current.RealCircleWeight.ToString(),
+            Content = UserData.Current.RealCircleWeight().ToString(),
             Disable = true
         };
         inputPentagon = new InputUser(
@@ -124,7 +121,7 @@ public partial class Challenge
             550 * ClientScreen.WidthFactor,
             800 * ClientScreen.HeightFactor,
             100 * ClientScreen.WidthFactor,
-            UserData.Current.RealCircleWeight
+            UserData.Current.RealCircleWeight()
         );
         AddShapes(emptyCircle, circle);
 
@@ -133,7 +130,7 @@ public partial class Challenge
             800 * ClientScreen.HeightFactor,
             100 * ClientScreen.WidthFactor,
             100 * ClientScreen.WidthFactor,
-            UserData.Current.RealPentagonWeight
+            UserData.Current.RealPentagonWeight()
         );
         AddShapes(emptyPentagon, pentagon);
 
@@ -141,7 +138,7 @@ public partial class Challenge
             350 * ClientScreen.WidthFactor,
             800 * ClientScreen.HeightFactor,
             100 * ClientScreen.WidthFactor,
-            UserData.Current.RealSquareWeight
+            UserData.Current.RealSquareWeight()
         );
         AddShapes(emptySquare, square);
 
@@ -150,7 +147,7 @@ public partial class Challenge
              800 * ClientScreen.HeightFactor,
              100 * ClientScreen.WidthFactor,
              100 * ClientScreen.WidthFactor,
-             UserData.Current.RealStarWeight
+             UserData.Current.RealStarWeight()
         );
         AddShapes(emptyStar, star);
 
@@ -159,7 +156,7 @@ public partial class Challenge
             800 * ClientScreen.HeightFactor,
             100 * ClientScreen.WidthFactor,
             100 * ClientScreen.WidthFactor,
-            UserData.Current.RealTriangleWeight
+            UserData.Current.RealTriangleWeight()
         );
         AddShapes(emptyTriangle, triangle);
     }

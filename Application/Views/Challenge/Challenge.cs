@@ -172,7 +172,10 @@ public partial class Challenge : Form
                 SaveData(completed);
 
             if (btnVerify.Hitbox.Contains(e.X, e.Y))
+            {
                 btnVerify.OnClick(balanceRight, balanceLeft);
+                UserData.Current.MoveCounter++;
+            }
 
             if (
                 inputCircle.Rect.Contains(e.X, e.Y)
@@ -416,21 +419,21 @@ public partial class Challenge : Form
     {
         try
         {
-            if (!int.TryParse(inputCircle.Content, out var valor1) ||
-                        !int.TryParse(inputPentagon.Content, out var valor2) ||
-                        !int.TryParse(inputSquare.Content, out var valor3) ||
-                        !int.TryParse(inputStar.Content, out var valor4) ||
-                        !int.TryParse(inputTriangle.Content, out var valor5)
+            if (!int.TryParse(inputCircle.Content, out var value1) ||
+                        !int.TryParse(inputPentagon.Content, out var value2) ||
+                        !int.TryParse(inputSquare.Content, out var value3) ||
+                        !int.TryParse(inputStar.Content, out var value4) ||
+                        !int.TryParse(inputTriangle.Content, out var value5)
                     )
             {
                 MessageBox.Show("Valores são inválidos");
                 return;
             }
-            UserData.Current.InputCircleWeight = valor1;
-            UserData.Current.InputPentagonWeight = valor2;
-            UserData.Current.InputSquareWeight = valor3;
-            UserData.Current.InputStarWeight = valor4;
-            UserData.Current.InputTriangleWeight = valor5;
+            UserData.Current.InputCircleWeight = value1;
+            UserData.Current.InputPentagonWeight = value2;
+            UserData.Current.InputSquareWeight = value3;
+            UserData.Current.InputStarWeight = value4;
+            UserData.Current.InputTriangleWeight = value5;
             UserData.Current.DateFinish = DateTime.Now;
             btnFinish.FinishChallenge();
             btnFinish.CsvToExcel();

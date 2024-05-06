@@ -3,6 +3,7 @@ using System.IO;
 using OfficeOpenXml;
 using System.Linq;
 using System.Threading;
+using OfficeOpenXml.Style;
 
 namespace Components;
 
@@ -41,8 +42,33 @@ public class BtnFinish : BtnBase
         string csvPath = "./teste.csv";
         StreamWriter writer = new StreamWriter(csvPath, false);
 
-        writer.WriteLine(
-            $"{UserData.Current.UserName},{UserData.Current.DateStart},{UserData.Current.DateFinish},{UserData.Current.RealCircleWeight},{UserData.Current.RealPentagonWeight},{UserData.Current.RealSquareWeight},{UserData.Current.RealStarWeight},{UserData.Current.RealTriangleWeight},{UserData.Current.InputCircleWeight},{UserData.Current.InputPentagonWeight},{UserData.Current.InputSquareWeight},{UserData.Current.InputStarWeight},{UserData.Current.InputTriangleWeight},{UserData.Current.Counter}");
+        string content = $"";
+        content += UserData.Current.UserName + ",";
+        content += UserData.Current.MoveCounter + ",";
+
+        var inputValues = UserData.Current.InputValues();
+        for (int i = 0; i < 5; i++)
+        {
+            if (inputValues[i] == 0)
+                content += "-,";
+            else if (inputValues[i] == UserData.Current.RealValues[i])
+                content += "true,";
+            else
+                content += "false,";
+        }
+
+        content += UserData.Current.DateStart + ",";
+        content += UserData.Current.DateFinish + ",";
+
+        for (int i = 0; i < 5; i++)
+            content += UserData.Current.RealValues[i] + ",";
+
+        for (int i = 0; i < 5; i++)
+            content += inputValues[i] + ",";
+
+        content = content.Remove(content.Length - 1, 1);
+
+        writer.WriteLine(content);
 
         writer.Flush();
         writer.Close();
@@ -68,6 +94,14 @@ public class BtnFinish : BtnBase
                     string[] fields = defaultCsvContent[col].Split(',');
                     for (int i = 0; i < fields.Length; i++)
                     {
+                        worksheet.Cells[1, col + i + 1].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                        worksheet.Cells[1, col + i + 1].Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
+                        worksheet.Cells[1, col + i + 1].Style.Fill.BackgroundColor.SetColor(System.Drawing.Color.FromArgb(47, 117, 181));
+                        worksheet.Cells[1, col + i + 1].Style.Font.Color.SetColor(System.Drawing.Color.White);
+                        worksheet.Cells[1, col + i + 1].Style.Border.Top.Style = ExcelBorderStyle.Thin;
+                        worksheet.Cells[1, col + i + 1].Style.Border.Left.Style = ExcelBorderStyle.Thin;
+                        worksheet.Cells[1, col + i + 1].Style.Border.Right.Style = ExcelBorderStyle.Thin;
+                        worksheet.Cells[1, col + i + 1].Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
                         worksheet.Cells[1, col + i + 1].Value = fields[i];
                     }
                 }
@@ -82,7 +116,32 @@ public class BtnFinish : BtnBase
                 int col = 1;
                 foreach (string field in fields)
                 {
-                    worksheet.Cells[newRow, col].Value = field;
+                    worksheet.Cells[newRow, col].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                    worksheet.Cells[newRow, col].Style.Border.Top.Style = ExcelBorderStyle.Thin;
+                    worksheet.Cells[newRow, col].Style.Border.Left.Style = ExcelBorderStyle.Thin;
+                    worksheet.Cells[newRow, col].Style.Border.Right.Style = ExcelBorderStyle.Thin;
+                    worksheet.Cells[newRow, col].Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
+                    if (field == "true")
+                    {
+                        worksheet.Cells[newRow, col].Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
+                        worksheet.Cells[newRow, col].Style.Fill.BackgroundColor.SetColor(System.Drawing.Color.FromArgb(198, 239, 206));
+                        worksheet.Cells[newRow, col].Style.Font.Color.SetColor(System.Drawing.Color.FromArgb(0, 97, 0));
+                        worksheet.Cells[newRow, col].Value = "✔";
+                    }
+                    else if (field == "false")
+                    {
+                        worksheet.Cells[newRow, col].Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
+                        worksheet.Cells[newRow, col].Style.Fill.BackgroundColor.SetColor(System.Drawing.Color.FromArgb(255, 199, 206));
+                        worksheet.Cells[newRow, col].Style.Font.Color.SetColor(System.Drawing.Color.FromArgb(156, 0, 6));
+                        worksheet.Cells[newRow, col].Value = "❌";
+                    }
+                    else
+                    {
+                        worksheet.Cells[newRow, col].Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
+                        worksheet.Cells[newRow, col].Style.Fill.BackgroundColor.SetColor(System.Drawing.Color.White);
+                        worksheet.Cells[newRow, col].Style.Font.Color.SetColor(System.Drawing.Color.Black);
+                        worksheet.Cells[newRow, col].Value = field;
+                    }
                     col++;
                 }
                 newRow++;
