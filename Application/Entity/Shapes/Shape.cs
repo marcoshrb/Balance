@@ -1,6 +1,7 @@
 using System;
 using System.Drawing;
-using Utils;
+using System.Drawing.Drawing2D;
+using System.Windows.Forms;
 
 namespace Entities.Shapes;
 
@@ -16,6 +17,7 @@ public abstract class Shape : Entity, ICloneable
         this.Hitbox = new RectangleF(this.Location, new SizeF(width, width));
     }
 
+    public bool IsSelected;
     public Sprite Sprite { get; set; }
     public SizeF Size => Sprite.Rect.Size;
     public PointF Location { get; set; }
@@ -48,8 +50,28 @@ public abstract class Shape : Entity, ICloneable
             (int)Size.Height
         );
 
-        // g.DrawRectangle(Pens.Red, rect);
+        if (IsSelected && CanMove)
+            DrawShadow(g);
+
         Sprite.DrawSprite(g, rect);
+    }
+
+    public virtual void DrawShadow(Graphics g)
+    {
+        // MessageBox.Show("bah");
+        var distance = 10;
+        var rec = new Rectangle(
+            (int)(Location.X + distance),
+            (int)(Location.Y + distance),
+            (int)Size.Width + 5,
+            (int)Size.Height + 6
+        );
+
+        Color startColor = Color.FromArgb(150, Color.Black);
+        Color endColor = Color.Transparent;
+
+        var shadowBrush = new LinearGradientBrush(rec, startColor, endColor, LinearGradientMode.ForwardDiagonal);
+        g.FillRectangle(shadowBrush, rec);
     }
 
     public void UpdateHitbox()
@@ -85,6 +107,6 @@ public abstract class Shape : Entity, ICloneable
     }
 
     public abstract object Clone();
-        
+
 
 }

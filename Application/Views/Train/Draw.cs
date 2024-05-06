@@ -48,6 +48,7 @@ public partial class Train
     }
     public void DrawShape(Shape shape)
     {
+        shape.IsSelected = false;
         var cusorInForm = shape.Rectangle.Contains(cursor);
         if (isDown && cusorInForm && selected is null)
         {
@@ -57,6 +58,7 @@ public partial class Train
 
         if (selected is not null)
         {
+            selected.IsSelected = true;
             if (isDown)
                 selected.OnMove(cursor);
             if (!isDown)
