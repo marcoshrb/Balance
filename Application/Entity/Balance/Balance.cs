@@ -35,7 +35,6 @@ public class Balance : Entity
     {
         State = (int)BalanceState.None;
 
-        // LeftShapes
         LeftShapes = new();
 
         emptyCircle = new EmptyCircle(80, 80);
@@ -53,7 +52,6 @@ public class Balance : Entity
         emptyTriangle = new EmptyTriangle(80, 80);
         LeftShapes.Add(emptyTriangle);
 
-        // RightShapes
         RightShapes = new();
 
         emptyCircle2 = new EmptyCircle(80, 80);

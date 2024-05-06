@@ -8,7 +8,6 @@ namespace Components;
 
 public class BtnFinish : BtnBase
 {
-    public RectangleF Rect { get; set; }
     private string text { get; set; }
 
     public BtnFinish(float X, float Y, float width, float height, string text)
@@ -21,6 +20,9 @@ public class BtnFinish : BtnBase
     {
         Font font = new Font("Arial bold", this.Rect.Width * 0.12f);
         SizeF textSize = g.MeasureString(this.text, font);
+
+        ShadowRect(this.Rect);
+        DrawShadow(g);
 
         g.FillRectangle(Brushes.Green, this.Rect);
         g.DrawString(
@@ -37,13 +39,10 @@ public class BtnFinish : BtnBase
     public override void FinishChallenge()
     {
         string csvPath = "./teste.csv";
-        // bool fileExists = File.Exists("teste.csv");
         StreamWriter writer = new StreamWriter(csvPath, false);
-        // if(!fileExists)
-        //     writer.WriteLine("Name,Start,End,RealCircle,RealPentagon,RealSquare,RealStar,RealTriangle,InputCircle,InputPentagon,InputSquare,InputStar,InputTriangle");
 
         writer.WriteLine(
-            $"{UserData.Current.UserName},{UserData.Current.DateStart},{UserData.Current.DateFinish},{UserData.Current.RealCircleWeight},{UserData.Current.RealPentagonWeight},{UserData.Current.RealSquareWeight},{UserData.Current.RealStarWeight},{UserData.Current.RealTriangleWeight},{UserData.Current.InputCircleWeight},{UserData.Current.InputPentagonWeight},{UserData.Current.InputSquareWeight},{UserData.Current.InputStarWeight},{UserData.Current.InputTriangleWeight}");
+            $"{UserData.Current.UserName},{UserData.Current.DateStart},{UserData.Current.DateFinish},{UserData.Current.RealCircleWeight},{UserData.Current.RealPentagonWeight},{UserData.Current.RealSquareWeight},{UserData.Current.RealStarWeight},{UserData.Current.RealTriangleWeight},{UserData.Current.InputCircleWeight},{UserData.Current.InputPentagonWeight},{UserData.Current.InputSquareWeight},{UserData.Current.InputStarWeight},{UserData.Current.InputTriangleWeight},{UserData.Current.Counter}");
 
         writer.Flush();
         writer.Close();
@@ -51,8 +50,11 @@ public class BtnFinish : BtnBase
 
     public void CsvToExcel()
     {
-        string excelFilePath = $"S:/COM/Human_Resources/01.Engineering_Tech_School/02.Internal/5 - Aprendizes/2 - Desenvolvimento de Sistemas/3 - Desenvolvimento de Sistemas 2023/Felipe de Mello Vieira/teste.xlsx";
+        string excelFilePath = @"S:\COM\Human_Resources\01.Engineering_Tech_School\02.Internal\5 - Aprendizes\2 - Desenvolvimento de Sistemas\3 - Desenvolvimento de Sistemas 2023\Marcos Henrique\teste.xlsx";
         string csvFilePath = "teste.csv";
+        string defaultCsvFilePath = "default.csv";
+
+        bool exists = File.Exists(excelFilePath);
 
         using (ExcelPackage package = new ExcelPackage(new FileInfo(excelFilePath)))
         {
@@ -61,12 +63,21 @@ public class BtnFinish : BtnBase
             if (worksheet == null)
             {
                 worksheet = package.Workbook.Worksheets.Add("Sheet1");
+
+                string[] defaultCsvContent = File.ReadAllLines(defaultCsvFilePath);
+                for (int col = 0; col < defaultCsvContent.Length; col++)
+                {
+                    string[] fields = defaultCsvContent[col].Split(',');
+                    for (int i = 0; i < fields.Length; i++)
+                    {
+                        worksheet.Cells[1, col + i + 1].Value = fields[i];
+                    }
+                }
             }
 
-            int lastUsedRow = worksheet.Dimension.End.Row;
+            int lastUsedRow = worksheet.Dimension?.End.Row ?? 0;
             int newRow = lastUsedRow + 1;
 
-            // Ler o conteúdo do arquivo CSV e escrever no Excel a partir da próxima linha vazia
             foreach (string line in File.ReadLines(csvFilePath))
             {
                 string[] fields = line.Split(',');
@@ -79,24 +90,22 @@ public class BtnFinish : BtnBase
                 newRow++;
             }
 
-            // Salvar o arquivo Excel
-            package.Save();
+            SaveExcel(package, excelFilePath);
         }
-
-        // Limpar o arquivo CSV
-        File.WriteAllText(csvFilePath, string.Empty);
     }
 
-    private void SaveExcel(ExcelPackage package)
+    private void SaveExcel(ExcelPackage package, string excelFilePath)
     {
         bool saved = false;
         while (!saved)
         {
             try
             {
-                package.Save();
+                using (FileStream fileStream = new FileStream(excelFilePath, FileMode.Create))
+                {
+                    package.SaveAs(fileStream);
+                }
                 saved = true;
-                package.Dispose();
             }
             catch (System.Exception)
             {
