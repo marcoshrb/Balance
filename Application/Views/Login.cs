@@ -30,7 +30,7 @@ public class Login : Form
         bool isTyping = false;
         int countSize = 0;
         BtnConfirm btnConfirm = null;
-        Test test = new();
+        Train train = new();
 
         this.header = new PictureBox
         {
@@ -167,8 +167,8 @@ public class Login : Form
                     UserData.Current.UserName = this.userName;
                     UserData.Current.DateStart = DateTime.Now;
                     this.Hide();
-                    test = new();
-                    test.Show();
+                    train = new();
+                    train.Show();
                 }
                 else
                     MessageBox.Show("Vazio");

@@ -11,12 +11,12 @@ using Utils;
 
 namespace Views;
 
-public partial class Test : Form
+public partial class Train : Form
 {
     Security security;
 
     PictureBox header;
-    
+
     PictureBox pb;
     Bitmap bmp;
     Graphics g;
@@ -26,7 +26,7 @@ public partial class Test : Form
     Balance balanceRight;
 
     List<Shape> shapes;
-    private List<EmptyShape> fixedPositions = new List<EmptyShape>();
+    private List<EmptyShape> fixedPositions;
 
     Shape selected;
     Point cursor = new Point(0, 0);
@@ -48,12 +48,13 @@ public partial class Test : Form
 
     BtnReset btnReset;
     BtnConfirm btnContinue;
+    BtnInitial btnVerify;
 
     private Stopwatch stopwatch;
 
     Image BackRect;
 
-    public Test()
+    public Train()
     {
         stopwatch = new(new(10, 100), new(200, 60));
         BackRect = Resources.BackRect;
@@ -61,7 +62,6 @@ public partial class Test : Form
         this.WindowState = FormWindowState.Maximized;
         this.FormBorderStyle = FormBorderStyle.None;
         this.Text = "Teste";
-        this.shapes = new List<Shape>();
 
         this.header = new PictureBox
         {
@@ -109,10 +109,12 @@ public partial class Test : Form
 
         this.pb.MouseMove += (o, e) =>
         {
-            cursor = e.Location;
+            this.cursor = e.Location;
             if (btnContinue.Rect.Contains(cursor))
                 Cursor.Current = Cursors.Hand;
             if (btnReset.Rect.Contains(cursor))
+                Cursor.Current = Cursors.Hand;
+            if (btnVerify.Rect.Contains(cursor))
                 Cursor.Current = Cursors.Hand;
         };
 
@@ -133,9 +135,6 @@ public partial class Test : Form
             // DrawRectangleBack(290, 750, 1000, 200);
             // DrawRectangleBack(1550, -100, 500, 1300);
 
-            btnReset.DrawButton(g);
-            btnContinue.DrawButton(g);
-
             textForResult(o, e);
             Frame();
 
@@ -152,12 +151,19 @@ public partial class Test : Form
 
         pb.MouseClick += (o, e) =>
         {
+            if (btnVerify.Rect.Contains(e.X, e.Y))
+                btnVerify.OnClick(balanceRight, balanceLeft);
+
             if (btnContinue.Rect.Contains(e.X, e.Y))
             {
                 this.Hide();
                 this.challenge = new();
                 challenge.Show();
             }
+
+            if (btnReset.Rect.Contains(e.X, e.Y))
+                Onstart();
+
             if (
                 inputCircle.Rect.Contains(e.X, e.Y)
                 && !inputCircle.IsTyping
@@ -268,9 +274,6 @@ public partial class Test : Form
                 crrInput = null;
                 textBox.Enabled = false;
             }
-
-            if (btnReset.Rect.Contains(e.X, e.Y))
-                InitializeShapes();
         };
 
         textBox = new TextBox
@@ -309,24 +312,40 @@ public partial class Test : Form
 
     private void Onstart()
     {
-        InitializeWeights();
         InitializeBalances();
-        InitializeShapes();
+        InitializeButtons();
         InitializeInputs();
-
-        btnContinue = new BtnConfirm(pb.Width * 0.85f, pb.Height * 0.72f, pb.Width * 0.104f, pb.Height * 0.092f, "Continuar");
-        btnReset = new BtnReset(pb.Width * 0.85f, pb.Height * 0.85f, pb.Width * 0.104f, pb.Height * 0.092f, "Resetar");
+        InitializeShapes();
+        InitializeWeights();
     }
 
     private void Frame()
     {
         this.counter++;
+
         DrawTitle("TESTE");
         DrawLogo();
+
         stopwatch.Draw(g);
+
         DrawInput();
         DrawBalances();
+
+        btnReset.DrawButton(g);
+        btnContinue.DrawButton(g);
+        btnVerify.DrawButton(g);
+
         DrawShapes();
+    }
+
+    private void AddShapes(EmptyShape emptyShape, Shape shape, int qtd = 5)
+    {
+        for (int i = 0; i < qtd; i++)
+        {
+            var clonedShape = shape.Clone() as Shape;
+            emptyShape.AddFirst(clonedShape);
+            this.shapes.Add(clonedShape);
+        }
     }
 
     private void DropShape()
@@ -379,16 +398,6 @@ public partial class Test : Form
 
             if (!isDown)
                 this.selected = null;
-        }
-    }
-
-    private void AddShapes(EmptyShape emptyShape, Shape shape, int qtd = 5)
-    {
-        for (int i = 0; i < qtd; i++)
-        {
-            var clonedShape = shape.Clone() as Shape;
-            emptyShape.AddFirst(clonedShape);
-            this.shapes.Add(clonedShape);
         }
     }
 }

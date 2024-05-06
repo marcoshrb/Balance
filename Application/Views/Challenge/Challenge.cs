@@ -31,32 +31,35 @@ public partial class Challenge : Form
     private Balance balanceRight;
 
     private List<Shape> shapes;
-    private List<EmptyShape> fixedPositions = new List<EmptyShape>();
+    private List<EmptyShape> fixedPositions;
 
     private Shape selected;
     private Point cursor = new Point(0, 0);
     private bool isDown = false;
 
-    private TextBox textBox = null;
-    private InputUser crrInput = null;
+    private TextBox textBox;
+    private InputUser crrInput;
 
+    private InputUser inputCircle;
+    private InputUser inputTriangle;
+    private InputUser inputSquare;
+    private InputUser inputPentagon;
+    private InputUser inputStar;
 
-    private InputUser inputCircle = null;
-    private InputUser inputTriangle = null;
-    private InputUser inputSquare = null;
-    private InputUser inputPentagon = null;
-    private InputUser inputStar = null;
     private bool showLine = false;
     private int counter = 0;
 
-    private BtnFinish btnFinish = null;
+    private BtnFinish btnFinish;
+    private BtnInitial btnVerify;
 
     private Image BackRect;
 
     public Challenge()
     {
         stopwatch = new(new(10, 100), new(200, 60));
+
         UserData.Current.DateStart = DateTime.Now;
+
         Completed completed = new();
 
         this.WindowState = FormWindowState.Maximized;
@@ -109,7 +112,7 @@ public partial class Challenge : Form
 
         this.pb.MouseMove += (o, e) =>
         {
-            cursor = e.Location;
+            this.cursor = e.Location;
             if (btnFinish.Rect.Contains(cursor))
                 Cursor.Current = Cursors.Hand;
         };
@@ -124,11 +127,6 @@ public partial class Challenge : Form
             isDown = false;
         };
 
-        this.FormClosed += delegate
-        {
-            Application.Exit();
-        };
-
         this.tm.Tick += (o, e) =>
         {
             g.Clear(Color.FromArgb(250, 249, 246));
@@ -137,8 +135,8 @@ public partial class Challenge : Form
             // DrawRectangleBack(1550, -100, 500, 1300);
 
             textForResult(o, e);
-
             stopwatch.Update();
+
             if (0 > stopwatch.GetTimeDifference().TotalMinutes && !saveFlag)
             {
                 try
@@ -175,6 +173,9 @@ public partial class Challenge : Form
         {
             if (btnFinish.Rect.Contains(e.X, e.Y))
                 SaveData(completed);
+
+            if (btnVerify.Rect.Contains(e.X, e.Y))
+                btnVerify.OnClick(balanceRight, balanceLeft);
 
             if (
                 inputCircle.Rect.Contains(e.X, e.Y)
@@ -296,52 +297,58 @@ public partial class Challenge : Form
             ReadOnly = false
         };
         textBox.TextChanged += textForResult;
-
         this.Controls.Add(textBox);
+    }
 
-        void textForResult(object sender, EventArgs e)
+    private void textForResult(object sender, EventArgs e)
+    {
+        if (crrInput is null)
+            return;
+        if (crrInput.IsTyping)
         {
-            if (crrInput is null)
-                return;
-            if (crrInput.IsTyping)
-            {
-                crrInput.Content = textBox.Text;
-                string text = "";
-                if (counter % 15 == 0)
-                    this.showLine = !this.showLine;
-                if (showLine)
-                    text = textBox.Text + "|";
-                else
-                    text = textBox.Text;
-                Font font = new Font("Arial", pb.Width * 0.0125f);
-                Brush brush = Brushes.Black;
-                SolidBrush white = new SolidBrush(Color.FromArgb(250, 249, 246));
-                g.FillRectangle(white, crrInput.Rect);
-                crrInput.DrawInputSprite(g, pb);
-                g.DrawString(text, font, brush, crrInput.Rect);
-            }
+            crrInput.Content = textBox.Text;
+            string text = "";
+            if (counter % 15 == 0)
+                this.showLine = !this.showLine;
+            if (showLine)
+                text = textBox.Text + "|";
+            else
+                text = textBox.Text;
+            Font font = new Font("Arial", pb.Width * 0.0125f);
+            Brush brush = Brushes.Black;
+            SolidBrush white = new SolidBrush(Color.FromArgb(250, 249, 246));
+            g.FillRectangle(white, crrInput.Rect);
+            crrInput.DrawInputSprite(g, pb);
+            g.DrawString(text, font, brush, crrInput.Rect);
         }
     }
 
     private void Onstart()
     {
         BackRect = Resources.BackRect;
-        btnFinish = new BtnFinish(pb.Width * 0.85f, pb.Height * 0.85f, pb.Width * 0.104f, pb.Height * 0.092f, "Finalizar");
-        InitializeWeights();
+
         InitializeBalances();
-        InitializeShapes();
+        InitializeButtons();
         InitializeInputs();
+        InitializeShapes();
+        InitializeWeights();
     }
 
     private void Frame()
     {
         this.counter++;
+
         DrawTitle("DESAFIO");
         DrawLogo();
+
         stopwatch.Draw(g);
+
         DrawInput();
         DrawBalances();
+
         btnFinish.DrawButton(g);
+        btnVerify.DrawButton(g);
+
         DrawShapes();
     }
 
