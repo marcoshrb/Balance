@@ -31,32 +31,35 @@ public partial class Challenge : Form
     private Balance balanceRight;
 
     private List<Shape> shapes;
-    private List<EmptyShape> fixedPositions = new List<EmptyShape>();
+    private List<EmptyShape> fixedPositions;
 
     private Shape selected;
     private Point cursor = new Point(0, 0);
     private bool isDown = false;
 
-    private TextBox textBox = null;
-    private InputUser crrInput = null;
+    private TextBox textBox;
+    private InputUser crrInput;
 
+    private InputUser inputCircle;
+    private InputUser inputTriangle;
+    private InputUser inputSquare;
+    private InputUser inputPentagon;
+    private InputUser inputStar;
 
-    private InputUser inputCircle = null;
-    private InputUser inputTriangle = null;
-    private InputUser inputSquare = null;
-    private InputUser inputPentagon = null;
-    private InputUser inputStar = null;
     private bool showLine = false;
     private int counter = 0;
 
-    private BtnFinish btnFinish = null;
+    private BtnFinish btnFinish;
+    private BtnInitial btnVerify;
 
     private Image BackRect;
 
     public Challenge()
     {
         stopwatch = new(new(10, 100), new(200, 60));
+
         UserData.Current.DateStart = DateTime.Now;
+        
         Completed completed = new();
 
         this.WindowState = FormWindowState.Maximized;
@@ -175,6 +178,9 @@ public partial class Challenge : Form
         {
             if (btnFinish.Rect.Contains(e.X, e.Y))
                 SaveData(completed);
+
+            if (btnVerify.Rect.Contains(e.X, e.Y))
+                btnVerify.OnClick(balanceRight, balanceLeft);
 
             if (
                 inputCircle.Rect.Contains(e.X, e.Y)

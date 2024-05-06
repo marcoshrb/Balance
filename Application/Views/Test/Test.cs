@@ -16,7 +16,7 @@ public partial class Test : Form
     Security security;
 
     PictureBox header;
-    
+
     PictureBox pb;
     Bitmap bmp;
     Graphics g;
@@ -26,7 +26,7 @@ public partial class Test : Form
     Balance balanceRight;
 
     List<Shape> shapes;
-    private List<EmptyShape> fixedPositions = new List<EmptyShape>();
+    private List<EmptyShape> fixedPositions;
 
     Shape selected;
     Point cursor = new Point(0, 0);
@@ -48,6 +48,7 @@ public partial class Test : Form
 
     BtnReset btnReset;
     BtnConfirm btnContinue;
+    BtnInitial btnVerify;
 
     private Stopwatch stopwatch;
 
@@ -114,6 +115,8 @@ public partial class Test : Form
                 Cursor.Current = Cursors.Hand;
             if (btnReset.Rect.Contains(cursor))
                 Cursor.Current = Cursors.Hand;
+            if (btnVerify.Rect.Contains(cursor))
+                Cursor.Current = Cursors.Hand;
         };
 
         this.pb.MouseDown += (o, e) =>
@@ -135,6 +138,7 @@ public partial class Test : Form
 
             btnReset.DrawButton(g);
             btnContinue.DrawButton(g);
+            btnVerify.DrawButton(g);
 
             textForResult(o, e);
             Frame();
@@ -152,12 +156,19 @@ public partial class Test : Form
 
         pb.MouseClick += (o, e) =>
         {
+            if (btnVerify.Rect.Contains(e.X, e.Y))
+                btnVerify.OnClick(balanceRight, balanceLeft);
+
             if (btnContinue.Rect.Contains(e.X, e.Y))
             {
                 this.Hide();
                 this.challenge = new();
                 challenge.Show();
             }
+
+            if (btnReset.Rect.Contains(e.X, e.Y))
+                Onstart();
+
             if (
                 inputCircle.Rect.Contains(e.X, e.Y)
                 && !inputCircle.IsTyping
@@ -268,9 +279,6 @@ public partial class Test : Form
                 crrInput = null;
                 textBox.Enabled = false;
             }
-
-            if (btnReset.Rect.Contains(e.X, e.Y))
-                InitializeShapes();
         };
 
         textBox = new TextBox
@@ -313,9 +321,7 @@ public partial class Test : Form
         InitializeBalances();
         InitializeShapes();
         InitializeInputs();
-
-        btnContinue = new BtnConfirm(pb.Width * 0.85f, pb.Height * 0.72f, pb.Width * 0.104f, pb.Height * 0.092f, "Continuar");
-        btnReset = new BtnReset(pb.Width * 0.85f, pb.Height * 0.85f, pb.Width * 0.104f, pb.Height * 0.092f, "Resetar");
+        InitializeButtons();
     }
 
     private void Frame()

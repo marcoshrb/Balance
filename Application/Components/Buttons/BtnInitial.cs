@@ -6,13 +6,11 @@ namespace Components;
 public class BtnInitial : BtnBase
 {
     private string text { get; set; }
-    private Balance balance ;
 
     public BtnInitial(float X, float Y, float width, float height, string text)
     {
         this.Rect = new RectangleF(X, Y, width, height);
         this.text = text;
-        this.balance = balance;
     }
 
     public override void DrawButton(Graphics g)
