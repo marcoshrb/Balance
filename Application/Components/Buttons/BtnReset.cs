@@ -13,7 +13,7 @@ public class BtnReset : BtnBase
     }
     public override void DrawButton(Graphics g)
     {
-        Font font = new Font("Arial bold", this.Rect.Width * 0.12f);
+        Font font = new Font("Open Sans", this.Rect.Width * 0.10f);
         SizeF textSize = g.MeasureString(this.text, font);
         LinearGradientBrush gradientOrange = new LinearGradientBrush(this.Rect ,Color.FromArgb(255, 145, 77), Color.FromArgb(255, 222, 89), LinearGradientMode.Horizontal);
 

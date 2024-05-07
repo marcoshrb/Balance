@@ -5,8 +5,9 @@ using Utils;
 namespace Views;
 public partial class Challenge
 {
-    Font font = new Font("neology", 72 * ClientScreen.WidthFactor, FontStyle.Bold);
-    SolidBrush brush = new SolidBrush(Color.FromArgb(234, 0, 22));
+    Font font = new Font("Open Sans", 92 * ClientScreen.WidthFactor, FontStyle.Bold);
+    Font fontAttemps = new Font("Open Sans", 32 * ClientScreen.WidthFactor);
+    SolidBrush brush = new SolidBrush(Color.FromArgb(0, 0, 0));
 
     void DrawRectangleBack(int x_, int y_, int width_, int height_)
     {
@@ -106,4 +107,7 @@ public partial class Challenge
         int y = ClientScreen.Height - resizedLogo.Height - margin;
         g.DrawImage(resizedLogo, new Point(x, y));
     }
+
+    public void DrawAttempts(int x, int y)
+        => g.DrawString("Tentativas: " + UserData.Current.Attemps, fontAttemps, Brushes.Black, x * ClientScreen.WidthFactor, y * ClientScreen.HeightFactor);
 }

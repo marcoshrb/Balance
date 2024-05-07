@@ -42,6 +42,7 @@ public partial class Train : Form
 
     bool showLine = false;
     int counter = 0;
+    public int Attemps = 0;
 
     Challenge challenge = null;
 
@@ -132,7 +133,7 @@ public partial class Train : Form
             g.Clear(Color.FromArgb(250, 250, 250));
 
             DrawRectangleBack(362, 830, 688, 192);
-            DrawRectangleBack(1415, 54, 407, 974);
+            DrawRectangleBack(1415, 54, 400, 974);
 
             textForResult(o, e);
             Frame();
@@ -151,7 +152,10 @@ public partial class Train : Form
         pb.MouseClick += (o, e) =>
         {
             if (btnVerify.Rect.Contains(e.X, e.Y))
+            {
                 btnVerify.OnClick(balance);
+                Attemps++;
+            }
 
             if (btnContinue.Rect.Contains(e.X, e.Y))
             {
@@ -276,6 +280,7 @@ public partial class Train : Form
 
         DrawTitle("TREINO");
         DrawLogo();
+        DrawAttempts(1480, 225);
 
         stopwatch.Draw(g);
 

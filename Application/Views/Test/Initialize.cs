@@ -18,14 +18,13 @@ public partial class Train
         UserData.Current.RealSquareWeight = array[0];
         UserData.Current.RealTriangleWeight = array[2];
     }
-
     private void InitializeBalances()
     {
         this.balance = new Balance(
-            474 * ClientScreen.WidthFactor,
-            235 * ClientScreen.HeightFactor,
-            464 * ClientScreen.WidthFactor,
-            432 * ClientScreen.HeightFactor
+            530 * ClientScreen.WidthFactor,
+            265 * ClientScreen.HeightFactor,
+            350 * ClientScreen.WidthFactor,
+            350 * ClientScreen.HeightFactor
         );
     }
 
@@ -33,7 +32,7 @@ public partial class Train
     {
         inputCircle = new InputUser(
                 ClientScreen.WidthFactor * 1565,
-                ClientScreen.HeightFactor * 394,
+                ClientScreen.HeightFactor * 395,
                 ClientScreen.WidthFactor * 205,
                 ClientScreen.HeightFactor * 50,
                 Resources.Circle
@@ -51,7 +50,7 @@ public partial class Train
         );
         inputTriangle = new InputUser(
             ClientScreen.WidthFactor * 1565,
-            ClientScreen.HeightFactor * 606,
+            ClientScreen.HeightFactor * 605,
             ClientScreen.WidthFactor * 205,
             ClientScreen.HeightFactor * 50,
             Resources.Triangle
@@ -62,14 +61,14 @@ public partial class Train
         this.fixedPositions = new List<EmptyShape>();
         this.shapes = new List<Shape>();
 
-        EmptySquare emptySquare = new EmptySquare(
-            new PointF(424 * ClientScreen.WidthFactor, 865 * ClientScreen.HeightFactor),
+        EmptyCircle emptyCircle = new EmptyCircle(
+            new PointF(425 * ClientScreen.WidthFactor, 865 * ClientScreen.HeightFactor),
             130 * ClientScreen.WidthFactor,
             130 * ClientScreen.HeightFactor
         );
 
-        EmptyCircle emptyCircle = new EmptyCircle(
-            new PointF(636 * ClientScreen.WidthFactor, 865 * ClientScreen.HeightFactor),
+        EmptySquare emptySquare = new EmptySquare(
+            new PointF(635 * ClientScreen.WidthFactor, 865 * ClientScreen.HeightFactor),
             130 * ClientScreen.WidthFactor,
             130 * ClientScreen.HeightFactor
         );
@@ -84,21 +83,22 @@ public partial class Train
         fixedPositions.Add(emptySquare);
         fixedPositions.Add(emptyTriangle);
 
-        Square square = new(
+        Circle circle = new(
             424 * ClientScreen.WidthFactor,
             435 * ClientScreen.HeightFactor,
+            130 * ClientScreen.WidthFactor,
+            UserData.Current.RealCircleWeight
+        );
+        AddShapes(emptyCircle, circle);
+
+        Square square = new(
+            636 * ClientScreen.WidthFactor,
+            645 * ClientScreen.HeightFactor,
             130 * ClientScreen.WidthFactor,
             UserData.Current.RealSquareWeight
         );
         AddShapes(emptySquare, square);
 
-        Circle circle = new(
-            636 * ClientScreen.WidthFactor,
-            645 * ClientScreen.HeightFactor,
-            130 * ClientScreen.WidthFactor,
-            UserData.Current.RealCircleWeight
-        );
-        AddShapes(emptyCircle, circle);
 
         Triangle triangle = new(
             855 * ClientScreen.WidthFactor,

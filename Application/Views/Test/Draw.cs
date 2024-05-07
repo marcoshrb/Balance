@@ -7,6 +7,7 @@ namespace Views;
 public partial class Train
 {
     Font font = new Font("Open Sans", 92 * ClientScreen.WidthFactor, FontStyle.Bold);
+    Font fontAttemps = new Font("Open Sans", 32 * ClientScreen.WidthFactor);
     SolidBrush brush = new SolidBrush(Color.FromArgb(0, 0, 0));
 
     void DrawRectangleBack(int x_, int y_, int width_, int height_)
@@ -22,9 +23,8 @@ public partial class Train
     }
 
     public void DrawBalances()
-    {
-        balance.Draw(this.g);
-    }
+        => balance.Draw(this.g);
+    
 
     public void DrawInput()
     {
@@ -98,4 +98,8 @@ public partial class Train
         int y = ClientScreen.Height - resizedLogo.Height - margin;
         g.DrawImage(resizedLogo, new Point(x, y));
     }
+
+    public void DrawAttempts(int x, int y)
+        => g.DrawString("Tentativas: " + Attemps, fontAttemps, Brushes.Black, x * ClientScreen.WidthFactor, y * ClientScreen.HeightFactor);
+
 }

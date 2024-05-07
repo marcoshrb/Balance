@@ -15,7 +15,7 @@ public class BtnConfirm : BtnBase
 
     public override void DrawButton(Graphics g)
     {
-        Font font = new Font("Arial bold", this.Rect.Width * 0.12f);
+        Font font = new Font("Arial bold", this.Rect.Width * 0.10f);
         SizeF textSize = g.MeasureString(this.text, font);
         LinearGradientBrush gradientGreen = new LinearGradientBrush(this.Rect, Color.FromArgb(29, 123, 23), Color.FromArgb(79, 209, 52), LinearGradientMode.Horizontal);
         

@@ -56,7 +56,7 @@ public partial class Challenge : Form
 
     public Challenge()
     {
-        stopwatch = new(new(10, 100), new(200, 60));
+        stopwatch = new(new(1460, 96), new(310, 90));
 
         UserData.Current.DateStart = DateTime.Now;
 
@@ -69,7 +69,7 @@ public partial class Challenge : Form
         this.header = new PictureBox
         {
             Dock = DockStyle.Top,
-            Height = (int)(16 * ClientScreen.HeightFactor),
+            Height = (int)(25 * ClientScreen.HeightFactor),
             BackgroundImage = ImageProcessing.GetImage(@"Assets\rainbow.png"),
             BackgroundImageLayout = ImageLayout.Stretch
         };
@@ -131,8 +131,8 @@ public partial class Challenge : Form
         {
             g.Clear(Color.FromArgb(250, 249, 246));
 
-            // DrawRectangleBack(290, 750, 1000, 200);
-            // DrawRectangleBack(1550, -100, 500, 1300);
+            DrawRectangleBack(125, 830, 1162, 192);
+            DrawRectangleBack(1415, 54, 400, 974);
 
             textForResult(o, e);
             stopwatch.Update();
@@ -175,7 +175,10 @@ public partial class Challenge : Form
                 SaveData(completed);
 
             if (btnVerify.Rect.Contains(e.X, e.Y))
+            {
                 btnVerify.OnClick(balanceRight, balanceLeft);
+                UserData.Current.Attemps++;
+            }
 
             if (
                 inputCircle.Rect.Contains(e.X, e.Y)
@@ -327,11 +330,11 @@ public partial class Challenge : Form
     {
         BackRect = Resources.BackRect;
 
+        InitializeWeights();
         InitializeBalances();
         InitializeButtons();
         InitializeInputs();
         InitializeShapes();
-        InitializeWeights();
     }
 
     private void Frame()
@@ -340,6 +343,7 @@ public partial class Challenge : Form
 
         DrawTitle("DESAFIO");
         DrawLogo();
+        DrawAttempts(1480, 225);
 
         stopwatch.Draw(g);
 

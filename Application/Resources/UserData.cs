@@ -6,6 +6,7 @@ public class UserData
     public static UserData Current => current;
     public static void New() => current = new UserData();
     public int Counter { get; set; }
+    public int Attemps { get; set; } = 0;
     public string UserName { get; set; }
     public DateTime DateStart { get; set; }
     public DateTime DateFinish { get; set; }
