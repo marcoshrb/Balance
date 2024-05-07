@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Col, Row } from "react-bootstrap";
 import ConteudoInicialComponent from "../../components/ConteudoInicialComponent";
 import TimerComponent from "../../components/TimerComponent";
