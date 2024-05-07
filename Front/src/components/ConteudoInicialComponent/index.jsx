@@ -1,16 +1,14 @@
 import React from 'react';
+import Button from 'react-bootstrap/Button';
+import ButtonGroup from 'react-bootstrap/ButtonGroup';
 
 export default function ConteudoInicialComponent({ handleShowTimer, handleShowCronometro }) {
   return (
     <>
-      <div style={{ display: 'flex', alignItems: 'center', alignContent: 'center',justifyContent: 'center', marginTop: '10px', position: 'absolute', top: '10px', left: '8em' }}>
-        <p onClick={handleShowTimer} style={{ marginRight: '10px' }}>
-          timer
-        </p>
-        <p onClick={handleShowCronometro} style={{ marginLeft: '10px' }}>
-          cronometro
-        </p>
-      </div>
+    <ButtonGroup aria-label="Basic example">
+      <Button onClick={handleShowTimer}  variant="secondary">Timer</Button>
+      {/* <Button onClick={handleShowCronometro} variant="secondary">Cronometro</Button> */}
+    </ButtonGroup>
     </>
   );
 }

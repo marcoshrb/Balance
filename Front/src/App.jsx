@@ -3,7 +3,6 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { AlertaProvider } from "./context/alerta";
 import Timer from './pages/Timer';
-import ConteudoInicial from './pages/conteudoinicial';
 
 function App() {
 
@@ -12,9 +11,7 @@ function App() {
       <Router>
         <AlertaProvider>
           <Routes>
-            <Route path="/timer" element={<Timer />} />
-            <Route path="/home" element={<ConteudoInicial />} />
-
+            <Route path="/" element={<Timer />} />
           </Routes>
         </AlertaProvider>
       </Router>

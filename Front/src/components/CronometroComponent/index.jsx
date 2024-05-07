@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { TimerWrapper, CronometroDisplay, AcoesWrapper, StartButton, EscButton } from './styled';
+import { TimerWrapper, CronometroDisplay, AcoesWrapper, Embaixo, StartButton, EscButton } from './styled';
 
 let timeCronometro = null;
 
@@ -75,6 +75,7 @@ const TimerComponent = () => {
     <TimerWrapper className="TimerComponent" onKeyDown={controlPressKyeboard}>
       <CronometroDisplay>{painelCronometro(cronometro)}</CronometroDisplay>
       <AcoesWrapper>
+        <Embaixo>
         <StartButton
           onClick={toggleCronomentro}
           className={hasPlayCronometro ? 'pause' : ''}
@@ -88,6 +89,7 @@ const TimerComponent = () => {
         >
           Zerar
         </EscButton>
+        </Embaixo>
       </AcoesWrapper>
     </TimerWrapper>
   );

@@ -7,7 +7,6 @@ import AlertaComponent from "../../components/AlertaComponent";
 import NavBarS from "../../components/NavBar";
 
 export default function ConteudoInicial() {
-
   const [cards, setCards] = useState(null);
 
   const handleShowTimer = () => {

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { TimerWrapper, CronometroDisplay, AcoesWrapper, StartButton, EscButton } from './styled';
+import { TimerWrapper, CronometroDisplay, AcoesWrapper, Embaixo, StartButton, EscButton } from './styled';
 
-const TimerComponent = () => {
+export const TimerComponent = () => {
   const [inputTime, setInputTime] = useState('');
   const [remainingTime, setRemainingTime] = useState(0);
   const [timerActive, setTimerActive] = useState(false);
@@ -66,15 +66,16 @@ const TimerComponent = () => {
       />
       <CronometroDisplay>{formatTime(remainingTime)}</CronometroDisplay>
       <AcoesWrapper>
+        <Embaixo>
         {!timerActive ? (
           <StartButton onClick={startTimer}>Iniciar</StartButton>
         ) : (
           <StartButton onClick={pauseTimer}>Iniciar</StartButton>
         )}
         <EscButton onClick={resetTimer}>Zerar</EscButton>
+        </Embaixo>
       </AcoesWrapper>
     </TimerWrapper>
   );
 };
 
-export default TimerComponent;
