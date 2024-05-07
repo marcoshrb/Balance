@@ -1,14 +1,21 @@
 const express = require('express');
-const ChallengeController = require('../controller/Challenge');
 const router = express.Router();
 
-const ProvaValues = [{}]
+let tempoProva = "";
+let ProvaLiberada = false;
 
 router
-    .get('/challenge', ChallengeController.getAllPeople)
-    .get('/challenge/:id', ChallengeController.getById)
-    .post('/challenge', ChallengeController.create)
-    .patch('/challenge/:id', ChallengeController.updateById)
-    .delete('/challenge/:id', ChallengeController.deleteById)
+    .get('/', (req, res) => {
+        res.json({ 
+            tempoProva, 
+            ProvaLiberada
+        });
+    })
+    .post('/', (req, res) => {
+        const {tempo_Prova, prova_Liberada} = req.body;
+        tempoProva = tempo_Prova;
+        ProvaLiberada = prova_Liberada;
+        res.send('Estado da prova atualizado!');
+    })
 
 module.exports = router;
