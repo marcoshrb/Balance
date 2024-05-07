@@ -47,7 +47,7 @@ public partial class Train : Form
     Challenge challenge = null;
 
     BtnReset btnReset;
-    BtnConfirm btnContinue;
+    // BtnConfirm btnContinue;
     BtnInitial btnVerify;
 
     private Stopwatch stopwatch;
@@ -110,8 +110,8 @@ public partial class Train : Form
         this.pb.MouseMove += (o, e) =>
         {
             this.cursor = e.Location;
-            if (btnContinue.Hitbox.Contains(cursor))
-                Cursor.Current = Cursors.Hand;
+            // if (btnContinue.Hitbox.Contains(cursor))
+            //     Cursor.Current = Cursors.Hand;
             if (btnReset.Hitbox.Contains(cursor))
                 Cursor.Current = Cursors.Hand;
             if (btnVerify.Hitbox.Contains(cursor))
@@ -134,6 +134,9 @@ public partial class Train : Form
 
             textForResult(o, e);
             Frame();
+            
+            if(counter % 60 == 0)
+                MakeRequest();
 
             stopwatch.Update();
             if (0 > stopwatch.GetTimeDifference().TotalMinutes && challenge is null)
@@ -151,12 +154,12 @@ public partial class Train : Form
             if (btnVerify.Hitbox.Contains(e.X, e.Y))
                 btnVerify.OnClick(balanceRight, balanceLeft);
 
-            if (btnContinue.Hitbox.Contains(e.X, e.Y))
-            {
-                this.Hide();
-                this.challenge = new();
-                challenge.Show();
-            }
+            // if (btnContinue.Hitbox.Contains(e.X, e.Y))
+            // {
+            //     this.Hide();
+            //     this.challenge = new();
+            //     challenge.Show();
+            // }
 
             if (btnReset.Hitbox.Contains(e.X, e.Y))
                 Onstart();
@@ -329,7 +332,7 @@ public partial class Train : Form
         DrawBalances();
 
         btnReset.Draw(g);
-        btnContinue.Draw(g);
+        // btnContinue.Draw(g);
         btnVerify.Draw(g);
 
         DrawShapes();

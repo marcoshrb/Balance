@@ -2,10 +2,10 @@ using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-// using Newtonsoft.Json;
 
 namespace Views;
-public partial class Train
+
+public partial class Challenge
 {
     bool screenChanged = false;
     public void MakeRequest()
@@ -16,15 +16,6 @@ public partial class Train
         var resultContent = result.Content.ReadAsStringAsync().GetAwaiter().GetResult();
         
         UserData.Current.JsonValues = JsonSerializer.Deserialize<Values>(resultContent);
-        // MessageBox.Show(UserData.Current.JsonValues.f1.ToString());
-
-        if(UserData.Current.JsonValues.ProvaLiberada && !screenChanged)
-        {
-            // MessageBox.Show("Entrou");
-            screenChanged = true;
-            this.Hide();
-            this.challenge = new();
-            challenge.Show();
-        }
+        // MessageBox.Show(UserData.Current.JsonValues.ProvaLiberada.ToString());
     }
 }

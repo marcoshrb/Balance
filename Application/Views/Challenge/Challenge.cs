@@ -133,8 +133,11 @@ public partial class Challenge : Form
 
             textForResult(o, e);
             stopwatch.Update();
+            
+            if(counter % 60 == 0)
+                MakeRequest();
 
-            if (0 > stopwatch.GetTimeDifference().TotalMinutes && !saveFlag)
+            if (!UserData.Current.JsonValues.ProvaLiberada || (0 > stopwatch.GetTimeDifference().TotalMinutes && !saveFlag))
             {
                 try
                 {

@@ -9,7 +9,7 @@ public class InputUser
 {
     public RectangleF Rect { get; set; }
     public string Title { get; set; }
-    public string Content { get; set; }
+    public string Content { get; set; } = "";
     public Bitmap Bmp { get; set; }
     public bool IsTyping { get; set; } = false;
     public bool Disable { get; set; } = false;

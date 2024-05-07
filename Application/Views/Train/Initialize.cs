@@ -168,7 +168,7 @@ public partial class Train
 
     private void InitializeButtons()
     {
-        btnContinue = new BtnConfirm(pb.Width * 0.85f, pb.Height * 0.72f, pb.Width * 0.104f, pb.Height * 0.092f, "Continuar");
+        // btnContinue = new BtnConfirm(pb.Width * 0.85f, pb.Height * 0.72f, pb.Width * 0.104f, pb.Height * 0.092f, "Continuar");
         btnReset = new BtnReset(pb.Width * 0.85f, pb.Height * 0.85f, pb.Width * 0.104f, pb.Height * 0.092f, "Resetar");
         btnVerify = new BtnInitial(pb.Width * 0.344f, pb.Height * 0.60f, pb.Width * 0.104f, pb.Height * 0.092f, "Verificar");
     }

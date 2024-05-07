@@ -1,5 +1,6 @@
 using System;
 
+
 public class UserData
 {
     private static UserData current;
@@ -21,4 +22,5 @@ public class UserData
     public int InputCircleWeight { get; set; }
     public int InputStarWeight { get; set; }
     public int InputPentagonWeight { get; set; }
+    public Values JsonValues { get; set; } 
 }

@@ -12,7 +12,13 @@ public partial class Challenge
 {
     private void InitializeWeights()
     {
-        int[] array = { 2, 3, 5, 8, 10 };
+        int[] array = {
+            UserData.Current.JsonValues.f1,
+            UserData.Current.JsonValues.f2,
+            UserData.Current.JsonValues.f3,
+            UserData.Current.JsonValues.f4,
+            UserData.Current.JsonValues.f5
+        };
         array = Functions.ShuffleWeights(array);
 
         UserData.Current.RealValues = array.ToArray();
