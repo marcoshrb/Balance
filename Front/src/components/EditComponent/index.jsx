@@ -2,8 +2,10 @@
 import axios from 'axios';
 import { useState } from "react";
 
-export default function EditComponent() {
 
+
+export default function EditComponent() {
+    
     const [tempoProva, setTempo_Prova] = useState("");
     const [provaLiberada, setProva_Liberada] = useState(false);
     const [f1, setf1] = useState("");
@@ -13,26 +15,30 @@ export default function EditComponent() {
     const [f5, setf5] = useState("");
 
     async function handleSubmit(e){
-        
         e.preventDefault();
         setProva_Liberada(true);
-
-        const json = {
-            "tempo_Prova" : tempoProva, 
-            "prova_Liberada" : provaLiberada,
-            "f1_" : f1,
-            "f2_" : f2,
-            "f3_" : f3,
-            "f4_" : f4,
-            "f5_" : f5
-        }
-        console.log(json)
+    
+        const orderedJson = {
+            tempo_Prova : tempoProva, 
+            prova_Liberada : provaLiberada,
+            f1_ : f1,
+            f2_ : f2,
+            f3_ : f3,
+            f4_ : f4,
+            f5_ : f5
+        };
+        // Criando um novo objeto com a ordem dos campos desejada
+        console.log(orderedJson);
+    
         try {
-            await axios.post('http://localhost:8080/challenge', json)
+            const response = await axios.post('http://localhost:8080/challenge', orderedJson);
+            console.log("Resposta da API:", response.data);
         } catch (error) {
-            console.log(error);
+            console.log("Erro ao fazer requisição:", error);
+            
         }
     }
+    
   return (
     <>
             <form onSubmit={handleSubmit}>
