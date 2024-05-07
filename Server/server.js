@@ -7,7 +7,10 @@ const app = express();
 
 app.use(
   cors({
-    origin: "*",
+    origin: true,
+    methods: "GET,POST,DELETE",
+    preflightContinue: false,
+    optionsSuccessStatus: 204
   })
 );
 
