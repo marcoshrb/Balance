@@ -14,6 +14,11 @@ public partial class Train
     {
         int[] array = { 2, 3, 5, 8, 10 };
         array = Functions.ShuffleWeights(array);
+        
+        var sla= array[0];
+        var sla2= array[2];
+        array[0] = sla2;
+        array[2] = sla;
 
         UserData.Current.RealValues = array.ToArray();
     }
