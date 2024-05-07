@@ -85,7 +85,7 @@ public partial class Train
 
         Circle circle = new(
             424 * ClientScreen.WidthFactor,
-            435 * ClientScreen.HeightFactor,
+            425 * ClientScreen.HeightFactor,
             130 * ClientScreen.WidthFactor,
             UserData.Current.RealCircleWeight
         );

@@ -18,13 +18,13 @@ public class BtnReset : BtnBase
         LinearGradientBrush gradientOrange = new LinearGradientBrush(this.Rect ,Color.FromArgb(255, 145, 77), Color.FromArgb(255, 222, 89), LinearGradientMode.Horizontal);
 
         ShadowRect(this.Rect);
-        DrawShadow(g);
+        // DrawShadow(g);
 
         g.FillRectangle(gradientOrange, this.Rect);
         g.DrawString(
             this.text,
             font,
-            Brushes.Black,
+            Brushes.White,
             new PointF(
                 this.Rect.X + (this.Rect.Width / 2 - textSize.Width / 2),
                 this.Rect.Y + (this.Rect.Height / 2 - textSize.Height / 2)

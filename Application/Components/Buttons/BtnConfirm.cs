@@ -20,13 +20,13 @@ public class BtnConfirm : BtnBase
         LinearGradientBrush gradientGreen = new LinearGradientBrush(this.Rect, Color.FromArgb(29, 123, 23), Color.FromArgb(79, 209, 52), LinearGradientMode.Horizontal);
         
         ShadowRect(this.Rect);
-        DrawShadow(g);
+        // DrawShadow(g);
 
         g.FillRectangle(gradientGreen, this.Rect);
         g.DrawString(
             this.text,
             font,
-            Brushes.Black,
+            Brushes.White,
             new PointF(
                 this.Rect.X + (this.Rect.Width / 2 - textSize.Width / 2),
                 this.Rect.Y + (this.Rect.Height / 2 - textSize.Height / 2)

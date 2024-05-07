@@ -24,7 +24,7 @@ public class BtnFinish : BtnBase
         LinearGradientBrush gradientGreen = new LinearGradientBrush(this.Rect, Color.FromArgb(29, 123, 23), Color.FromArgb(79, 209, 52), LinearGradientMode.Horizontal);
 
         ShadowRect(this.Rect);
-        DrawShadow(g);
+        // DrawShadow(g);
 
         g.FillRectangle(gradientGreen, this.Rect);
         g.DrawString(

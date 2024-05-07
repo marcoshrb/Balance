@@ -85,31 +85,31 @@ public partial class Challenge
         this.fixedPositions = new List<EmptyShape>();
         this.shapes = new List<Shape>();
         EmptyCircle emptyCircle = new EmptyCircle(
-            new PointF(415 * ClientScreen.WidthFactor, 865 * ClientScreen.HeightFactor),
-            130 * ClientScreen.WidthFactor,
-            130 * ClientScreen.HeightFactor
-        );
-
-        EmptyPentagon emptyPentagon = new EmptyPentagon(
             new PointF(205 * ClientScreen.WidthFactor, 865 * ClientScreen.HeightFactor),
             130 * ClientScreen.WidthFactor,
             130 * ClientScreen.HeightFactor
         );
 
+        EmptyPentagon emptyPentagon = new EmptyPentagon(
+            new PointF(425 * ClientScreen.WidthFactor, 865 * ClientScreen.HeightFactor),
+            130 * ClientScreen.WidthFactor,
+            130 * ClientScreen.HeightFactor
+        );
+
         EmptySquare emptySquare = new EmptySquare(
-            new PointF(635 * ClientScreen.WidthFactor, 865 * ClientScreen.HeightFactor),
+            new PointF(645 * ClientScreen.WidthFactor, 865 * ClientScreen.HeightFactor),
             130 * ClientScreen.WidthFactor,
             130 * ClientScreen.HeightFactor
         );
 
         EmptyStar emptyStar = new EmptyStar(
-            new PointF(1055 * ClientScreen.WidthFactor, 865 * ClientScreen.HeightFactor),
+            new PointF(865 * ClientScreen.WidthFactor, 865 * ClientScreen.HeightFactor),
             130 * ClientScreen.WidthFactor,
             130 * ClientScreen.HeightFactor
         );
 
         EmptyTriangle emptyTriangle = new EmptyTriangle(
-            new PointF(855 * ClientScreen.WidthFactor, 865 * ClientScreen.HeightFactor),
+            new PointF(1085 * ClientScreen.WidthFactor, 865 * ClientScreen.HeightFactor),
             130 * ClientScreen.WidthFactor,
             130 * ClientScreen.HeightFactor
         );
@@ -122,46 +122,46 @@ public partial class Challenge
 
         Circle circle = new(
             220 * ClientScreen.WidthFactor,
-            425 * ClientScreen.HeightFactor,
+            205 * ClientScreen.HeightFactor,
             130 * ClientScreen.WidthFactor,
             UserData.Current.RealCircleWeight
         );
         AddShapes(emptyCircle, circle);
 
-        Square square = new(
-            350 * ClientScreen.WidthFactor,
-            635 * ClientScreen.HeightFactor,
-            130 * ClientScreen.WidthFactor,
-            UserData.Current.RealSquareWeight
-        );
-        AddShapes(emptySquare, square);
-
-        Triangle triangle = new(
-            750 * ClientScreen.WidthFactor,
-            845 * ClientScreen.HeightFactor,
-            130 * ClientScreen.WidthFactor,
-            130 * ClientScreen.WidthFactor,
-            UserData.Current.RealTriangleWeight
-        );
-        AddShapes(emptyTriangle, triangle);
-
         Pentagon pentagon = new(
             950 * ClientScreen.WidthFactor,
-            205 * ClientScreen.HeightFactor,
+            425 * ClientScreen.HeightFactor,
             130 * ClientScreen.WidthFactor,
             130 * ClientScreen.WidthFactor,
             UserData.Current.RealPentagonWeight
         );
         AddShapes(emptyPentagon, pentagon);
 
+        Square square = new(
+            350 * ClientScreen.WidthFactor,
+            645 * ClientScreen.HeightFactor,
+            130 * ClientScreen.WidthFactor,
+            UserData.Current.RealSquareWeight
+        );
+        AddShapes(emptySquare, square);
+
         Star star = new(
              1150 * ClientScreen.WidthFactor,
-             1065 * ClientScreen.HeightFactor,
+             865 * ClientScreen.HeightFactor,
              130 * ClientScreen.WidthFactor,
              130 * ClientScreen.WidthFactor,
              UserData.Current.RealStarWeight
         );
         AddShapes(emptyStar, star);
+
+        Triangle triangle = new(
+            750 * ClientScreen.WidthFactor,
+            1085 * ClientScreen.HeightFactor,
+            130 * ClientScreen.WidthFactor,
+            130 * ClientScreen.WidthFactor,
+            UserData.Current.RealTriangleWeight
+        );
+        AddShapes(emptyTriangle, triangle);
     }
 
     private void InitializeButtons()

@@ -10,13 +10,13 @@ public partial class Train
     Font fontAttemps = new Font("Open Sans", 32 * ClientScreen.WidthFactor);
     SolidBrush brush = new SolidBrush(Color.FromArgb(0, 0, 0));
 
-    void DrawRectangleBack(int x_, int y_, int width_, int height_)
+    void DrawRectangleBack(Image img, int x_, int y_, int width_, int height_)
     {
         Size backSize = new Size(
             (int)(width_ * ClientScreen.WidthFactor),
             (int)(height_ * ClientScreen.HeightFactor)
         );
-        Image resizedBack = ImageProcessing.ResizeImage(BackRect, backSize);
+        Image resizedBack = ImageProcessing.ResizeImage(img, backSize);
         int x_Back = (int)(x_ * ClientScreen.WidthFactor);
         int y_Back = (int)(y_ * ClientScreen.HeightFactor);
         g.DrawImage(resizedBack, new Point(x_Back, y_Back));

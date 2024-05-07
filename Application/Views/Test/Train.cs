@@ -14,6 +14,7 @@ namespace Views;
 public partial class Train : Form
 {
     Security security;
+    private Stopwatch basewatch;
 
     PictureBox header;
 
@@ -52,12 +53,15 @@ public partial class Train : Form
 
     private Stopwatch stopwatch;
 
+    Image BackRectTrain;
     Image BackRect;
 
     public Train()
     {
-        stopwatch = new(new(1460, 96), new(310, 90));
-        BackRect = Resources.BackRect;
+        basewatch = new(new(1460, 96), new(310, 90));
+
+        BackRectTrain = Resources.BackRectTrain;
+        BackRect = Resources.BackRectRight;
 
         this.WindowState = FormWindowState.Maximized;
         this.FormBorderStyle = FormBorderStyle.None;
@@ -66,7 +70,7 @@ public partial class Train : Form
         this.header = new PictureBox
         {
             Dock = DockStyle.Top,
-            Height = (int)(25 * ClientScreen.HeightFactor),
+            Height = (int)(10 * ClientScreen.HeightFactor),
             BackgroundImage = Image.FromFile(@"Assets\rainbow.png"),
             BackgroundImageLayout = ImageLayout.Stretch
         };
@@ -100,7 +104,7 @@ public partial class Train : Form
             this.bmp = new Bitmap(pb.Width, pb.Height);
             g = Graphics.FromImage(this.bmp);
             g.InterpolationMode = InterpolationMode.NearestNeighbor;
-            g.Clear(Color.FromArgb(250, 250, 250));
+            g.Clear(Color.FromArgb(255, 255, 255));
             this.pb.Image = bmp;
             this.tm.Start();
 
@@ -132,19 +136,11 @@ public partial class Train : Form
         {
             g.Clear(Color.FromArgb(250, 250, 250));
 
-            DrawRectangleBack(362, 830, 688, 192);
-            DrawRectangleBack(1415, 54, 400, 974);
+            DrawRectangleBack(Resources.BackRectTrain, 362, 830, 688, 192);
+            DrawRectangleBack(Resources.BackRectRight, 1415, 54, 400, 974);
 
             textForResult(o, e);
             Frame();
-
-            stopwatch.Update();
-            if (0 > stopwatch.GetTimeDifference().TotalMinutes && challenge is null)
-            {
-                this.Hide();
-                this.challenge = new();
-                challenge.Show();
-            }
 
             pb.Refresh();
         };
@@ -282,7 +278,7 @@ public partial class Train : Form
         DrawLogo();
         DrawAttempts(1480, 225);
 
-        stopwatch.Draw(g);
+        basewatch.DrawAwait(g);
 
         DrawInput();
         DrawBalances();

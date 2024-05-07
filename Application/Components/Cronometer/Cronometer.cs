@@ -68,6 +68,12 @@ public class Stopwatch
         g.FillRectangle(Brushes.White, this.background);
         g.DrawString(time.Text, time.Font, Brushes.Black, time.Location);
     }
+    public void DrawAwait(Graphics g)
+    {
+        g.FillRectangle(Brushes.Black, this.border);
+        g.FillRectangle(Brushes.White, this.background);
+        g.DrawString("Aguarde", time.Font, Brushes.Black, time.Location.X - 55 * ClientScreen.WidthFactor, time.Location.Y);
+    }
 
     public void Update()
         => this.time.Text = string.Format("{0:mm\\:ss}", GetTimeDifference());
