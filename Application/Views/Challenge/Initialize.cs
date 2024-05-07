@@ -5,6 +5,7 @@ using Entities.Shapes;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Windows.Forms;
 using Utils;
 
 namespace Views;
@@ -15,9 +16,13 @@ public partial class Challenge
         int[] array = { 2, 3, 5, 8, 10 };
         array = Functions.ShuffleWeights(array);
 
+        var square = array[0];
+        var circle = array[2];
+        array[0] = circle;
+        array[2] = square;
+
         UserData.Current.RealValues = array.ToArray();
     }
-
     private void InitializeBalances()
     {
         this.balanceLeft = new Balance(

@@ -328,10 +328,16 @@ public partial class Challenge : Form
         BackRect = Resources.BackRect;
 
         InitializeWeights();
+
+
         InitializeBalances();
         InitializeButtons();
         InitializeInputs();
         InitializeShapes();
+        for (int i = 0; i < 5; i++)
+        {
+            MessageBox.Show($"{i}: {UserData.Current.RealValues[i]}");
+        }
     }
 
     private void Frame()
