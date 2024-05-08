@@ -1,5 +1,11 @@
 using System.Windows.Forms;
 using Views;
-
-ApplicationConfiguration.Initialize();
-Application.Run(new Login());
+try
+{
+    ApplicationConfiguration.Initialize();
+    Application.Run(new Login());
+}
+catch (System.Exception ex)
+{
+    MessageBox.Show(ex.Message);
+}

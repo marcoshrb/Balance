@@ -10,6 +10,9 @@ namespace Entities;
 
 public class Balance : Entity
 {
+    private Image body;
+    private Image plate;
+
     public int State;
     public RectangleF LeftHitbox;
     public RectangleF RightHitbox;
@@ -33,6 +36,9 @@ public class Balance : Entity
     public Balance(float x, float y, float width, float height)
         : base(x, y, width, height)
     {
+        this.body = ImageProcessing.ResizeImage(ImageProcessing.GetImage("Assets/Balance/Balance-Body.png"), new((int)(width * 0.55145631068f), (int)height));
+        this.plate = ImageProcessing.ResizeImage(ImageProcessing.GetImage("Assets/Balance/Balance-Plate.png"), new((int)(width * 0.38446601941f), (int)(height * 0.13009708737f)));
+
         State = (int)BalanceState.None;
 
         LeftShapes = new();
@@ -141,6 +147,8 @@ public class Balance : Entity
     private void DrawBalance(Graphics g)
     {
         Animate();
+
+
         float width = Width;
         float height = Height;
         float x = X + width / 2;
@@ -167,6 +175,13 @@ public class Balance : Entity
             width,
             heightFactor * 40f
         );
+        
+        var new_balancerSeesaw = new RectangleF(
+            x - width / 2f,
+            y - height / 2f + heightFactor * 40f,
+            width,
+            heightFactor * 40f
+        );
 
         g.FillRectangle(Brushes.Black, baseBalance);
         g.FillRectangle(Brushes.Black, balancerAxis);
@@ -179,6 +194,7 @@ public class Balance : Entity
             ),
             Angle
         );
+
         var balanceLeft = new RectangleF(
             rotatedBalancerSeesaw[3].X - (baseBalance.Width / 2f + widthFactor * 180f) / 2f,
             rotatedBalancerSeesaw[3].Y + (183f * heightFactor),
@@ -192,6 +208,7 @@ public class Balance : Entity
             baseBalance.Height
         );
 
+        
         this.LeftHitbox = new RectangleF(
             (float)balanceLeft.Left,
             (float)rotatedBalancerSeesaw[3].Y,
@@ -265,8 +282,8 @@ public class Balance : Entity
 
         g.ResetTransform();
 
-        g.FillRectangle(Brushes.Gray, balanceLeft);
-        g.FillRectangle(Brushes.Gray, balanceRight);
+        // g.FillRectangle(Brushes.Gray, balanceLeft);
+        // g.FillRectangle(Brushes.Gray, balanceRight);
 
         this.position1 = new RectangleF(
             balanceLeft.Left,
@@ -345,6 +362,20 @@ public class Balance : Entity
         emptySquare2.Location = new(position8.Left, position8.Top);
         emptyStar2.Location = new(position9.Left, position9.Top);
         emptyTriangle2.Location = new(position10.Left, position10.Top);
+
+        g.DrawImage(body, X + (Width / 2 - body.Width / 2), Y);
+
+        g.DrawImage(
+            plate, 
+            rotatedBalancerSeesaw[3].X - 37,
+            rotatedBalancerSeesaw[3].Y + 238
+        );
+        g.DrawImage(
+            plate, 
+            rotatedBalancerSeesaw[2].X - 166,
+            rotatedBalancerSeesaw[2].Y + 238
+        );
+
     }
 
     public void Animate()

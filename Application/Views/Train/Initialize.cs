@@ -28,8 +28,8 @@ public partial class Train
         this.balance = new Balance(
             530 * ClientScreen.WidthFactor,
             265 * ClientScreen.HeightFactor,
-            350 * ClientScreen.WidthFactor,
-            350 * ClientScreen.HeightFactor
+            515 * ClientScreen.WidthFactor,
+            515 * ClientScreen.HeightFactor
         );
     }
 

@@ -291,7 +291,7 @@ public partial class Train : Form
         DrawBalances();
 
         btnReset.Draw(g);
-        btnVerify.Draw(g);
+        // btnVerify.Draw(g);
 
         DrawShapes();
     }
