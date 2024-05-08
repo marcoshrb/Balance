@@ -5,7 +5,7 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
 
-export default function EditComponent() {
+export default function EditTimeComponent() {
 
     const [tempoProva, setTempo_Prova] = useState("");
     const [provaLiberada, setProva_Liberada] = useState(false);
