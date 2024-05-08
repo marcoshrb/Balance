@@ -76,8 +76,11 @@ namespace Views
 
             // Input Box
             inputBox = new TextBox();
-            inputBox.Size = new Size(416, 76);
-            inputBox.Location = new Point(x + 43, y + 280); // Posição abaixo do texto "Coloque seu Nome:"
+            inputBox.Size = new Size(
+                    (int)(this.ClientSize.Width * 0.31),
+                    (int)(this.ClientSize.Height * 0.4)
+                );
+            inputBox.Location = new Point(x + 53, y + 280); // Posição abaixo do texto "Coloque seu Nome:"
             inputBox.BackColor = Color.WhiteSmoke;
             inputBox.Font = new Font("Arial", 12);
             inputBox.BorderStyle = BorderStyle.FixedSingle;
