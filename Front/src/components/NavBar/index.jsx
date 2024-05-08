@@ -17,17 +17,25 @@ export const Bosch = styled.div`
 
 export const Image = styled.img`
   position: fixed;
-  top: 3%;
-  left: 20%;
+  top: 1%;
   width: 10em;
   z-index: 999;
+`;
+
+export const DivImg = styled.div`
+  width : 100%;
+  display : flex;
+  flex-direction: row;
+  justify-content: center;
 `;
 
 function NavBarS() {
   return (
     <>
       <Bosch />
-      <Image src={boschImage} alt="Imagem do Bosch" /> 
+      <DivImg>
+        <Image src={boschImage} alt="Imagem do Bosch" /> 
+      </DivImg>
     </>
   );
 }

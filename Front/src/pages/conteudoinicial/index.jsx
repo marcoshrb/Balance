@@ -26,6 +26,7 @@ export default function ConteudoInicial() {
           <Col xs={12} sm={8} md={10}>
             <AlertaComponent />
             <ConteudoInicialComponent
+              cards
               handleShowTimer={handleShowTimer}
               handleShowCronometro={handleShowCronometro}
             />

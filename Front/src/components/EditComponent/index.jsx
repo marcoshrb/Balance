@@ -4,6 +4,11 @@ import { useState } from "react";
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
+import Bola from '../../assets/Bola.png';
+import Estrela from '../../assets/Estrela.png';
+import Pentagono from '../../assets/Pentagono.png';
+import Quadrado from '../../assets/Quadrado.png';
+import Triangulo from '../../assets/Triangulo.png';
 
 export default function EditComponent() {
 
@@ -56,35 +61,35 @@ export default function EditComponent() {
                             <InputGroup.Text>min</InputGroup.Text>
                         </InputGroup>
                         <InputGroup className="mb-3">
-                            <InputGroup.Text>Δ</InputGroup.Text>
+                            <InputGroup.Text><img src={Triangulo} className={styles.ImgsFormas}></img></InputGroup.Text>
                             <Form.Control aria-label="Amount (to the nearest dollar)" 
                             onChange={(e) => setf1(e.target.value)}
                             placeholder="forma 1"
                             />
                         </InputGroup>
                         <InputGroup className="mb-3">
-                            <InputGroup.Text>▢</InputGroup.Text>
+                            <InputGroup.Text><img src={Quadrado} className={styles.ImgsFormas}></img></InputGroup.Text>
                             <Form.Control aria-label="Amount (to the nearest dollar)" 
                             onChange={(e) => setf2(e.target.value)}
                             placeholder="forma 2"
                             />
                         </InputGroup>
                         <InputGroup className="mb-3">
-                            <InputGroup.Text>⬠</InputGroup.Text>
+                        <InputGroup.Text><img src={Pentagono} className={styles.ImgsFormas}></img></InputGroup.Text>
                             <Form.Control aria-label="Amount (to the nearest dollar)" 
                             onChange={(e) => setf3(e.target.value)}
                             placeholder="forma 3"
                             />
                         </InputGroup>
                         <InputGroup className="mb-3">
-                            <InputGroup.Text>☆</InputGroup.Text>
+                        <InputGroup.Text><img src={Estrela} className={styles.ImgsFormas}></img></InputGroup.Text>
                             <Form.Control aria-label="Amount (to the nearest dollar)" 
                             onChange={(e) => setf4(e.target.value)}
                             placeholder="forma 4"
                             />
                         </InputGroup>
                         <InputGroup className="mb-3">
-                            <InputGroup.Text>◯</InputGroup.Text>
+                            <InputGroup.Text><img src={Bola} className={styles.ImgsFormas}></img></InputGroup.Text>
                             <Form.Control aria-label="Amount (to the nearest dollar)" 
                             onChange={(e) => setf5(e.target.value)}
                             placeholder="forma 5"
