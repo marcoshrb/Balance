@@ -26,59 +26,21 @@ const Quadro = styled.div`
   padding-top : 80px;
 `;
 
-export default function EditComponent() {
+export default function EditComponent(props) {
+
+    const { setf1, setf2, setf3, setf4, setf5 } = props;
 
     const [open, setOpen] = useState(false);
 
-    const [tempoProva, setTempo_Prova] = useState("");
-    const [provaLiberada, setProva_Liberada] = useState(false);
-    const [f1, setf1] = useState("");
-    const [f2, setf2] = useState("");
-    const [f3, setf3] = useState("");
-    const [f4, setf4] = useState("");
-    const [f5, setf5] = useState("");
-
-    async function handleSubmit(e) {
-        e.preventDefault();
-        setProva_Liberada(true);
-
-        const orderedJson = {
-            tempo_Prova: tempoProva,
-            prova_Liberada: provaLiberada,
-            f1_: f1,
-            f2_: f2,
-            f3_: f3,
-            f4_: f4,
-            f5_: f5
-        };
-        // Criando um novo objeto com a ordem dos campos desejada
-        console.log(orderedJson);
-
-        try {
-            const response = await axios.post('http://localhost:8080/challenge/', orderedJson);
-            console.log("Resposta da API:", response.data);
-        } catch (error) {
-            console.log("Erro ao fazer requisição:", error);
-
-        }
-    }
-
     return (
         <>
-            <Quadro>
+            <Quadro style={{zIndex : "100", position: 'fixed'}}>
                 {open &&
 
                     <div className={styles.CardInputs}>
-                        <form onSubmit={handleSubmit}>
+                        <form>
                             <div style={{ display: 'flex', flexDirection: 'column' }}>
-                                <InputGroup className="mb-3">
-                                    <Form.Control aria-label="Amount (to the nearest dollar)"
-                                        onChange={(e) => setTempo_Prova(e.target.value)}
-                                        placeholder="Tempo de prova"
-                                        type="number"
-                                    />
-                                    <InputGroup.Text>min</InputGroup.Text>
-                                </InputGroup>
+                                
                                 <InputGroup className="mb-3">
                                     <InputGroup.Text><img src={Triangulo} className={styles.ImgsFormas}></img></InputGroup.Text>
                                     <Form.Control aria-label="Amount (to the nearest dollar)"
@@ -119,7 +81,6 @@ export default function EditComponent() {
                                         type="number"
                                     />
                                 </InputGroup>
-                                <Button variant="success" type='submit'>Salvar</Button>
                             </div>
                         </form>
                     </div>
