@@ -63,7 +63,7 @@ public partial class Train : Form
         this.header = new PictureBox
         {
             Dock = DockStyle.Top,
-            Height = (int)(10 * ClientScreen.HeightFactor),
+            Height = (int)(16 * ClientScreen.HeightFactor),
             BackgroundImage = Resources.Rainbow,
             BackgroundImageLayout = ImageLayout.Stretch
         };

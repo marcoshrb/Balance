@@ -35,7 +35,6 @@ public class Login : Form
         this.header = new PictureBox
         {
             Dock = DockStyle.Top,
-            Height = (int)(16 * ClientScreen.HeightFactor),
             BackgroundImage = Resources.Rainbow,
             BackgroundImageLayout = ImageLayout.Stretch
         };
