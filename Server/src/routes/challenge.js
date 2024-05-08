@@ -1,45 +1,77 @@
 const express = require('express');
 const router = express.Router();
 
-let examState = {
-    time: "",
-    isReleased: false,
-    w1: 0,
-    w2: 0,
-    w3: 0,
-    w4: 0,
-    w5: 0
-};
+let TempoProva = 30;
+let ProvaLiberada = false;
+let f1 = 2;
+let f2 = 3;
+let f3 = 5;
+let f4 = 8;
+let f5 = 10;
 
-router.get('/', (req, res) => {
-    json = {
-        time: examState.time,
-        isReleased: examState.isReleased,
-        wheights: [examState.w1, examState.w2, examState.w3, examState.w4, examState.w5].sort()
-    }
-    res.status(200).json(examState);
-});
+router
+    .get('/', (req, res) => {
+        res.json({
+            TempoProva,
+            ProvaLiberada,
+            f1,
+            f2,
+            f3,
+            f4,
+            f5
+        });
+    })
+    .post('/', (req, res) => {
+        const {
+            tempo_Prova,
+            prova_Liberada,
+            f1_,
+            f2_,
+            f3_,
+            f4_,
+            f5_
+        } = req.body;
 
-router.post('/', (req, res) => {
-    const {
-        examTime,
-        examReleased,
-        w1,
-        w2,
-        w3,
-        w4,
-        w5
-    } = req.body;
+        TempoProva = tempo_Prova;
+        ProvaLiberada = prova_Liberada;
+        f1 = f1_;
+        f2 = f2_;
+        f3 = f3_;
+        f4 = f4_;
+        f5 = f5_;
+        res.send('Estado da prova atualizado!');
+    })
 
-    examState.examTime = examTime;
-    examState.examReleased = examReleased;
-    examState.w1 = w1;
-    examState.w2 = w2;
-    examState.w3 = w3;
-    examState.w4 = w4;
-    examState.w5 = w5;
+    .post('/values', (req, res) => {
+        const {
+            f1_,
+            f2_,
+            f3_,
+            f4_,
+            f5_
+        } = req.body;
 
-    res.status(200).send('Estado da prova atualizado!');
-});
+        f1 = f1_;
+        f2 = f2_;
+        f3 = f3_;
+        f4 = f4_;
+        f5 = f5_;
+        res.send('Valores atualizados!');
+    })
+
+    .post('/begin', (req, res) => {
+        const {
+            tempo_Prova,
+        } = req.body;
+
+        TempoProva = tempo_Prova;
+        ProvaLiberada = true;
+        res.send('Valores atualizados!');
+    })
+
+    .post('/end', (req, res) => {
+        ProvaLiberada = false;
+        res.send('Valores atualizados!');
+    })
 
 module.exports = router;

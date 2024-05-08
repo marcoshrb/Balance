@@ -5,6 +5,7 @@ public class UserData
     private static UserData current;
     public static UserData Current => current;
     public static void New() => current = new UserData();
+    public Values JsonValues { get; set; } 
     public int MoveCounter { get; set; }
     public string UserName { get; set; }
     public DateTime DateStart { get; set; }

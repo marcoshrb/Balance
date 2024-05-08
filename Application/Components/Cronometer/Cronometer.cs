@@ -60,7 +60,16 @@ namespace Components
                 )
             );
 
-            target = DateTime.Now.AddMinutes(30);
+            try
+            {
+                target = DateTime.Now.AddMinutes(UserData.Current.JsonValues.TempoProva);
+            }
+            catch (Exception e)
+            {
+                // MessageBox.Show(e.Message);
+                target = DateTime.Now.AddMinutes(0);
+            }
+
         }
 
         public void Draw(Graphics g)

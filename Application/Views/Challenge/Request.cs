@@ -4,7 +4,8 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Views;
-public partial class Train
+
+public partial class Challenge
 {
     bool screenChanged = false;
     public void MakeRequest()
@@ -16,12 +17,6 @@ public partial class Train
 
         UserData.Current.JsonValues = JsonSerializer.Deserialize<Values>(resultContent);
 
-        if(UserData.Current.JsonValues.ProvaLiberada && !screenChanged)
-        {
-            screenChanged = true;
-            this.Hide();
-            this.challenge = new();
-            challenge.Show();
-        }
+        // MessageBox.Show(UserData.Current.JsonValues.TempoProva.ToString());
     }
 }

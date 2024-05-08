@@ -57,8 +57,6 @@ public partial class Challenge : Form
 
     public Challenge()
     {
-        stopwatch = new(new(1460, 96), new(310, 90));
-
         UserData.Current.DateStart = DateTime.Now;
 
         Completed completed = new();
@@ -139,13 +137,16 @@ public partial class Challenge : Form
             lastchecked = DateTime.Now;
             g.DrawString($"FPS: {fps}", SystemFonts.DefaultFont, Brushes.Black, 10, 50);
 
-            DrawRectangleBack(Resources.BackRectChallenge,125, 830, 1162, 192);
-            DrawRectangleBack(Resources.BackRectRight,1415, 54, 400, 974);
+            DrawRectangleBack(Resources.BackRectChallenge, 125, 830, 1162, 192);
+            DrawRectangleBack(Resources.BackRectRight, 1415, 54, 400, 974);
+
+            if (counter % 60 == 0)
+                MakeRequest();
 
             textForResult(o, e);
             stopwatch.Update();
 
-            if (0 > stopwatch.GetTimeDifference().TotalMinutes && !saveFlag)
+            if ((!UserData.Current.JsonValues.ProvaLiberada || 0 > stopwatch.GetTimeDifference().TotalMinutes) && !saveFlag)
             {
                 try
                 {
@@ -158,6 +159,7 @@ public partial class Challenge : Form
                     btnFinish.FinishChallenge();
                     btnFinish.CsvToExcel();
                     this.Hide();
+                    // MessageBox.Show(UserData.Current.JsonValues.TempoProva.ToString());
                     completed.Show();
                     saveFlag = true;
                 }
@@ -336,6 +338,9 @@ public partial class Challenge : Form
 
     private void Onstart()
     {
+        stopwatch = new(new(1460, 96), new(310, 90));
+        // stopwatch.Start();
+
         BackRect = Resources.BackRectChallenge;
         BackRectRight = Resources.BackRectRight;
 

@@ -137,6 +137,9 @@ public partial class Train : Form
             textForResult(o, e);
             Frame();
 
+            if(counter % 60 == 0)
+                MakeRequest();
+
             frameCount++;
             TimeSpan elapsedTime = DateTime.Now - lastChecked;
             if (elapsedTime.TotalMilliseconds >= 50)
