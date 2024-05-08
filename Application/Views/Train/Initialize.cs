@@ -12,15 +12,15 @@ public partial class Train
 {
     private void InitializeWeights()
     {
-        int[] array = { 1, 3, 2, 4, 5 };
+        int[] array = { 1, 2, 3 };
         array = Functions.ShuffleWeights(array);
         
         var square = array[0];
-        var circle = array[2];
+        var circle = array[1];
         array[0] = circle;
-        array[2] = square;
+        array[1] = square;
 
-        UserData.Current.RealValues = array.ToArray();
+        UserData.Current.TrainValues = array.ToArray();
     }
 
     private void InitializeBalances()
@@ -43,7 +43,7 @@ public partial class Train
             Resources.Circle
         )
         {
-            Content = UserData.Current.RealCircleWeight().ToString(),
+            Content = UserData.Current.TrainCircleWeight().ToString(),
             Disable = true
         };
         inputSquare = new InputUser(

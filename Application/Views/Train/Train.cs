@@ -24,8 +24,6 @@ public partial class Train : Form
     Timer tm;
 
     Balance balance;
-    Balance balanceRight;
-
     List<Shape> shapes;
     private List<EmptyShape> fixedPositions;
 
@@ -37,8 +35,6 @@ public partial class Train : Form
     InputUser inputCircle = null;
     InputUser inputTriangle = null;
     InputUser inputSquare = null;
-    InputUser inputPentagon = null;
-    InputUser inputStar = null;
     TextBox textBox = null;
     InputUser crrInput = null;
 
@@ -50,9 +46,6 @@ public partial class Train : Form
     BtnReset btnReset;
     BtnConfirm btnContinue;
     BtnInitial btnVerify;
-
-    private Stopwatch stopwatch;
-
     Image BackRectTrain;
     Image BackRect;
 

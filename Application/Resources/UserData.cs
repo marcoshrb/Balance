@@ -10,6 +10,10 @@ public class UserData
     public DateTime DateStart { get; set; }
     public DateTime DateFinish { get; set; }
     public int[] RealValues { get; set; } = new int[5];
+    public int[] TrainValues { get; set; } = new int[3];
+    public int TrainCircleWeight() => TrainValues[0];
+    public int TrainTriangleWeight() => TrainValues[1];
+    public int TrainSquareeight() => TrainValues[2];
     public int RealCircleWeight() => RealValues[0];
     public int RealPentagonWeight() => RealValues[1];
     public int RealSquareWeight() => RealValues[2];
