@@ -1,4 +1,3 @@
-import React from "react";
 import styled from "styled-components";
 import boschImage from "./img/bosch.png"; 
 import backgroundImage from "./img/colorStripe.png";
@@ -18,7 +17,6 @@ export const Bosch = styled.div`
 export const Image = styled.img`
   position: fixed;
   top: 3%;
-  left: 20%;
   width: 10em;
   z-index: 999;
 `;
@@ -27,7 +25,9 @@ function NavBarS() {
   return (
     <>
       <Bosch />
-      <Image src={boschImage} alt="Imagem do Bosch" /> 
+      <div style={{display: 'flex', justifyContent: 'center', backgroundColor: 'white'}}>
+        <Image src={boschImage} alt="Imagem do Bosch" /> 
+      </div>
     </>
   );
 }

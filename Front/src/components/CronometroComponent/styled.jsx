@@ -3,15 +3,20 @@ import styled from 'styled-components';
 const TimerWrapper = styled.div`
   font-family: Arial, sans-serif;
   text-align: center;
-  margin-top: -40vh; 
+  justify-content: center;
+  align-items: center;
+  margin-top: 10em;
 `;
 
 const CronometroDisplay = styled.div`
-  font-size: 8em;
+  font-size: 16em;
 `;
 
 const AcoesWrapper = styled.div`
-  margin-top: 20px;
+`;
+
+const Embaixo = styled.div`
+  margin-top: 12.5em;
 `;
 
 const StartButton = styled.a`
@@ -56,4 +61,4 @@ const EscButton = styled.a`
   }
 `;
 
-export { TimerWrapper, CronometroDisplay, AcoesWrapper, StartButton, EscButton };
+export { TimerWrapper, CronometroDisplay, AcoesWrapper, Embaixo, StartButton, EscButton };
