@@ -44,7 +44,6 @@ public partial class Train : Form
     Challenge challenge = null;
 
     BtnReset btnReset;
-    BtnConfirm btnContinue;
     BtnInitial btnVerify;
     Image BackRectTrain;
     Image BackRect;
@@ -108,8 +107,6 @@ public partial class Train : Form
         this.pb.MouseMove += (o, e) =>
         {
             this.cursor = e.Location;
-            if (btnContinue.Hitbox.Contains(cursor))
-                Cursor.Current = Cursors.Hand;
             if (btnReset.Hitbox.Contains(cursor))
                 Cursor.Current = Cursors.Hand;
             if (btnVerify.Hitbox.Contains(cursor))
@@ -126,6 +123,10 @@ public partial class Train : Form
             isDown = false;
         };
 
+        DateTime lastChecked = DateTime.Now;
+        int frameCount = 0;
+        float fps = 0;
+
         this.tm.Tick += (o, e) =>
         {
             g.Clear(Color.FromArgb(255, 255, 255));
@@ -135,6 +136,19 @@ public partial class Train : Form
 
             textForResult(o, e);
             Frame();
+
+            frameCount++;
+            TimeSpan elapsedTime = DateTime.Now - lastChecked;
+            if (elapsedTime.TotalMilliseconds >= 50)
+            {
+                fps = frameCount / (float)elapsedTime.TotalSeconds;
+                lastChecked = DateTime.Now;
+                frameCount = 0;
+            }
+
+
+            g.DrawString($"FPS: {fps}", SystemFonts.DefaultFont, Brushes.Black, 10, 50);
+
 
             pb.Refresh();
         };
@@ -147,15 +161,11 @@ public partial class Train : Form
                 MoveCounter++;
             }
 
-            if (btnContinue.Hitbox.Contains(e.X, e.Y))
-            {
-                this.Hide();
-                this.challenge = new();
-                challenge.Show();
-            }
-
             if (btnReset.Hitbox.Contains(e.X, e.Y))
-                Onstart();
+            {
+                InitializeBalances();
+                InitializeShapes();
+            }
 
             if (
                 inputCircle.Rect.Contains(e.X, e.Y)
@@ -278,7 +288,6 @@ public partial class Train : Form
         DrawBalances();
 
         btnReset.Draw(g);
-        btnContinue.Draw(g);
         btnVerify.Draw(g);
 
         DrawShapes();
@@ -324,4 +333,3 @@ public partial class Train : Form
         }
     }
 }
-

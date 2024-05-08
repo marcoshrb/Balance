@@ -79,7 +79,7 @@ public partial class Challenge : Form
         this.pb = new PictureBox { Dock = DockStyle.Fill };
         this.Controls.Add(pb);
 
-        this.tm = new Timer { Interval = 10 };
+        this.tm = new Timer { Interval = 1 };
 
         this.KeyDown += (o, e) =>
         {
@@ -128,9 +128,16 @@ public partial class Challenge : Form
             isDown = false;
         };
 
+        DateTime lastchecked = DateTime.Now;
+        float fps = 0;
+
         this.tm.Tick += (o, e) =>
         {
             g.Clear(Color.FromArgb(255, 255, 255));
+
+            fps = (int)(1 / (float)(DateTime.Now - lastchecked).TotalSeconds);
+            lastchecked = DateTime.Now;
+            g.DrawString($"FPS: {fps}", SystemFonts.DefaultFont, Brushes.Black, 10, 50);
 
             DrawRectangleBack(Resources.BackRectChallenge,125, 830, 1162, 192);
             DrawRectangleBack(Resources.BackRectRight,1415, 54, 400, 974);

@@ -49,21 +49,21 @@ public class Login : Form
         this.KeyDown += (o, e) =>
         {
             if (e.KeyCode == Keys.Escape)
+            {
+                if (security == null)
                 {
-                    if (security == null)
+                    security = new Security();
+                    security.FormClosed += (sender, args) =>
                     {
-                        security = new Security();
-                        security.FormClosed += (sender, args) =>
-                        {
-                            security = null;
-                        };
-                        security.Show();
-                    }
-                    else
-                    {
-                        security.BringToFront();
-                    }
+                        security = null;
+                    };
+                    security.Show();
                 }
+                else
+                {
+                    security.BringToFront();
+                }
+            }
         };
 
         this.Load += (o, e) =>
@@ -85,7 +85,7 @@ public class Login : Form
                 "Insira seu nome completo:"
             );
             input.DrawInput(g);
-            btnConfirm = new BtnConfirm(pb.Width * 0.85f, pb.Height * 0.85f, pb.Width*0.104f, pb.Height*0.092f, "Confirmar");
+            btnConfirm = new BtnConfirm(pb.Width * 0.85f, pb.Height * 0.85f, pb.Width * 0.104f, pb.Height * 0.092f, "Confirmar");
             btnConfirm.Draw(g);
         };
 
@@ -169,6 +169,9 @@ public class Login : Form
                     this.Hide();
                     train = new();
                     train.Show();
+
+                    // var challenge = new Challenge();
+                    // challenge.Show();
                 }
                 else
                     MessageBox.Show("Vazio, Preencha os campos com seus dados");
