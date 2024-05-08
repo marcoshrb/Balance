@@ -117,6 +117,7 @@ public partial class Train
 
     private void InitializeButtons()
     {
+        btnHelp = new BtnHelp(65 * ClientScreen.WidthFactor, 65 * ClientScreen.HeightFactor, 45 * ClientScreen.WidthFactor, 45 * ClientScreen.HeightFactor);
         btnVerify = new BtnInitial(595 * ClientScreen.WidthFactor, 710 * ClientScreen.HeightFactor, 220 * ClientScreen.WidthFactor, 92 * ClientScreen.HeightFactor, "Pesar");
         btnReset = new BtnReset(1490 * ClientScreen.WidthFactor, 880 * ClientScreen.HeightFactor, 246 * ClientScreen.WidthFactor, 104 * ClientScreen.HeightFactor, "Resetar");
     }

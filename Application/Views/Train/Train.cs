@@ -14,6 +14,7 @@ namespace Views;
 public partial class Train : Form
 {
     Security security;
+    Help help;
     private Stopwatch basewatch;
     public int MoveCounter;
     PictureBox header;
@@ -45,6 +46,7 @@ public partial class Train : Form
 
     BtnReset btnReset;
     BtnInitial btnVerify;
+    BtnHelp btnHelp;
     Image BackRectTrain;
     Image BackRect;
 
@@ -76,19 +78,21 @@ public partial class Train : Form
 
         this.KeyDown += (o, e) =>
         {
-            switch (e.KeyCode)
+            if (e.KeyCode == Keys.Escape)
             {
-                case Keys.Escape:
-                    if (security is not null)
-                        security.BringToFront();
-
+                if (security == null)
+                {
                     security = new Security();
                     security.FormClosed += (sender, args) =>
                     {
                         security = null;
                     };
                     security.Show();
-                    break;
+                }
+                else
+                {
+                    security.BringToFront();
+                }
             }
         };
 
@@ -155,6 +159,22 @@ public partial class Train : Form
 
         pb.MouseClick += (o, e) =>
         {
+            if (btnHelp.Hitbox.Contains(e.X, e.Y))
+            {
+                if (help == null)
+                {
+                    help = new Help();
+                    help.FormClosed += (sender, args) =>
+                    {
+                        help = null;
+                    };
+                    help.Show();
+                }
+                else
+                {
+                    help.BringToFront();
+                }
+            }
             if (btnVerify.Hitbox.Contains(e.X, e.Y))
             {
                 btnVerify.OnClick(balance);
