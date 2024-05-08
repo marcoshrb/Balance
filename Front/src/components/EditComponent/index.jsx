@@ -9,8 +9,26 @@ import Estrela from '../../assets/Estrela.png';
 import Pentagono from '../../assets/Pentagono.png';
 import Quadrado from '../../assets/Quadrado.png';
 import Triangulo from '../../assets/Triangulo.png';
+import backgroundImage from "./folha.png";
+import styled from "styled-components";
+
+const Quadro = styled.div`
+  width: 25rem;
+  background-image: url(${backgroundImage});
+  background-size: cover;
+  position: absolute;
+  top: 0;
+  right: 2vw;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding-top : 80px;
+`;
 
 export default function EditComponent() {
+
+    const [open, setOpen] = useState(false);
 
     const [tempoProva, setTempo_Prova] = useState("");
     const [provaLiberada, setProva_Liberada] = useState(false);
@@ -37,7 +55,7 @@ export default function EditComponent() {
         console.log(orderedJson);
 
         try {
-            const response = await axios.post('http://localhost:8080/challenge', orderedJson);
+            const response = await axios.post('http://localhost:8080/challenge/', orderedJson);
             console.log("Resposta da API:", response.data);
         } catch (error) {
             console.log("Erro ao fazer requisição:", error);
@@ -47,58 +65,68 @@ export default function EditComponent() {
 
     return (
         <>
-            <div className={styles.CardInputs}>
-                <h1>
-                    FORMAS
-                </h1>
-                <form onSubmit={handleSubmit}>
-                    <div style={{ display: 'flex', flexDirection: 'column' }}>
-                        <InputGroup className="mb-3">
-                            <Form.Control aria-label="Amount (to the nearest dollar)"  
-                            onChange={(e) => setTempo_Prova(e.target.value)}
-                            placeholder="Tempo de prova"
-                            />
-                            <InputGroup.Text>min</InputGroup.Text>
-                        </InputGroup>
-                        <InputGroup className="mb-3">
-                            <InputGroup.Text><img src={Triangulo} className={styles.ImgsFormas}></img></InputGroup.Text>
-                            <Form.Control aria-label="Amount (to the nearest dollar)" 
-                            onChange={(e) => setf1(e.target.value)}
-                            placeholder="forma 1"
-                            />
-                        </InputGroup>
-                        <InputGroup className="mb-3">
-                            <InputGroup.Text><img src={Quadrado} className={styles.ImgsFormas}></img></InputGroup.Text>
-                            <Form.Control aria-label="Amount (to the nearest dollar)" 
-                            onChange={(e) => setf2(e.target.value)}
-                            placeholder="forma 2"
-                            />
-                        </InputGroup>
-                        <InputGroup className="mb-3">
-                        <InputGroup.Text><img src={Pentagono} className={styles.ImgsFormas}></img></InputGroup.Text>
-                            <Form.Control aria-label="Amount (to the nearest dollar)" 
-                            onChange={(e) => setf3(e.target.value)}
-                            placeholder="forma 3"
-                            />
-                        </InputGroup>
-                        <InputGroup className="mb-3">
-                        <InputGroup.Text><img src={Estrela} className={styles.ImgsFormas}></img></InputGroup.Text>
-                            <Form.Control aria-label="Amount (to the nearest dollar)" 
-                            onChange={(e) => setf4(e.target.value)}
-                            placeholder="forma 4"
-                            />
-                        </InputGroup>
-                        <InputGroup className="mb-3">
-                            <InputGroup.Text><img src={Bola} className={styles.ImgsFormas}></img></InputGroup.Text>
-                            <Form.Control aria-label="Amount (to the nearest dollar)" 
-                            onChange={(e) => setf5(e.target.value)}
-                            placeholder="forma 5"
-                            />
-                        </InputGroup>
-                        <Button variant="success" type='submit'>Salvar</Button>
+            <Quadro>
+                {open &&
+
+                    <div className={styles.CardInputs}>
+                        <form onSubmit={handleSubmit}>
+                            <div style={{ display: 'flex', flexDirection: 'column' }}>
+                                <InputGroup className="mb-3">
+                                    <Form.Control aria-label="Amount (to the nearest dollar)"
+                                        onChange={(e) => setTempo_Prova(e.target.value)}
+                                        placeholder="Tempo de prova"
+                                        type="number"
+                                    />
+                                    <InputGroup.Text>min</InputGroup.Text>
+                                </InputGroup>
+                                <InputGroup className="mb-3">
+                                    <InputGroup.Text><img src={Triangulo} className={styles.ImgsFormas}></img></InputGroup.Text>
+                                    <Form.Control aria-label="Amount (to the nearest dollar)"
+                                        onChange={(e) => setf1(e.target.value)}
+                                        placeholder="forma 1"
+                                        type="number"
+                                    />
+                                </InputGroup>
+                                <InputGroup className="mb-3">
+                                    <InputGroup.Text><img src={Quadrado} className={styles.ImgsFormas}></img></InputGroup.Text>
+                                    <Form.Control aria-label="Amount (to the nearest dollar)"
+                                        onChange={(e) => setf2(e.target.value)}
+                                        placeholder="forma 2"
+                                        type="number"
+                                    />
+                                </InputGroup>
+                                <InputGroup className="mb-3">
+                                    <InputGroup.Text><img src={Pentagono} className={styles.ImgsFormas}></img></InputGroup.Text>
+                                    <Form.Control aria-label="Amount (to the nearest dollar)"
+                                        onChange={(e) => setf3(e.target.value)}
+                                        placeholder="forma 3"
+                                        type="number"
+                                    />
+                                </InputGroup>
+                                <InputGroup className="mb-3">
+                                    <InputGroup.Text><img src={Estrela} className={styles.ImgsFormas}></img></InputGroup.Text>
+                                    <Form.Control aria-label="Amount (to the nearest dollar)"
+                                        onChange={(e) => setf4(e.target.value)}
+                                        placeholder="forma 4"
+                                        type="number"
+                                    />
+                                </InputGroup>
+                                <InputGroup className="mb-3">
+                                    <InputGroup.Text><img src={Bola} className={styles.ImgsFormas}></img></InputGroup.Text>
+                                    <Form.Control aria-label="Amount (to the nearest dollar)"
+                                        onChange={(e) => setf5(e.target.value)}
+                                        placeholder="forma 5"
+                                        type="number"
+                                    />
+                                </InputGroup>
+                                <Button variant="success" type='submit'>Salvar</Button>
+                            </div>
+                        </form>
                     </div>
-                </form>
-            </div>
+                }
+
+                <Button variant='warning' className={styles.CloseEditButton} onClick={() => setOpen(!open)}>Editar</Button>
+            </Quadro>
         </>
     );
 }

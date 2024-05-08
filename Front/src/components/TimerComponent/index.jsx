@@ -1,10 +1,21 @@
 import React, { useState, useEffect } from 'react';
-import { TimerWrapper, CronometroDisplay, AcoesWrapper, StartButton, EscButton } from './styled';
+import { TimerWrapper, CronometroDisplay, AcoesWrapper, Embaixo, StartButton, EscButton } from './styled';
+import styled from 'styled-components';
 
-const TimerComponent = () => {
+const CustomInput = styled.input`
+  padding: 15px;
+  font-size: 1.5em;
+  border: 2px solid #fff;
+  border-radius: 5px;
+  width: 500px; 
+  text-align: center;
+`;
+
+export const TimerComponent = () => {
   const [inputTime, setInputTime] = useState('');
   const [remainingTime, setRemainingTime] = useState(0);
   const [timerActive, setTimerActive] = useState(false);
+  const [timeOver, setTimeOver] = useState(false);
   let timeInterval = null;
 
   const handleInputChange = event => {
@@ -24,6 +35,7 @@ const TimerComponent = () => {
           } else {
             clearInterval(timeInterval);
             setTimerActive(false);
+            setTimeOver(true);
             return 0;
           }
         });
@@ -41,6 +53,7 @@ const TimerComponent = () => {
     setTimerActive(false);
     setInputTime('');
     setRemainingTime(0);
+    setTimeOver(false);
   };
 
   useEffect(() => {
@@ -57,24 +70,37 @@ const TimerComponent = () => {
 
   return (
     <TimerWrapper className="TimerComponent">
-      <input
-        type="number"
-        placeholder="Enter time in minutes"
-        value={inputTime}
-        onChange={handleInputChange}
-        disabled={timerActive}
-      />
-      <CronometroDisplay>{formatTime(remainingTime)}</CronometroDisplay>
-      <AcoesWrapper>
-        {!timerActive ? (
-          <StartButton onClick={startTimer}>Iniciar</StartButton>
-        ) : (
-          <StartButton onClick={pauseTimer}>Iniciar</StartButton>
-        )}
-        <EscButton onClick={resetTimer}>Zerar</EscButton>
-      </AcoesWrapper>
+      {timeOver ? (
+        <>
+          <div style={{ fontSize: '2em', marginBottom: '1em' }}>Seu tempo acabou!</div>
+          <Embaixo>
+            <StartButton onClick={resetTimer}>Reiniciar</StartButton>
+          </Embaixo>
+        </>
+      ) : (
+        <>
+          <div style={{ display: 'flex', justifyContent: 'center' }}>
+            <CustomInput
+              type="number"
+              placeholder="Digite aqui quantos minutos terá de prova!"
+              value={inputTime}
+              onChange={handleInputChange}
+              disabled={timerActive}
+            />
+          </div>
+          <CronometroDisplay>{formatTime(remainingTime)}</CronometroDisplay>
+          <AcoesWrapper>
+            <Embaixo>
+              {!timerActive ? (
+                <StartButton onClick={startTimer}>Iniciar</StartButton>
+              ) : (
+                <StartButton onClick={pauseTimer}>Pausar</StartButton>
+              )}
+              <EscButton onClick={resetTimer}>Zerar</EscButton>
+            </Embaixo>
+          </AcoesWrapper>
+        </>
+      )}
     </TimerWrapper>
   );
 };
-
-export default TimerComponent;
