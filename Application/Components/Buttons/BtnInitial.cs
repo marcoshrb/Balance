@@ -1,4 +1,5 @@
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Windows.Forms;
 using Entities;
 
@@ -19,11 +20,11 @@ public class BtnInitial : BtnBase
         Font font = new Font("Arial bold", this.Hitbox.Width * 0.085f);
         SizeF textSize = g.MeasureString(this.text, font);
 
+        LinearGradientBrush gradientOrange = new LinearGradientBrush(this.Hitbox ,Color.FromArgb(255, 145, 77), Color.FromArgb(255, 222, 89), LinearGradientMode.Horizontal);
+
         ShadowRect(this.Hitbox);
-        DrawShadow(g);
 
-
-        g.FillRectangle(Brushes.Orange, this.Hitbox);
+        g.FillRectangle(gradientOrange, this.Hitbox);
         g.DrawString(
             this.text,
             font,
@@ -39,5 +40,9 @@ public class BtnInitial : BtnBase
     {
         balanceRigth.Update();
         balanceLeft.Update();
+    }
+    public void OnClick(Balance balance)
+    {
+        balance.Update();
     }
 }

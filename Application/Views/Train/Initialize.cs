@@ -12,7 +12,7 @@ public partial class Train
 {
     private void InitializeWeights()
     {
-        int[] array = { 2, 3, 5, 8, 10 };
+        int[] array = { 1, 3, 2, 4, 5 };
         array = Functions.ShuffleWeights(array);
         
         var square = array[0];
@@ -25,15 +25,9 @@ public partial class Train
 
     private void InitializeBalances()
     {
-        this.balanceLeft = new Balance(
-            200 * ClientScreen.WidthFactor,
-            300 * ClientScreen.HeightFactor,
-            350 * ClientScreen.WidthFactor,
-            350 * ClientScreen.HeightFactor
-        );
-        this.balanceRight = new Balance(
-            950 * ClientScreen.WidthFactor,
-            300 * ClientScreen.HeightFactor,
+        this.balance = new Balance(
+            530 * ClientScreen.WidthFactor,
+            265 * ClientScreen.HeightFactor,
             350 * ClientScreen.WidthFactor,
             350 * ClientScreen.HeightFactor
         );
@@ -42,42 +36,28 @@ public partial class Train
     private void InitializeInputs()
     {
         inputCircle = new InputUser(
-                pb.Width * 0.85f,
-                pb.Height * 0.15f,
-                pb.Width * 0.1f,
-                pb.Height * 0.04f,
-                Resources.Circle
+            ClientScreen.WidthFactor * 1565,
+            ClientScreen.HeightFactor * 395,
+            ClientScreen.WidthFactor * 205,
+            ClientScreen.HeightFactor * 50,
+            Resources.Circle
         )
         {
             Content = UserData.Current.RealCircleWeight().ToString(),
             Disable = true
         };
-        inputPentagon = new InputUser(
-            pb.Width * 0.85f,
-            pb.Height * 0.20f,
-            pb.Width * 0.1f,
-            pb.Height * 0.04f,
-            Resources.Pentagon
-        );
         inputSquare = new InputUser(
-            pb.Width * 0.85f,
-            pb.Height * 0.25f,
-            pb.Width * 0.1f,
-            pb.Height * 0.04f,
+            ClientScreen.WidthFactor * 1565,
+            ClientScreen.HeightFactor * 500,
+            ClientScreen.WidthFactor * 205,
+            ClientScreen.HeightFactor * 50,
             Resources.Square
         );
-        inputStar = new InputUser(
-            pb.Width * 0.85f,
-            pb.Height * 0.30f,
-            pb.Width * 0.1f,
-            pb.Height * 0.04f,
-            Resources.Star
-        );
         inputTriangle = new InputUser(
-            pb.Width * 0.85f,
-            pb.Height * 0.35f,
-            pb.Width * 0.1f,
-            pb.Height * 0.04f,
+            ClientScreen.WidthFactor * 1565,
+            ClientScreen.HeightFactor * 605,
+            ClientScreen.WidthFactor * 205,
+            ClientScreen.HeightFactor * 50,
             Resources.Triangle
         );
     }
@@ -86,81 +66,50 @@ public partial class Train
     {
         this.fixedPositions = new List<EmptyShape>();
         this.shapes = new List<Shape>();
-        EmptyCircle emptyCircle = new EmptyCircle(
-            new PointF(350 * ClientScreen.WidthFactor, 800 * ClientScreen.HeightFactor),
-            100,
-            100
-        );
 
-        EmptyPentagon emptyPentagon = new EmptyPentagon(
-            new PointF(550 * ClientScreen.WidthFactor, 800 * ClientScreen.HeightFactor),
-            100,
-            100
+        EmptyCircle emptyCircle = new EmptyCircle(
+            new PointF(425 * ClientScreen.WidthFactor, 865 * ClientScreen.HeightFactor),
+            130 * ClientScreen.WidthFactor,
+            130 * ClientScreen.HeightFactor
         );
 
         EmptySquare emptySquare = new EmptySquare(
-            new PointF(750 * ClientScreen.WidthFactor, 800 * ClientScreen.HeightFactor),
-            100,
-            100
-        );
-
-        EmptyStar emptyStar = new EmptyStar(
-            new PointF(950 * ClientScreen.WidthFactor, 800 * ClientScreen.HeightFactor),
-            100,
-            100
+            new PointF(635 * ClientScreen.WidthFactor, 865 * ClientScreen.HeightFactor),
+            130 * ClientScreen.WidthFactor,
+            130 * ClientScreen.HeightFactor
         );
 
         EmptyTriangle emptyTriangle = new EmptyTriangle(
-            new PointF(1150 * ClientScreen.WidthFactor, 800 * ClientScreen.HeightFactor),
-            100,
-            100
+            new PointF(845 * ClientScreen.WidthFactor, 865 * ClientScreen.HeightFactor),
+            130 * ClientScreen.WidthFactor,
+            130 * ClientScreen.HeightFactor
         );
 
         fixedPositions.Add(emptyCircle);
-        fixedPositions.Add(emptyPentagon);
         fixedPositions.Add(emptySquare);
-        fixedPositions.Add(emptyStar);
         fixedPositions.Add(emptyTriangle);
 
         Circle circle = new(
-            550 * ClientScreen.WidthFactor,
-            800 * ClientScreen.HeightFactor,
-            100 * ClientScreen.WidthFactor,
+            424 * ClientScreen.WidthFactor,
+            425 * ClientScreen.HeightFactor,
+            130 * ClientScreen.WidthFactor,
             UserData.Current.RealCircleWeight()
         );
         AddShapes(emptyCircle, circle);
 
-        Pentagon pentagon = new(
-            950 * ClientScreen.WidthFactor,
-            800 * ClientScreen.HeightFactor,
-            100 * ClientScreen.WidthFactor,
-            100 * ClientScreen.WidthFactor,
-            UserData.Current.RealPentagonWeight()
-        );
-        AddShapes(emptyPentagon, pentagon);
-
         Square square = new(
-            350 * ClientScreen.WidthFactor,
-            800 * ClientScreen.HeightFactor,
-            100 * ClientScreen.WidthFactor,
+            636 * ClientScreen.WidthFactor,
+            645 * ClientScreen.HeightFactor,
+            130 * ClientScreen.WidthFactor,
             UserData.Current.RealSquareWeight()
         );
         AddShapes(emptySquare, square);
 
-        Star star = new(
-             1150 * ClientScreen.WidthFactor,
-             800 * ClientScreen.HeightFactor,
-             100 * ClientScreen.WidthFactor,
-             100 * ClientScreen.WidthFactor,
-             UserData.Current.RealStarWeight()
-        );
-        AddShapes(emptyStar, star);
-
         Triangle triangle = new(
-            750 * ClientScreen.WidthFactor,
-            800 * ClientScreen.HeightFactor,
-            100 * ClientScreen.WidthFactor,
-            100 * ClientScreen.WidthFactor,
+            855 * ClientScreen.WidthFactor,
+            865 * ClientScreen.HeightFactor,
+            130 * ClientScreen.WidthFactor,
+            130 * ClientScreen.HeightFactor,
             UserData.Current.RealTriangleWeight()
         );
         AddShapes(emptyTriangle, triangle);
@@ -168,8 +117,8 @@ public partial class Train
 
     private void InitializeButtons()
     {
-        btnContinue = new BtnConfirm(pb.Width * 0.85f, pb.Height * 0.72f, pb.Width * 0.104f, pb.Height * 0.092f, "Continuar");
-        btnReset = new BtnReset(pb.Width * 0.85f, pb.Height * 0.85f, pb.Width * 0.104f, pb.Height * 0.092f, "Resetar");
-        btnVerify = new BtnInitial(pb.Width * 0.344f, pb.Height * 0.60f, pb.Width * 0.104f, pb.Height * 0.092f, "Verificar");
+        btnVerify = new BtnInitial(595 * ClientScreen.WidthFactor, 710 * ClientScreen.HeightFactor, 220 * ClientScreen.WidthFactor, 92 * ClientScreen.HeightFactor, "Pesar");
+        btnReset = new BtnReset(1490 * ClientScreen.WidthFactor, 762 * ClientScreen.HeightFactor, 246 * ClientScreen.WidthFactor, 104 * ClientScreen.HeightFactor, "Resetar");
+        btnContinue = new BtnConfirm(1490 * ClientScreen.WidthFactor, 880 * ClientScreen.HeightFactor, 246 * ClientScreen.WidthFactor, 104 * ClientScreen.HeightFactor, "Continuar");
     }
 }

@@ -53,10 +53,11 @@ public partial class Challenge : Form
     private BtnInitial btnVerify;
 
     private Image BackRect;
+    private Image BackRectRight;
 
     public Challenge()
     {
-        stopwatch = new(new(10, 100), new(200, 60));
+        stopwatch = new(new(1460, 96), new(310, 90));
 
         UserData.Current.DateStart = DateTime.Now;
 
@@ -69,7 +70,7 @@ public partial class Challenge : Form
         this.header = new PictureBox
         {
             Dock = DockStyle.Top,
-            Height = (int)(16 * ClientScreen.HeightFactor),
+            Height = (int)(10 * ClientScreen.HeightFactor),
             BackgroundImage = Resources.Rainbow,
             BackgroundImageLayout = ImageLayout.Stretch
         };
@@ -103,7 +104,7 @@ public partial class Challenge : Form
             this.bmp = new Bitmap(pb.Width, pb.Height);
             g = Graphics.FromImage(this.bmp);
             g.InterpolationMode = InterpolationMode.NearestNeighbor;
-            g.Clear(Color.FromArgb(250, 249, 246));
+            g.Clear(Color.FromArgb(255, 255, 255));
             this.pb.Image = bmp;
             this.tm.Start();
 
@@ -129,7 +130,10 @@ public partial class Challenge : Form
 
         this.tm.Tick += (o, e) =>
         {
-            g.Clear(Color.FromArgb(250, 249, 246));
+            g.Clear(Color.FromArgb(255, 255, 255));
+
+            DrawRectangleBack(Resources.BackRectChallenge,125, 830, 1162, 192);
+            DrawRectangleBack(Resources.BackRectRight,1415, 54, 400, 974);
 
             textForResult(o, e);
             stopwatch.Update();
@@ -316,7 +320,7 @@ public partial class Challenge : Form
                 text = textBox.Text;
             Font font = new Font("Arial", pb.Width * 0.0125f);
             Brush brush = Brushes.Black;
-            SolidBrush white = new SolidBrush(Color.FromArgb(250, 249, 246));
+            SolidBrush white = new SolidBrush(Color.FromArgb(255, 255, 255));
             g.FillRectangle(white, crrInput.Rect);
             crrInput.DrawInputSprite(g, pb);
             g.DrawString(text, font, brush, crrInput.Rect);
@@ -325,19 +329,18 @@ public partial class Challenge : Form
 
     private void Onstart()
     {
-        BackRect = Resources.BackRect;
+        BackRect = Resources.BackRectChallenge;
+        BackRectRight = Resources.BackRectRight;
 
         InitializeWeights();
-
-
         InitializeBalances();
         InitializeButtons();
         InitializeInputs();
         InitializeShapes();
-        for (int i = 0; i < 5; i++)
-        {
-            MessageBox.Show($"{i}: {UserData.Current.RealValues[i]}");
-        }
+        // for (int i = 0; i < 5; i++)
+        // {
+        //     MessageBox.Show($"{i}: {UserData.Current.RealValues[i]}");
+        // }
     }
 
     private void Frame()
@@ -346,6 +349,7 @@ public partial class Challenge : Form
 
         DrawTitle("DESAFIO");
         DrawLogo();
+        DrawAttempts(1480, 225);
 
         stopwatch.Draw(g);
 

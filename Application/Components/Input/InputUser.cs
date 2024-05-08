@@ -2,6 +2,7 @@ using System.Drawing;
 using System.Reflection.Emit;
 using System.Runtime.CompilerServices;
 using System.Windows.Forms;
+using Utils;
 
 namespace Components;
 
@@ -31,7 +32,7 @@ public class InputUser
     }
     public void DrawInput(Graphics g)
     {
-        Font font = new Font("Arial bold", 14);
+        Font font = new Font("Arial bold", ClientScreen.WidthFactor * 14);
         SizeF textSize = g.MeasureString(this.Title, font);
 
         g.DrawRectangle(new Pen(Brushes.Black), this.Rect);
@@ -45,11 +46,11 @@ public class InputUser
 
     public void DrawInputSprite(Graphics g, PictureBox pb)
     {
-        g.DrawImage(this.Bmp, new RectangleF(Rect.X - this.Bmp.Width*0.6f, Rect.Y, pb.Width*0.0208f, pb.Width*0.0208f));
+        g.DrawImage(this.Bmp, new RectangleF(Rect.X - 100 * ClientScreen.WidthFactor, Rect.Y - 17 * ClientScreen.HeightFactor, ClientScreen.WidthFactor * 80, ClientScreen.WidthFactor * 80));
         g.DrawRectangle(new Pen(Brushes.Black), this.Rect);
         Brush brush = Brushes.Black;
-        SolidBrush white = new SolidBrush(Color.FromArgb(250, 249, 246));
-        Font font = new Font("Arial", pb.Width*0.0125f);
+        SolidBrush white = new SolidBrush(Color.FromArgb(255, 255, 255));
+        Font font = new Font("Arial", ClientScreen.WidthFactor * 32);
         if(!this.IsTyping)
             g.DrawString(this.Content, font, brush, this.Rect);
     }

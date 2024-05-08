@@ -4,6 +4,7 @@ using OfficeOpenXml;
 using System.Linq;
 using System.Threading;
 using OfficeOpenXml.Style;
+using System.Drawing.Drawing2D;
 
 namespace Components;
 
@@ -22,10 +23,11 @@ public class BtnFinish : BtnBase
         Font font = new Font("Arial bold", this.Hitbox.Width * 0.12f);
         SizeF textSize = g.MeasureString(this.text, font);
 
-        ShadowRect(this.Hitbox);
-        DrawShadow(g);
+        LinearGradientBrush gradientGreen = new LinearGradientBrush(this.Hitbox, Color.FromArgb(29, 123, 23), Color.FromArgb(79, 209, 52), LinearGradientMode.Horizontal);
 
-        g.FillRectangle(Brushes.Green, this.Hitbox);
+        ShadowRect(this.Hitbox);
+
+        g.FillRectangle(gradientGreen, this.Hitbox);
         g.DrawString(
             this.text,
             font,

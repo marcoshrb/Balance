@@ -6,39 +6,35 @@ namespace Views;
 
 public partial class Train
 {
-    Font font = new Font("neology", 72 * ClientScreen.WidthFactor, FontStyle.Bold);
-    SolidBrush brush = new SolidBrush(Color.FromArgb(234, 0, 22));
+    Font font = new Font("Open Sans", 92 * ClientScreen.WidthFactor, FontStyle.Bold);
+    Font fontAttemps = new Font("Open Sans", 32 * ClientScreen.WidthFactor);
+    SolidBrush brush = new SolidBrush(Color.FromArgb(0, 0, 0));
 
-    void DrawRectangleBack(int x_, int y_, int width_, int height_)
+    void DrawRectangleBack(Image img, int x_, int y_, int width_, int height_)
     {
         Size backSize = new Size(
             (int)(width_ * ClientScreen.WidthFactor),
             (int)(height_ * ClientScreen.HeightFactor)
         );
-        Image resizedBack = ImageProcessing.ResizeImage(BackRect, backSize);
+        Image resizedBack = ImageProcessing.ResizeImage(img, backSize);
         int x_Back = (int)(x_ * ClientScreen.WidthFactor);
         int y_Back = (int)(y_ * ClientScreen.HeightFactor);
         g.DrawImage(resizedBack, new Point(x_Back, y_Back));
     }
 
     public void DrawBalances()
-    {
-        balanceLeft.Draw(this.g);
-        balanceRight.Draw(this.g);
-    }
-
+        => balance.Draw(this.g);
+    
     public void DrawInput()
     {
         inputCircle.DrawInputSprite(this.g, this.pb);
         inputTriangle.DrawInputSprite(this.g, this.pb);
         inputSquare.DrawInputSprite(this.g, this.pb);
-        inputPentagon.DrawInputSprite(this.g, this.pb);
-        inputStar.DrawInputSprite(this.g, this.pb);
     }
     public void DrawTitle(string title)
     {
-        int x_Title = (int)(500 * ClientScreen.WidthFactor);
-        int y_Title = (int)(100 * ClientScreen.HeightFactor);
+        int x_Title = (int)(445 * ClientScreen.WidthFactor);
+        int y_Title = (int)(75 * ClientScreen.HeightFactor);
         g.DrawString(
             title,
             font,
@@ -77,16 +73,10 @@ public partial class Train
 
         DropShape();
 
-        foreach (var item in balanceLeft.ShapesOnLeftSide)
+        foreach (var item in balance.ShapesOnLeftSide)
             item.DrawString(this.g);
 
-        foreach (var item in balanceLeft.ShapesOnRightSide)
-            item.DrawString(this.g);
-
-        foreach (var item in balanceRight.ShapesOnLeftSide)
-            item.DrawString(this.g);
-
-        foreach (var item in balanceRight.ShapesOnRightSide)
+        foreach (var item in balance.ShapesOnRightSide)
             item.DrawString(this.g);
 
         foreach (var shape in shapes)
@@ -109,4 +99,8 @@ public partial class Train
         int y = ClientScreen.Height - resizedLogo.Height - margin;
         g.DrawImage(resizedLogo, new Point(x, y));
     }
+
+    public void DrawAttempts(int x, int y)
+    => g.DrawString("Tentativas: " + MoveCounter, fontAttemps, Brushes.Black, x * ClientScreen.WidthFactor, y * ClientScreen.HeightFactor);
+
 }

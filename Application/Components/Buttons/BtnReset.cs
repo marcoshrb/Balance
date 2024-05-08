@@ -1,4 +1,5 @@
 using System.Drawing;
+using System.Drawing.Drawing2D;
 
 namespace Components;
 
@@ -15,10 +16,11 @@ public class BtnReset : BtnBase
         Font font = new Font("Arial bold", this.Hitbox.Width * 0.12f);
         SizeF textSize = g.MeasureString(this.text, font);
 
-        ShadowRect(this.Hitbox);
-        DrawShadow(g);
+        LinearGradientBrush gradientOrange = new LinearGradientBrush(this.Hitbox ,Color.FromArgb(255, 145, 77), Color.FromArgb(255, 222, 89), LinearGradientMode.Horizontal);
 
-        g.FillRectangle(Brushes.Orange, this.Hitbox);
+        ShadowRect(this.Hitbox);
+
+        g.FillRectangle(gradientOrange, this.Hitbox);
         g.DrawString(
             this.text,
             font,

@@ -28,9 +28,9 @@ namespace Components
                             (int)(size.Height * ClientScreen.HeightFactor - 15 * ClientScreen.HeightFactor)
                         ),
                 BackColor = Color.Transparent,
-                Font = new Font("Arial", 40 * ClientScreen.WidthFactor, FontStyle.Bold),
+                Font = new Font("Arial", 52 * ClientScreen.WidthFactor, FontStyle.Bold),
                 Location = new Point(
-                                (int)(location.X + 21 * ClientScreen.WidthFactor),
+                                (int)(location.X + 60 * ClientScreen.WidthFactor),
                                 (int)location.Y
                             ),
                 Anchor = AnchorStyles.Top | AnchorStyles.Right
@@ -68,6 +68,12 @@ namespace Components
             g.FillRectangle(Brushes.Black, this.border);
             g.FillRectangle(Brushes.White, this.background);
             g.DrawString(time.Text, time.Font, Brushes.Black, time.Location);
+        }
+        public void DrawAwait(Graphics g)
+        {
+            g.FillRectangle(Brushes.Black, this.border);
+            g.FillRectangle(Brushes.White, this.background);
+            g.DrawString("Aguarde", time.Font, Brushes.Black, time.Location.X - 55 * ClientScreen.WidthFactor, time.Location.Y);
         }
 
         public void Update()

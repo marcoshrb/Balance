@@ -14,7 +14,8 @@ namespace Views;
 public partial class Train : Form
 {
     Security security;
-
+    private Stopwatch basewatch;
+    public int MoveCounter;
     PictureBox header;
 
     PictureBox pb;
@@ -22,7 +23,7 @@ public partial class Train : Form
     Graphics g;
     Timer tm;
 
-    Balance balanceLeft;
+    Balance balance;
     Balance balanceRight;
 
     List<Shape> shapes;
@@ -52,12 +53,16 @@ public partial class Train : Form
 
     private Stopwatch stopwatch;
 
+    Image BackRectTrain;
     Image BackRect;
+
 
     public Train()
     {
-        stopwatch = new(new(10, 100), new(200, 60));
-        BackRect = Resources.BackRect;
+        basewatch = new(new(1460, 96), new(310, 90));
+
+        BackRectTrain = Resources.BackRectTrain;
+        BackRect = Resources.BackRectRight;
 
         this.WindowState = FormWindowState.Maximized;
         this.FormBorderStyle = FormBorderStyle.None;
@@ -66,7 +71,7 @@ public partial class Train : Form
         this.header = new PictureBox
         {
             Dock = DockStyle.Top,
-            Height = (int)(16 * ClientScreen.HeightFactor),
+            Height = (int)(10 * ClientScreen.HeightFactor),
             BackgroundImage = Resources.Rainbow,
             BackgroundImageLayout = ImageLayout.Stretch
         };
@@ -100,7 +105,7 @@ public partial class Train : Form
             this.bmp = new Bitmap(pb.Width, pb.Height);
             g = Graphics.FromImage(this.bmp);
             g.InterpolationMode = InterpolationMode.NearestNeighbor;
-            g.Clear(Color.FromArgb(250, 249, 246));
+            g.Clear(Color.FromArgb(255, 255, 255));
             this.pb.Image = bmp;
             this.tm.Start();
 
@@ -130,18 +135,13 @@ public partial class Train : Form
 
         this.tm.Tick += (o, e) =>
         {
-            g.Clear(Color.FromArgb(250, 249, 246));
+            g.Clear(Color.FromArgb(255, 255, 255));
+
+            DrawRectangleBack(Resources.BackRectTrain, 362, 830, 688, 192);
+            DrawRectangleBack(Resources.BackRectRight, 1415, 54, 400, 974);
 
             textForResult(o, e);
             Frame();
-
-            stopwatch.Update();
-            if (0 > stopwatch.GetTimeDifference().TotalMinutes && challenge is null)
-            {
-                this.Hide();
-                this.challenge = new();
-                challenge.Show();
-            }
 
             pb.Refresh();
         };
@@ -149,7 +149,10 @@ public partial class Train : Form
         pb.MouseClick += (o, e) =>
         {
             if (btnVerify.Hitbox.Contains(e.X, e.Y))
-                btnVerify.OnClick(balanceRight, balanceLeft);
+            {
+                btnVerify.OnClick(balance);
+                MoveCounter++;
+            }
 
             if (btnContinue.Hitbox.Contains(e.X, e.Y))
             {
@@ -170,8 +173,6 @@ public partial class Train : Form
                 inputCircle.IsTyping = true;
                 inputTriangle.IsTyping = false;
                 inputSquare.IsTyping = false;
-                inputPentagon.IsTyping = false;
-                inputStar.IsTyping = false;
                 if (inputCircle.Content == "")
                     textBox.Text = "";
                 else
@@ -190,8 +191,6 @@ public partial class Train : Form
                 inputTriangle.IsTyping = true;
                 inputCircle.IsTyping = false;
                 inputSquare.IsTyping = false;
-                inputPentagon.IsTyping = false;
-                inputStar.IsTyping = false;
                 if (inputTriangle.Content == "")
                     textBox.Text = "";
                 else
@@ -210,8 +209,6 @@ public partial class Train : Form
                 inputSquare.IsTyping = true;
                 inputCircle.IsTyping = false;
                 inputTriangle.IsTyping = false;
-                inputPentagon.IsTyping = false;
-                inputStar.IsTyping = false;
                 if (inputSquare.Content == "")
                     textBox.Text = "";
                 else
@@ -221,53 +218,11 @@ public partial class Train : Form
                 textBox.Select(textBox.Text.Length, 0);
                 textBox.Focus();
             }
-            else if (
-                inputPentagon.Rect.Contains(e.X, e.Y)
-                && !inputPentagon.IsTyping
-                && !inputPentagon.Disable
-            )
-            {
-                inputPentagon.IsTyping = true;
-                inputCircle.IsTyping = false;
-                inputTriangle.IsTyping = false;
-                inputSquare.IsTyping = false;
-                inputStar.IsTyping = false;
-                if (inputPentagon.Content == "")
-                    textBox.Text = "";
-                else
-                    textBox.Text = inputPentagon.Content;
-                crrInput = inputPentagon;
-                textBox.Enabled = true;
-                textBox.Select(textBox.Text.Length, 0);
-                textBox.Focus();
-            }
-            else if (
-                inputStar.Rect.Contains(e.X, e.Y)
-                && !inputStar.IsTyping
-                && !inputStar.Disable
-            )
-            {
-                inputStar.IsTyping = true;
-                inputCircle.IsTyping = false;
-                inputTriangle.IsTyping = false;
-                inputSquare.IsTyping = false;
-                inputPentagon.IsTyping = false;
-                if (inputStar.Content == "")
-                    textBox.Text = "";
-                else
-                    textBox.Text = inputStar.Content;
-                crrInput = inputStar;
-                textBox.Enabled = true;
-                textBox.Select(textBox.Text.Length, 0);
-                textBox.Focus();
-            }
             else
             {
                 inputCircle.IsTyping = false;
                 inputTriangle.IsTyping = false;
                 inputSquare.IsTyping = false;
-                inputPentagon.IsTyping = false;
-                inputStar.IsTyping = false;
                 crrInput = null;
                 textBox.Enabled = false;
             }
@@ -322,8 +277,9 @@ public partial class Train : Form
 
         DrawTitle("TESTE");
         DrawLogo();
+        DrawAttempts(1480, 225);
 
-        stopwatch.Draw(g);
+        basewatch.DrawAwait(g);
 
         DrawInput();
         DrawBalances();
@@ -349,10 +305,10 @@ public partial class Train : Form
     {
         if (selected is not null)
         {
-            var cusorInside = balanceLeft.LeftHitbox.IntersectsWith(selected.Hitbox);
+            var cusorInside = balance.LeftHitbox.IntersectsWith(selected.Hitbox);
             if (cusorInside && !isDown && selected.CanMove)
             {
-                balanceLeft.AddLeftShape(selected);
+                balance.AddLeftShape(selected);
                 foreach (var fixedInitial in fixedPositions)
                 {
                     if (fixedInitial.Shapes.Contains(selected))
@@ -360,39 +316,16 @@ public partial class Train : Form
                 }
             }
 
-            cusorInside = balanceLeft.RightHitbox.IntersectsWith(selected.Hitbox);
+            cusorInside = balance.RightHitbox.IntersectsWith(selected.Hitbox);
             if (cusorInside && !isDown && selected.CanMove)
             {
-                balanceLeft.AddRightShape(selected);
+                balance.AddRightShape(selected);
                 foreach (var fixedInitial in fixedPositions)
                 {
                     if (fixedInitial.Shapes.Contains(selected))
                         fixedInitial.Shapes.Remove(selected);
                 }
             }
-
-            cusorInside = balanceRight.LeftHitbox.IntersectsWith(selected.Hitbox);
-            if (cusorInside && !isDown && selected.CanMove)
-            {
-                balanceRight.AddLeftShape(selected);
-                foreach (var fixedPosition in fixedPositions)
-                {
-                    if (fixedPosition.Shapes.Contains(selected))
-                        fixedPosition.Shapes.Remove(selected);
-                }
-            }
-
-            cusorInside = balanceRight.RightHitbox.IntersectsWith(selected.Hitbox);
-            if (cusorInside && !isDown && selected.CanMove)
-            {
-                balanceRight.AddRightShape(selected);
-                foreach (var fixedPosition in fixedPositions)
-                {
-                    if (fixedPosition.Shapes.Contains(selected))
-                        fixedPosition.Shapes.Remove(selected);
-                }
-            }
-
             if (!isDown)
                 this.selected = null;
         }
