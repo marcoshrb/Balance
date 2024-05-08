@@ -13,7 +13,7 @@ public class UserData
     public int[] TrainValues { get; set; } = new int[3];
     public int TrainCircleWeight() => TrainValues[0];
     public int TrainTriangleWeight() => TrainValues[1];
-    public int TrainSquareeight() => TrainValues[2];
+    public int TrainSquareWeight() => TrainValues[2];
     public int RealCircleWeight() => RealValues[0];
     public int RealPentagonWeight() => RealValues[1];
     public int RealSquareWeight() => RealValues[2];

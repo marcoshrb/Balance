@@ -93,7 +93,7 @@ public partial class Train
             424 * ClientScreen.WidthFactor,
             425 * ClientScreen.HeightFactor,
             130 * ClientScreen.WidthFactor,
-            UserData.Current.RealCircleWeight()
+            UserData.Current.TrainCircleWeight()
         );
         AddShapes(emptyCircle, circle);
 
@@ -101,7 +101,7 @@ public partial class Train
             636 * ClientScreen.WidthFactor,
             645 * ClientScreen.HeightFactor,
             130 * ClientScreen.WidthFactor,
-            UserData.Current.RealSquareWeight()
+            UserData.Current.TrainSquareWeight()
         );
         AddShapes(emptySquare, square);
 
@@ -110,7 +110,7 @@ public partial class Train
             865 * ClientScreen.HeightFactor,
             130 * ClientScreen.WidthFactor,
             130 * ClientScreen.HeightFactor,
-            UserData.Current.RealTriangleWeight()
+            UserData.Current.TrainTriangleWeight()
         );
         AddShapes(emptyTriangle, triangle);
     }
