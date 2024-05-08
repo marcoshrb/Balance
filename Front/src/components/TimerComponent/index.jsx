@@ -111,7 +111,7 @@ export const TimerComponent = (props) => {
               />
           </div>
 
-          <div style={{display: 'flex', alignItems: 'center', height: '100%'}}>
+          <div style={{display: 'flex', alignItems: 'center', height: '100%',border :  '2px solid black', borderRadius: '10px', marginBlock: '10px'}}>
             <CronometroDisplay>{formatTime(remainingTime)}</CronometroDisplay>
           </div>
 

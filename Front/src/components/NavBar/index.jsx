@@ -19,6 +19,9 @@ export const Image = styled.img`
   top: 3%;
   width: 10em;
   z-index: 999;
+  @media screen  and (max-width: 1024px){
+      display: none;
+  } 
 `;
 
 function NavBarS() {

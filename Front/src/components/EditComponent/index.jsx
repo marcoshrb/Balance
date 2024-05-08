@@ -11,6 +11,7 @@ import Quadrado from '../../assets/Quadrado.png';
 import Triangulo from '../../assets/Triangulo.png';
 import backgroundImage from "./folha.png";
 import styled from "styled-components";
+import { SlArrowDown, SlArrowUp  } from "react-icons/sl";
 
 const Quadro = styled.div`
   width: 25rem;
@@ -31,6 +32,7 @@ export default function EditComponent(props) {
     const { setf1, setf2, setf3, setf4, setf5 } = props;
 
     const [open, setOpen] = useState(false);
+    const [verPesos, setVerPesos] = useState(false);
 
     return (
         <>
@@ -46,7 +48,7 @@ export default function EditComponent(props) {
                                     <Form.Control aria-label="Amount (to the nearest dollar)"
                                         onChange={(e) => setf1(parseInt(e.target.value))}
                                         placeholder="forma 1"
-                                        type="number"
+                                        type={verPesos ? "number" : "password"}
                                     />
                                 </InputGroup>
                                 <InputGroup className="mb-3">
@@ -54,7 +56,7 @@ export default function EditComponent(props) {
                                     <Form.Control aria-label="Amount (to the nearest dollar)"
                                         onChange={(e) => setf2(parseInt(e.target.value))}
                                         placeholder="forma 2"
-                                        type="number"
+                                        type={verPesos ? "number" : "password"}
                                     />
                                 </InputGroup>
                                 <InputGroup className="mb-3">
@@ -62,7 +64,7 @@ export default function EditComponent(props) {
                                     <Form.Control aria-label="Amount (to the nearest dollar)"
                                         onChange={(e) => setf3(parseInt(e.target.value))}
                                         placeholder="forma 3"
-                                        type="number"
+                                        type={verPesos ? "number" : "password"}
                                     />
                                 </InputGroup>
                                 <InputGroup className="mb-3">
@@ -70,7 +72,7 @@ export default function EditComponent(props) {
                                     <Form.Control aria-label="Amount (to the nearest dollar)"
                                         onChange={(e) => setf4(parseInt(e.target.value))}
                                         placeholder="forma 4"
-                                        type="number"
+                                        type={verPesos ? "number" : "password"}
                                     />
                                 </InputGroup>
                                 <InputGroup className="mb-3">
@@ -78,15 +80,16 @@ export default function EditComponent(props) {
                                     <Form.Control aria-label="Amount (to the nearest dollar)"
                                         onChange={(e) => setf5(parseInt(e.target.value))}
                                         placeholder="forma 5"
-                                        type="number"
+                                        type={verPesos ? "number" : "password"}
                                     />
                                 </InputGroup>
+                                <Button variant='danger' onClick={() => setVerPesos(!verPesos)}>Mostrar</Button>
                             </div>
                         </form>
                     </div>
                 }
 
-                <Button variant='warning' className={styles.CloseEditButton} onClick={() => setOpen(!open)}>Editar</Button>
+                <Button variant='warning' className={styles.CloseEditButton} onClick={() => setOpen(!open)}>{open ? <SlArrowUp /> : <SlArrowDown />}</Button>
             </Quadro>
         </>
     );
