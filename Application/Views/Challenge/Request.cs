@@ -12,7 +12,7 @@ public partial class Challenge
     {
         var http = new HttpClient();
 
-        var result = http.GetAsync("http://localhost:8080/challenge").GetAwaiter().GetResult();
+        var result = http.GetAsync("https://server-balance.vercel.app/challenge").GetAwaiter().GetResult();
         var resultContent = result.Content.ReadAsStringAsync().GetAwaiter().GetResult();
 
         UserData.Current.JsonValues = JsonSerializer.Deserialize<Values>(resultContent);
