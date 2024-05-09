@@ -5,6 +5,11 @@ using System.Linq;
 
 public static class Resources
 {
+    
+    public static readonly Image BalanceArm = LoadImage(@"Assets\Balance\BalanceArm.png");
+    public static readonly Image BalanceBody = LoadImage(@"Assets\Balance\BalanceBody.png");
+    public static readonly Image BalanceBase = LoadImage(@"Assets\Balance\BalanceBase.png");
+    public static readonly Image BalancePlate = LoadImage(@"Assets\Balance\BalancePlate.png");
     public static readonly Image BackRectChallenge = LoadImage(@"Assets\BackRectChallenge.png");
     public static readonly Image BackRectRight = LoadImage(@"Assets\BackRectRight.png");
     public static readonly Image BackRectTrain = LoadImage(@"Assets\BackRectTrain.png");

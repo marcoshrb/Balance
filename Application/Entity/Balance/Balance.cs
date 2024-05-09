@@ -29,10 +29,15 @@ public class Balance : Entity
     private EmptySquare emptySquare2;
     private EmptyStar emptyStar2;
     private EmptyTriangle emptyTriangle2;
+    private Image SpriteBase { get; set; } = Resources.BalanceBase;
+    private Image SpriteBody { get; set; } = Resources.BalanceBody;
+    private Image SpritePlate { get; set; } = Resources.BalancePlate;
+    private Image SpriteArm { get; set; } = Resources.BalanceArm;
 
     public Balance(float x, float y, float width, float height)
         : base(x, y, width, height)
     {
+
         State = (int)BalanceState.None;
 
         LeftShapes = new();
@@ -155,21 +160,26 @@ public class Balance : Entity
             width * 3f / 4f,
             height / 15f
         );
+
         var balancerAxis = new RectangleF(
-            x - (widthFactor * 10f / 2f),
+            x - (widthFactor * 100f / 2f),
             y - height / 2f,
-            widthFactor * 10f,
+            widthFactor * 100f,
             height
         );
         var balancerSeesaw = new RectangleF(
-            x - width / 2f,
+            x - (width + 20) / 2f,
             y - height / 2f + heightFactor * 40f,
-            width,
-            heightFactor * 40f
+            width + 20,
+            heightFactor * 70f
         );
 
-        g.FillRectangle(Brushes.Black, baseBalance);
-        g.FillRectangle(Brushes.Black, balancerAxis);
+        // g.FillRectangle(Brushes.Black, baseBalance);
+        // g.FillRectangle(Brushes.Black, balancerAxis);
+
+        g.DrawImage(this.SpriteBase, baseBalance);
+        g.DrawImage(this.SpriteBody, balancerAxis);
+        
 
         var rotatedBalancerSeesaw = Functions.ToPolygon(
             balancerSeesaw,
@@ -183,7 +193,7 @@ public class Balance : Entity
             rotatedBalancerSeesaw[3].X - (baseBalance.Width / 2f + widthFactor * 180f) / 2f,
             rotatedBalancerSeesaw[3].Y + (183f * heightFactor),
             baseBalance.Width / 2f + widthFactor * 180f,
-            baseBalance.Height
+            baseBalance.Height 
         );
         var balanceRight = new RectangleF(
             rotatedBalancerSeesaw[2].X - (baseBalance.Width / 2f + widthFactor * 180f) / 2f,
@@ -209,7 +219,7 @@ public class Balance : Entity
             Pens.Black,
             rotatedBalancerSeesaw[3].X,
             rotatedBalancerSeesaw[3].Y,
-            balanceLeft.Left,
+            balanceLeft.Left + 10,
             balanceLeft.Top
         );
         g.DrawLine(
@@ -223,7 +233,7 @@ public class Balance : Entity
             Pens.Black,
             rotatedBalancerSeesaw[3].X,
             rotatedBalancerSeesaw[3].Y,
-            balanceLeft.Right,
+            balanceLeft.Right - 10,
             balanceLeft.Top
         );
 
@@ -231,7 +241,7 @@ public class Balance : Entity
             Pens.Black,
             rotatedBalancerSeesaw[2].X,
             rotatedBalancerSeesaw[2].Y,
-            balanceRight.Left,
+            balanceRight.Left + 10,
             balanceRight.Top
         );
         g.DrawLine(
@@ -245,7 +255,7 @@ public class Balance : Entity
             Pens.Black,
             rotatedBalancerSeesaw[2].X,
             rotatedBalancerSeesaw[2].Y,
-            balanceRight.Right,
+            balanceRight.Right - 10,
             balanceRight.Top
         );
 
@@ -261,12 +271,15 @@ public class Balance : Entity
             -(balancerSeesaw.Top + balancerSeesaw.Height / 2)
         );
 
-        g.FillRectangle(Brushes.DarkBlue, balancerSeesaw);
+        // g.FillRectangle(Brushes.DarkBlue, balancerSeesaw);
+        g.DrawImage(this.SpriteArm, balancerSeesaw);
 
         g.ResetTransform();
 
-        g.FillRectangle(Brushes.Gray, balanceLeft);
-        g.FillRectangle(Brushes.Gray, balanceRight);
+        // g.FillRectangle(Brushes.Gray, balanceLeft);
+        g.DrawImage(this.SpritePlate, balanceLeft);
+        // g.FillRectangle(Brushes.Gray, balanceRight);
+        g.DrawImage(this.SpritePlate, balanceRight);
 
         this.position1 = new RectangleF(
             balanceLeft.Left,
