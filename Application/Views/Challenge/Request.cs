@@ -20,6 +20,6 @@ public partial class Challenge
 
         UserData.Current.JsonValues = JsonSerializer.Deserialize<Values>(resultContent);
 
-        MessageBox.Show(UserData.Current.JsonValues.ToString());
+        // MessageBox.Show(UserData.Current.JsonValues.ToString());
     }
 }
