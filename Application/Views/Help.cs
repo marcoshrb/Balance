@@ -48,7 +48,7 @@ namespace Views
 
         private void InitializeForm()
         {
-            this.Size = new Size(1000, 600);
+            this.Size = new Size(1816, 902);
             this.StartPosition = FormStartPosition.CenterScreen;
             this.BackgroundImage = Resources.HelpImage;
             this.FormBorderStyle = FormBorderStyle.None;
