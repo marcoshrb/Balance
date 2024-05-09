@@ -159,7 +159,7 @@ public partial class Challenge : Form
                     btnFinish.FinishChallenge();
                     btnFinish.CsvToExcel();
                     this.Hide();
-                    // MessageBox.Show(UserData.Current.JsonValues.TempoProva.ToString());
+                    // MessageBox.Show(UserData.Current.JsonValues.tempoProva.ToString());
                     completed.Show();
                     saveFlag = true;
                 }

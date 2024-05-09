@@ -1,6 +1,6 @@
 public class Values
 {
-    public int TempoProva { get; set; }
+    public int tempoProva { get; set; }
     public bool ProvaLiberada { get; set; }
     public int f1 { get; set; }
     public int f2 { get; set; }

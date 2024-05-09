@@ -62,7 +62,7 @@ namespace Components
 
             try
             {
-                target = DateTime.Now.AddMinutes(UserData.Current.JsonValues.TempoProva);
+                target = DateTime.Now.AddMinutes(UserData.Current.JsonValues.tempoProva);
             }
             catch (Exception e)
             {
