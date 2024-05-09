@@ -1,22 +1,18 @@
+using System;
 using System.Net;
 using System.Net.Http;
 using System.Text.Json;
-using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Threading.Tasks;
 
 namespace Views;
+
 public partial class Train
 {
     bool screenChanged = false;
     public void MakeRequest()
     {
-        var handler = new HttpClientHandler()
-        {
-            Proxy = new WebProxy("https://disrct:etstech31415@rb-proxy-ca1.bosch.com:8080"),
-            UseProxy = true
-        };
-
-        var http = new HttpClient(handler);
+        var http = new HttpClient();
 
         var result = http.GetAsync("https://server-balance.vercel.app/challenge").GetAwaiter().GetResult();
         var resultContent = result.Content.ReadAsStringAsync().GetAwaiter().GetResult();
