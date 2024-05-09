@@ -65,14 +65,6 @@ public partial class Challenge : Form
         this.FormBorderStyle = FormBorderStyle.None;
         this.Text = "Desafio";
 
-        this.header = new PictureBox
-        {
-            Dock = DockStyle.Top,
-            Height = (int)(10 * ClientScreen.HeightFactor),
-            BackgroundImage = Resources.Rainbow,
-            BackgroundImageLayout = ImageLayout.Stretch
-        };
-        this.Controls.Add(header);
 
         this.pb = new PictureBox { Dock = DockStyle.Fill };
         this.Controls.Add(pb);
@@ -132,6 +124,7 @@ public partial class Challenge : Form
         this.tm.Tick += (o, e) =>
         {
             g.Clear(Color.FromArgb(255, 255, 255));
+            DrawBackground(g);
 
             fps = (int)(1 / (float)(DateTime.Now - lastchecked).TotalSeconds);
             lastchecked = DateTime.Now;
@@ -360,7 +353,7 @@ public partial class Challenge : Form
         this.counter++;
 
         DrawTitle("DESAFIO");
-        DrawLogo();
+        // DrawLogo();
         DrawAttempts(1480, 225);
 
         stopwatch.Draw(g);

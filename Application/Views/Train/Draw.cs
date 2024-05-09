@@ -6,6 +6,10 @@ namespace Views;
 
 public partial class Train
 {
+    public Bitmap background = ImageProcessing.ResizeImage(
+        ImageProcessing.GetImage(@"Assets\background.png") as Bitmap,
+        new Size(ClientScreen.Width, ClientScreen.Height)
+    );
     Font font = new Font("Open Sans", 92 * ClientScreen.WidthFactor, FontStyle.Bold);
     Font fontAttemps = new Font("Open Sans", 32 * ClientScreen.WidthFactor);
     SolidBrush brush = new SolidBrush(Color.FromArgb(0, 0, 0));
@@ -22,6 +26,7 @@ public partial class Train
         g.DrawImage(resizedBack, new Point(x_Back, y_Back));
     }
 
+    public void DrawBackground(Graphics g) => g.DrawImage(background, new Point(0, 0));
     public void DrawBalances()
         => balance.Draw(this.g);
     

@@ -63,15 +63,6 @@ public partial class Train : Form
         this.FormBorderStyle = FormBorderStyle.None;
         this.Text = "Teste";
 
-        this.header = new PictureBox
-        {
-            Dock = DockStyle.Top,
-            Height = (int)(10 * ClientScreen.HeightFactor),
-            BackgroundImage = Resources.Rainbow,
-            BackgroundImageLayout = ImageLayout.Stretch
-        };
-        this.Controls.Add(header);
-
         this.pb = new PictureBox { Dock = DockStyle.Fill };
         this.Controls.Add(pb);
 
@@ -133,6 +124,7 @@ public partial class Train : Form
         this.tm.Tick += (o, e) =>
         {
             g.Clear(Color.FromArgb(255, 255, 255));
+            DrawBackground(g);
 
             DrawRectangleBack(Resources.BackRectTrain, 362, 830, 688, 192);
             DrawRectangleBack(Resources.BackRectRight, 1415, 54, 400, 974);
@@ -302,7 +294,7 @@ public partial class Train : Form
         this.counter++;
 
         DrawTitle("TESTE");
-        DrawLogo();
+        // DrawLogo();
         DrawAttempts(1480, 225);
 
         basewatch.DrawAwait(g);
