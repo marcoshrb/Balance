@@ -5,7 +5,8 @@ using System.Linq;
 
 public static class Resources
 {
-    
+    public static readonly Bitmap HelpImage = LoadImage(@"Assets\help.png");
+    public static readonly Bitmap AjudaImage = LoadImage(@"Assets\ajuda.png");
     public static readonly Image BalanceArm = LoadImage(@"Assets\Balance\BalanceArm.png");
     public static readonly Image BalanceBody = LoadImage(@"Assets\Balance\BalanceBody.png");
     public static readonly Image BalanceBase = LoadImage(@"Assets\Balance\BalanceBase.png");

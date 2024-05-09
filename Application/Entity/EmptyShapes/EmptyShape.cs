@@ -112,6 +112,7 @@ public abstract class EmptyShape
         if (shape.Name == this.Name)
         {
             Shapes.Add(shape);
+            shape.Sprite.img = ImageProcessing.ResizeImage(shape.Sprite.img, new((int)this.Size.Width, (int)this.Size.Height));
             shape.Location = this.Location;
             qtd++;
         }

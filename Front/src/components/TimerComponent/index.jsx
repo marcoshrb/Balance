@@ -122,7 +122,7 @@ export const TimerComponent = (props) => {
                   {!timerActive ? (
                     <StartButton onClick={startTimer}>Iniciar</StartButton>
                     ) : (
-                      <StartButton onClick={pauseTimer}>Pausar</StartButton>
+                      <></>
                       )}
                   <EscButton onClick={resetTimer}>Finalizar</EscButton>
                 </div>

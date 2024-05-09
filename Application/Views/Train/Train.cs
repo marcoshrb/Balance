@@ -13,6 +13,7 @@ namespace Views;
 
 public partial class Train : Form
 {
+    Help help;
     Security security;
     private Stopwatch basewatch;
     public int MoveCounter;
@@ -45,6 +46,8 @@ public partial class Train : Form
 
     BtnReset btnReset;
     BtnInitial btnVerify;
+    BtnHelp btnHelp;
+    
     Image BackRectTrain;
     Image BackRect;
 
@@ -137,7 +140,7 @@ public partial class Train : Form
             textForResult(o, e);
             Frame();
 
-            if(counter % 60 == 0)
+            if (counter % 60 == 0)
                 MakeRequest();
 
             frameCount++;
@@ -150,7 +153,7 @@ public partial class Train : Form
             }
 
 
-            g.DrawString($"FPS: {fps}", SystemFonts.DefaultFont, Brushes.Black, 10, 50);
+            // g.DrawString($"FPS: {fps}", SystemFonts.DefaultFont, Brushes.Black, 10, 50);
 
 
             pb.Refresh();
@@ -168,6 +171,23 @@ public partial class Train : Form
             {
                 InitializeBalances();
                 InitializeShapes();
+            }
+
+            if (btnHelp.Hitbox.Contains(e.X, e.Y))
+            {
+                if (help == null)
+                {
+                    help = new Help();
+                    help.FormClosed += (sender, args) =>
+                    {
+                        help = null;
+                    };
+                    help.Show();
+                }
+                else
+                {
+                    help.BringToFront();
+                }
             }
 
             if (
@@ -292,6 +312,7 @@ public partial class Train : Form
 
         btnReset.Draw(g);
         btnVerify.Draw(g);
+        btnHelp.Draw(g);
 
         DrawShapes();
     }

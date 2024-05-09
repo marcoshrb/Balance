@@ -135,12 +135,12 @@ public partial class Challenge : Form
 
             fps = (int)(1 / (float)(DateTime.Now - lastchecked).TotalSeconds);
             lastchecked = DateTime.Now;
-            g.DrawString($"FPS: {fps}", SystemFonts.DefaultFont, Brushes.Black, 10, 50);
+            // g.DrawString($"FPS: {fps}", SystemFonts.DefaultFont, Brushes.Black, 10, 50);
 
             DrawRectangleBack(Resources.BackRectChallenge, 125, 830, 1162, 192);
             DrawRectangleBack(Resources.BackRectRight, 1415, 54, 400, 974);
 
-            if (counter % 60 == 0)
+            if(counter % 600 == 0)
                 MakeRequest();
 
             textForResult(o, e);
@@ -392,6 +392,7 @@ public partial class Challenge : Form
             if (cusorInside && !isDown && selected.CanMove)
             {
                 balanceLeft.AddLeftShape(selected);
+                UserData.Current.UsedPieces++;
                 foreach (var fixedInitial in fixedPositions)
                 {
                     if (fixedInitial.Shapes.Contains(selected))
@@ -403,6 +404,7 @@ public partial class Challenge : Form
             if (cusorInside && !isDown && selected.CanMove)
             {
                 balanceLeft.AddRightShape(selected);
+                UserData.Current.UsedPieces++;
                 foreach (var fixedInitial in fixedPositions)
                 {
                     if (fixedInitial.Shapes.Contains(selected))
@@ -414,6 +416,7 @@ public partial class Challenge : Form
             if (cusorInside && !isDown && selected.CanMove)
             {
                 balanceRight.AddLeftShape(selected);
+                UserData.Current.UsedPieces++;
                 foreach (var fixedPosition in fixedPositions)
                 {
                     if (fixedPosition.Shapes.Contains(selected))
@@ -425,6 +428,7 @@ public partial class Challenge : Form
             if (cusorInside && !isDown && selected.CanMove)
             {
                 balanceRight.AddRightShape(selected);
+                UserData.Current.UsedPieces++;
                 foreach (var fixedPosition in fixedPositions)
                 {
                     if (fixedPosition.Shapes.Contains(selected))
