@@ -50,8 +50,8 @@ public abstract class Shape : Entity, ICloneable
             (int)Size.Height
         );
 
-        if (IsSelected && CanMove)
-            DrawShadow(g);
+        // if (IsSelected && CanMove)
+        //     DrawShadow(g);
 
         Sprite.DrawSprite(g, rect);
     }

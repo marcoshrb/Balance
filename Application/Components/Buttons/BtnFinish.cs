@@ -47,6 +47,7 @@ public class BtnFinish : BtnBase
         string content = $"";
         content += UserData.Current.UserName + ",";
         content += UserData.Current.MoveCounter + ",";
+        content += UserData.Current.UsedPieces + ",";
 
         var inputValues = UserData.Current.InputValues();
         for (int i = 0; i < 5; i++)

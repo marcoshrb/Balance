@@ -150,7 +150,7 @@ public partial class Train : Form
             }
 
 
-            g.DrawString($"FPS: {fps}", SystemFonts.DefaultFont, Brushes.Black, 10, 50);
+            // g.DrawString($"FPS: {fps}", SystemFonts.DefaultFont, Brushes.Black, 10, 50);
 
 
             pb.Refresh();
