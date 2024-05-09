@@ -1,3 +1,4 @@
+using System;
 using System.Drawing;
 using Entities.Shapes;
 using Utils;
@@ -6,9 +7,14 @@ namespace Views;
 
 public partial class Train
 {
+    public Bitmap background = ImageProcessing.ResizeImage(
+        ImageProcessing.GetImage(@"Assets\background.png") as Bitmap,
+        new Size(ClientScreen.Width, ClientScreen.Height)
+    );
+
     Font font = new Font("Open Sans", 92 * ClientScreen.WidthFactor, FontStyle.Bold);
     Font fontAttemps = new Font("Open Sans", 32 * ClientScreen.WidthFactor);
-    SolidBrush brush = new SolidBrush(Color.FromArgb(0, 0, 0));
+    SolidBrush brush = new SolidBrush(Color.FromArgb(163, 163, 163));
 
     void DrawRectangleBack(Image img, int x_, int y_, int width_, int height_)
     {
@@ -22,26 +28,39 @@ public partial class Train
         g.DrawImage(resizedBack, new Point(x_Back, y_Back));
     }
 
-    public void DrawBalances()
-        => balance.Draw(this.g);
-    
+    public void DrawBackground(Graphics g) => g.DrawImage(background, new Point(0, 0));
+
+    public void DrawBalances() => balance.Draw(this.g);
+
     public void DrawInput()
     {
+        g.DrawString(
+            $"Coloque seu Nome:",
+            new Font("Open Sans", 23 * ClientScreen.WidthFactor, FontStyle.Bold),
+            Brushes.Black,
+            130,
+            260
+        );
+        g.DrawString(
+            $"Coloque o Peso:",
+            new Font("Open Sans", 23 * ClientScreen.WidthFactor, FontStyle.Bold),
+            Brushes.Black,
+            130,
+            410
+        );
         inputCircle.DrawInputSprite(this.g, this.pb);
         inputTriangle.DrawInputSprite(this.g, this.pb);
         inputSquare.DrawInputSprite(this.g, this.pb);
+        inputLogin.DrawInput(g);
     }
+
     public void DrawTitle(string title)
     {
-        int x_Title = (int)(445 * ClientScreen.WidthFactor);
-        int y_Title = (int)(75 * ClientScreen.HeightFactor);
-        g.DrawString(
-            title,
-            font,
-            brush,
-            x_Title,
-            y_Title);
+        int x_Title = (int)(96 * ClientScreen.WidthFactor);
+        int y_Title = (int)(87 * ClientScreen.HeightFactor);
+        g.DrawString(title, font, brush, x_Title, y_Title);
     }
+
     public void DrawShape(Shape shape)
     {
         shape.IsSelected = false;
@@ -101,6 +120,29 @@ public partial class Train
     }
 
     public void DrawAttempts(int x, int y)
-    => g.DrawString("Tentativas: " + MoveCounter, fontAttemps, Brushes.Black, x * ClientScreen.WidthFactor, y * ClientScreen.HeightFactor);
+    {
+        float height = 50f;
 
+        float topLeftX = x * ClientScreen.WidthFactor;
+        float topLeftY = y * ClientScreen.HeightFactor;
+
+        string textAttempts = "Tentativas: " + MoveCounter;
+        string textPieces = "Peças Usadas: " + UsedPiecesCount;
+
+        Font font = new Font("Open Sans", 23 * ClientScreen.WidthFactor, FontStyle.Bold);
+        SizeF textSizeAttempts = g.MeasureString(textAttempts, font);
+        SizeF textSizePieces = g.MeasureString(textPieces, font);
+
+        float maxTextWidth = Math.Max(textSizeAttempts.Width, textSizePieces.Width);
+
+        float textXAttempts = topLeftX;
+        float textYPieces = topLeftY + height + 5;
+        float textXPieces = topLeftX;
+
+        g.DrawRectangle(Pens.Black, textXAttempts, topLeftY, maxTextWidth, textSizeAttempts.Height);
+        g.DrawString(textAttempts, font, Brushes.Black, textXAttempts, topLeftY);
+
+        g.DrawRectangle(Pens.Black, textXPieces, textYPieces, maxTextWidth, textSizePieces.Height);
+        g.DrawString(textPieces, font, Brushes.Black, textXPieces, textYPieces);
+    }
 }

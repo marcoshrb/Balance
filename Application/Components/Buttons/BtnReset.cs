@@ -6,21 +6,29 @@ namespace Components;
 public class BtnReset : BtnBase
 {
     private string text { get; set; }
+
     public BtnReset(float X, float Y, float width, float height, string text)
     {
         this.Hitbox = new RectangleF(X, Y, width, height);
         this.text = text;
     }
+
     public override void Draw(Graphics g)
     {
-        Font font = new Font("Arial bold", this.Hitbox.Width * 0.12f);
+        Font font = new Font("Arial bold", 25);
         SizeF textSize = g.MeasureString(this.text, font);
 
-        LinearGradientBrush gradientOrange = new LinearGradientBrush(this.Hitbox ,Color.FromArgb(255, 145, 77), Color.FromArgb(255, 222, 89), LinearGradientMode.Horizontal);
+        Color cor = ColorTranslator.FromHtml("#F9A400");
+        SolidBrush brush = new SolidBrush(cor);
 
-        ShadowRect(this.Hitbox);
+        // Define a largura da borda
+        Color borderColor = ColorTranslator.FromHtml("#313131");
+        float borderWidth = 3.0f;
+        Pen pen = new Pen(borderColor, borderWidth);
 
-        g.FillRectangle(gradientOrange, this.Hitbox);
+        g.FillRectangle(brush, this.Hitbox); // Desenha o retângulo preenchido
+        g.DrawRectangle(pen, Rectangle.Round(this.Hitbox)); // Desenha a borda do retângulo
+
         g.DrawString(
             this.text,
             font,

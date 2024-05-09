@@ -1,21 +1,26 @@
-using Components;
-using Entities;
-using Entities.EmptyShapes;
-using Entities.Shapes;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms;
+using Components;
+using Entities;
+using Entities.EmptyShapes;
+using Entities.Shapes;
 using Utils;
 
 namespace Views;
 
 public partial class Train : Form
 {
+    private string userName = "";
+
     Security security;
     private Stopwatch basewatch;
+
     public int MoveCounter;
+    public int UsedPiecesCount;
+
     PictureBox header;
 
     PictureBox pb;
@@ -31,10 +36,11 @@ public partial class Train : Form
     Point cursor = new Point(0, 0);
     bool isDown = false;
 
-
+    InputUser inputLogin;
     InputUser inputCircle = null;
     InputUser inputTriangle = null;
     InputUser inputSquare = null;
+
     TextBox textBox = null;
     InputUser crrInput = null;
 
@@ -48,7 +54,6 @@ public partial class Train : Form
     Image BackRectTrain;
     Image BackRect;
 
-
     public Train()
     {
         basewatch = new(new(1460, 96), new(310, 90));
@@ -60,14 +65,14 @@ public partial class Train : Form
         this.FormBorderStyle = FormBorderStyle.None;
         this.Text = "Teste";
 
-        this.header = new PictureBox
-        {
-            Dock = DockStyle.Top,
-            Height = (int)(10 * ClientScreen.HeightFactor),
-            BackgroundImage = Resources.Rainbow,
-            BackgroundImageLayout = ImageLayout.Stretch
-        };
-        this.Controls.Add(header);
+        // this.header = new PictureBox
+        // {
+        //     Dock = DockStyle.Top,
+        //     Height = (int)(10 * ClientScreen.HeightFactor),
+        //     BackgroundImage = Resources.Rainbow,
+        //     BackgroundImageLayout = ImageLayout.Stretch
+        // };
+        // this.Controls.Add(header);
 
         this.pb = new PictureBox { Dock = DockStyle.Fill };
         this.Controls.Add(pb);
@@ -131,14 +136,16 @@ public partial class Train : Form
         {
             g.Clear(Color.FromArgb(255, 255, 255));
 
-            DrawRectangleBack(Resources.BackRectTrain, 362, 830, 688, 192);
-            DrawRectangleBack(Resources.BackRectRight, 1415, 54, 400, 974);
+            DrawBackground(g);
+
+            // DrawRectangleBack(Resources.BackRectTrain, 362, 830, 688, 192);
+            // DrawRectangleBack(Resources.BackRectRight, 1415, 54, 400, 974);
 
             textForResult(o, e);
             Frame();
 
-            if(counter % 60 == 0)
-                MakeRequest();
+            // if(counter % 60 == 0)
+            //     MakeRequest();
 
             frameCount++;
             TimeSpan elapsedTime = DateTime.Now - lastChecked;
@@ -149,9 +156,7 @@ public partial class Train : Form
                 frameCount = 0;
             }
 
-
             g.DrawString($"FPS: {fps}", SystemFonts.DefaultFont, Brushes.Black, 10, 50);
-
 
             pb.Refresh();
         };
@@ -179,6 +184,7 @@ public partial class Train : Form
                 inputCircle.IsTyping = true;
                 inputTriangle.IsTyping = false;
                 inputSquare.IsTyping = false;
+                inputLogin.IsTyping = false;
                 if (inputCircle.Content == "")
                     textBox.Text = "";
                 else
@@ -197,6 +203,7 @@ public partial class Train : Form
                 inputTriangle.IsTyping = true;
                 inputCircle.IsTyping = false;
                 inputSquare.IsTyping = false;
+                inputLogin.IsTyping = false;
                 if (inputTriangle.Content == "")
                     textBox.Text = "";
                 else
@@ -215,6 +222,7 @@ public partial class Train : Form
                 inputSquare.IsTyping = true;
                 inputCircle.IsTyping = false;
                 inputTriangle.IsTyping = false;
+                inputLogin.IsTyping = false;
                 if (inputSquare.Content == "")
                     textBox.Text = "";
                 else
@@ -224,11 +232,31 @@ public partial class Train : Form
                 textBox.Select(textBox.Text.Length, 0);
                 textBox.Focus();
             }
+            else if (
+                inputLogin.Rect.Contains(e.X, e.Y)
+                && !inputLogin.IsTyping
+                && !inputLogin.Disable
+            )
+            {
+                inputSquare.IsTyping = false;
+                inputCircle.IsTyping = false;
+                inputTriangle.IsTyping = false;
+                inputLogin.IsTyping = true;
+                if (inputLogin.Content == "")
+                    textBox.Text = "";
+                else
+                    textBox.Text = inputLogin.Content;
+                crrInput = inputLogin;
+                textBox.Enabled = true;
+                textBox.Select(textBox.Text.Length, 0);
+                textBox.Focus();
+            }
             else
             {
                 inputCircle.IsTyping = false;
                 inputTriangle.IsTyping = false;
                 inputSquare.IsTyping = false;
+                inputLogin.IsTyping = false;
                 crrInput = null;
                 textBox.Enabled = false;
             }
@@ -268,6 +296,52 @@ public partial class Train : Form
         }
     }
 
+    private int countSize = 0;
+
+    void LogintextForResult(object sender, EventArgs e)
+    {
+        if (inputLogin.IsTyping)
+        {
+            userName = textBox.Text;
+            string text = "";
+            if (counter % 15 == 0)
+                this.showLine = !this.showLine;
+            if (showLine)
+                text = textBox.Text + "|";
+            else
+                text = textBox.Text;
+            Font font = new Font("Arial", 24);
+            SizeF textSize = g.MeasureString(text, font);
+            if ((int)textSize.Width / (int)inputLogin.Rect.Width > countSize)
+            {
+                inputLogin.Rect = new RectangleF(
+                    inputLogin.Rect.X,
+                    inputLogin.Rect.Y,
+                    inputLogin.Rect.Width,
+                    inputLogin.Rect.Height + textSize.Height
+                );
+                countSize = (int)textSize.Width / (int)inputLogin.Rect.Width;
+            }
+            if ((int)textSize.Width / (int)inputLogin.Rect.Width < countSize)
+            {
+                g.Clear(Color.FromArgb(250, 249, 246));
+                inputLogin.Rect = new RectangleF(
+                    inputLogin.Rect.X,
+                    inputLogin.Rect.Y,
+                    inputLogin.Rect.Width,
+                    inputLogin.Rect.Height - textSize.Height
+                );
+                inputLogin.DrawInput(g);
+                countSize = (int)textSize.Width / (int)inputLogin.Rect.Width;
+            }
+            Brush brush = Brushes.Black;
+            SolidBrush white = new SolidBrush(Color.FromArgb(250, 249, 246));
+            g.FillRectangle(white, inputLogin.Rect);
+            inputLogin.DrawInputRect(g);
+            g.DrawString(text, font, brush, inputLogin.Rect);
+        }
+    }
+
     private void Onstart()
     {
         InitializeWeights();
@@ -282,10 +356,10 @@ public partial class Train : Form
         this.counter++;
 
         DrawTitle("TESTE");
-        DrawLogo();
+        // DrawLogo();
         DrawAttempts(1480, 225);
 
-        basewatch.DrawAwait(g);
+        // basewatch.DrawAwait(g);
 
         DrawInput();
         DrawBalances();
@@ -313,6 +387,7 @@ public partial class Train : Form
             var cusorInside = balance.LeftHitbox.IntersectsWith(selected.Hitbox);
             if (cusorInside && !isDown && selected.CanMove)
             {
+                UsedPiecesCount++;
                 balance.AddLeftShape(selected);
                 foreach (var fixedInitial in fixedPositions)
                 {
@@ -324,6 +399,7 @@ public partial class Train : Form
             cusorInside = balance.RightHitbox.IntersectsWith(selected.Hitbox);
             if (cusorInside && !isDown && selected.CanMove)
             {
+                UsedPiecesCount++;
                 balance.AddRightShape(selected);
                 foreach (var fixedInitial in fixedPositions)
                 {

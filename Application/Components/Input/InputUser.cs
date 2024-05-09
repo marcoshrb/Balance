@@ -15,28 +15,21 @@ public class InputUser
     public bool IsTyping { get; set; } = false;
     public bool Disable { get; set; } = false;
 
-
     public InputUser(float X, float Y, float width, float height, string text)
     {
         this.Rect = new RectangleF(X, Y, width, height);
         this.Title = text;
     }
+
     public InputUser(float X, float Y, float width, float height)
     {
         this.Rect = new RectangleF(X, Y, width, height);
     }
+
     public InputUser(float X, float Y, float width, float height, Bitmap bmp)
     {
         this.Rect = new RectangleF(X, Y, width, height);
         this.Bmp = bmp;
-    }
-    public void DrawInput(Graphics g)
-    {
-        Font font = new Font("Arial bold", ClientScreen.WidthFactor * 14);
-        SizeF textSize = g.MeasureString(this.Title, font);
-
-        g.DrawRectangle(new Pen(Brushes.Black), this.Rect);
-        g.DrawString(this.Title, font, Brushes.Black, new PointF(this.Rect.X, this.Rect.Y - textSize.Height * 1.5f));
     }
 
     public void DrawInputRect(Graphics g)
@@ -44,18 +37,45 @@ public class InputUser
         g.DrawRectangle(new Pen(Brushes.Black), this.Rect);
     }
 
-    public void DrawInputSprite(Graphics g, PictureBox pb)
+    public void DrawInput(Graphics g)
     {
-        g.DrawImage(this.Bmp, new RectangleF(Rect.X - 100 * ClientScreen.WidthFactor, Rect.Y - 17 * ClientScreen.HeightFactor, ClientScreen.WidthFactor * 80, ClientScreen.WidthFactor * 80));
+        Font font = new Font("Arial bold", ClientScreen.WidthFactor * 14);
+        SizeF textSize = g.MeasureString(this.Title, font);
+
+        float textY = this.Rect.Y + (this.Rect.Height - textSize.Height) / 2;
+        float textX = this.Rect.X + (this.Rect.Width - textSize.Width) / 2;
+
         g.DrawRectangle(new Pen(Brushes.Black), this.Rect);
-        Brush brush = Brushes.Black;
-        SolidBrush white = new SolidBrush(Color.FromArgb(255, 255, 255));
-        Font font = new Font("Arial", ClientScreen.WidthFactor * 32);
-        if(!this.IsTyping)
-            g.DrawString(this.Content, font, brush, this.Rect);
+        g.DrawString(this.Title, font, Brushes.Black, new PointF(textX, textY));
     }
 
-    public void Select(){
-        
+    public void DrawInputSprite(Graphics g, PictureBox pb)
+    {
+        if (this.Bmp != null)
+        {
+            float imageX = Rect.X - 100 * ClientScreen.WidthFactor;
+            float imageY = this.Rect.Y + (this.Rect.Height - ClientScreen.HeightFactor * 80) / 2;
+
+            g.DrawImage(
+                this.Bmp,
+                new RectangleF(
+                    imageX,
+                    imageY,
+                    ClientScreen.WidthFactor * 80,
+                    ClientScreen.HeightFactor * 80
+                )
+            );
+        }
+
+        g.DrawRectangle(new Pen(Brushes.Black), this.Rect);
+        if (!this.IsTyping)
+        {
+            Font font = new Font("Arial", ClientScreen.WidthFactor * 32);
+            SizeF textSize = g.MeasureString(this.Content, font);
+            float textY = this.Rect.Y + (this.Rect.Height - textSize.Height) / 2;
+            g.DrawString(this.Content, font, Brushes.Black, new PointF(this.Rect.X, textY));
+        }
     }
+
+    public void Select() { }
 }
