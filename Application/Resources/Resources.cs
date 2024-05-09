@@ -19,11 +19,15 @@ public static class Resources
     public static readonly Bitmap Circle = LoadImage(@"Assets\Shapes\new\Circle.png");
     // public static readonly Bitmap Circle = LoadImage(@"Assets\Shapes\pieces\Bola.png");
     public static readonly Bitmap CircleEmpty = LoadImage(@"Assets\Shapes\piecesEmpty\Bola.png");
-    public static readonly Bitmap Pentagon = LoadImage(@"Assets\Shapes\pieces\Pentagono.png");
+    public static readonly Bitmap Pentagon = LoadImage(@"Assets\Shapes\new\Pentagon.png");
+    // public static readonly Bitmap Pentagon = LoadImage(@"Assets\Shapes\pieces\Pentagono.png");
+
     public static readonly Bitmap PentagonEmpty = LoadImage(
         @"Assets\Shapes\piecesEmpty\Pentagono.png"
     );
-    public static readonly Bitmap Star = LoadImage(@"Assets\Shapes\pieces\Estrela.png");
+    public static readonly Bitmap Star = LoadImage(@"Assets\Shapes\new\Star.png");
+    // public static readonly Bitmap Star = LoadImage(@"Assets\Shapes\pieces\Estrela.png");
+
     public static readonly Bitmap StarEmpty = LoadImage(@"Assets\Shapes\piecesEmpty\Estrela.png");
     public static readonly Bitmap Triangle = LoadImage(@"Assets\Shapes\new\Triangle.png");
     // public static readonly Bitmap Triangle = LoadImage(@"Assets\Shapes\pieces\Triangulo.png");

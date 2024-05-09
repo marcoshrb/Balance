@@ -7,6 +7,7 @@ public class UserData
     public static void New() => current = new UserData();
     public Values JsonValues { get; set; } 
     public int MoveCounter { get; set; }
+    public int UsedPiecesCount { get; set; }
     public string UserName { get; set; }
     public DateTime DateStart { get; set; }
     public DateTime DateFinish { get; set; }

@@ -7,6 +7,12 @@ namespace Views;
 
 public class Completed : Form
 {
+    public Bitmap background = ImageProcessing.ResizeImage(
+        ImageProcessing.GetImage(@"Assets\background.png") as Bitmap,
+        new Size(ClientScreen.Width, ClientScreen.Height)
+    );
+    public void DrawBackground(Graphics g) => g.DrawImage(background, new Point(0, 0));
+
     public Security MainForm { get; set; }
     PictureBox header;
     PictureBox pb;
@@ -23,14 +29,14 @@ public class Completed : Form
         this.FormBorderStyle = FormBorderStyle.None;
         this.Text = "Desafio";
 
-        this.header = new PictureBox
-        {
-            Dock = DockStyle.Top,
-            Height = (int)(16 * ClientScreen.HeightFactor),
-            BackgroundImage = Resources.Rainbow,
-            BackgroundImageLayout = ImageLayout.Stretch
-        };
-        this.Controls.Add(header);
+        // this.header = new PictureBox
+        // {
+        //     Dock = DockStyle.Top,
+        //     Height = (int)(16 * ClientScreen.HeightFactor),
+        //     BackgroundImage = Resources.Rainbow,
+        //     BackgroundImageLayout = ImageLayout.Stretch
+        // };
+        // this.Controls.Add(header);
 
         this.pb = new PictureBox { Dock = DockStyle.Fill };
         this.Controls.Add(pb);
@@ -57,7 +63,7 @@ public class Completed : Form
 
     private void Start()
     {
-        DrawLogo();
+        DrawBackground(g);
 
         format.Alignment = StringAlignment.Center;
         format.LineAlignment = StringAlignment.Center;

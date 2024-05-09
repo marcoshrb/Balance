@@ -41,7 +41,7 @@ public partial class Train
             ClientScreen.HeightFactor * 320,
             ClientScreen.WidthFactor * 450,
             ClientScreen.HeightFactor * 76,
-            "Insira seu nome completo:"
+            ""
         );
         inputCircle = new InputUser(
             ClientScreen.WidthFactor * 229,
@@ -137,10 +137,18 @@ public partial class Train
         );
         btnReset = new BtnReset(
             130 * ClientScreen.WidthFactor,
-            820 * ClientScreen.HeightFactor,
+            800 * ClientScreen.HeightFactor,
             ClientScreen.WidthFactor * 450,
             76 * ClientScreen.HeightFactor,
             "RESETAR BALANÇA"
+        );
+
+        btnConfirm = new BtnConfirm(
+            130 * ClientScreen.WidthFactor,
+            900 * ClientScreen.HeightFactor,
+            ClientScreen.WidthFactor * 450,
+            76 * ClientScreen.HeightFactor,
+            "ESTOU PRONTO"
         );
     }
 }

@@ -126,7 +126,7 @@ public partial class Train
         float topLeftX = x * ClientScreen.WidthFactor;
         float topLeftY = y * ClientScreen.HeightFactor;
 
-        string textAttempts = "Tentativas: " + MoveCounter;
+        string textAttempts = "Verificações: " + MoveCounter;
         string textPieces = "Peças Usadas: " + UsedPiecesCount;
 
         Font font = new Font("Open Sans", 23 * ClientScreen.WidthFactor, FontStyle.Bold);

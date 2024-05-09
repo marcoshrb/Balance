@@ -65,15 +65,6 @@ public partial class Challenge : Form
         this.FormBorderStyle = FormBorderStyle.None;
         this.Text = "Desafio";
 
-        this.header = new PictureBox
-        {
-            Dock = DockStyle.Top,
-            Height = (int)(10 * ClientScreen.HeightFactor),
-            BackgroundImage = Resources.Rainbow,
-            BackgroundImageLayout = ImageLayout.Stretch
-        };
-        this.Controls.Add(header);
-
         this.pb = new PictureBox { Dock = DockStyle.Fill };
         this.Controls.Add(pb);
 
@@ -133,6 +124,8 @@ public partial class Challenge : Form
         {
             g.Clear(Color.FromArgb(255, 255, 255));
 
+            DrawBackground(g);
+
             fps = (int)(1 / (float)(DateTime.Now - lastchecked).TotalSeconds);
             lastchecked = DateTime.Now;
             g.DrawString($"FPS: {fps}", SystemFonts.DefaultFont, Brushes.Black, 10, 50);
@@ -140,13 +133,14 @@ public partial class Challenge : Form
             DrawRectangleBack(Resources.BackRectChallenge, 125, 830, 1162, 192);
             DrawRectangleBack(Resources.BackRectRight, 1415, 54, 400, 974);
 
-            if (counter % 60 == 0)
-                MakeRequest();
+            // if (counter % 60 == 0)
+            //     MakeRequest();
 
             textForResult(o, e);
             stopwatch.Update();
 
-            if ((!UserData.Current.JsonValues.ProvaLiberada || 0 > stopwatch.GetTimeDifference().TotalMinutes) && !saveFlag)
+            if ((0 > stopwatch.GetTimeDifference().TotalMinutes) && !saveFlag)
+            // if ((!UserData.Current.JsonValues.ProvaLiberada || 0 > stopwatch.GetTimeDifference().TotalMinutes) && !saveFlag)
             {
                 try
                 {
@@ -360,10 +354,10 @@ public partial class Challenge : Form
         this.counter++;
 
         DrawTitle("DESAFIO");
-        DrawLogo();
-        DrawAttempts(1480, 225);
+        // DrawLogo();
+        DrawAttempts(1530, 87);
 
-        stopwatch.Draw(g);
+        // stopwatch.Draw(g);
 
         DrawInput();
         DrawBalances();
@@ -391,6 +385,7 @@ public partial class Challenge : Form
             var cusorInside = balanceLeft.LeftHitbox.IntersectsWith(selected.Hitbox);
             if (cusorInside && !isDown && selected.CanMove)
             {
+                UserData.Current.UsedPiecesCount++;
                 balanceLeft.AddLeftShape(selected);
                 foreach (var fixedInitial in fixedPositions)
                 {
@@ -402,6 +397,7 @@ public partial class Challenge : Form
             cusorInside = balanceLeft.RightHitbox.IntersectsWith(selected.Hitbox);
             if (cusorInside && !isDown && selected.CanMove)
             {
+                UserData.Current.UsedPiecesCount++;
                 balanceLeft.AddRightShape(selected);
                 foreach (var fixedInitial in fixedPositions)
                 {
@@ -413,6 +409,7 @@ public partial class Challenge : Form
             cusorInside = balanceRight.LeftHitbox.IntersectsWith(selected.Hitbox);
             if (cusorInside && !isDown && selected.CanMove)
             {
+                UserData.Current.UsedPiecesCount++;
                 balanceRight.AddLeftShape(selected);
                 foreach (var fixedPosition in fixedPositions)
                 {
@@ -424,6 +421,7 @@ public partial class Challenge : Form
             cusorInside = balanceRight.RightHitbox.IntersectsWith(selected.Hitbox);
             if (cusorInside && !isDown && selected.CanMove)
             {
+                UserData.Current.UsedPiecesCount++;
                 balanceRight.AddRightShape(selected);
                 foreach (var fixedPosition in fixedPositions)
                 {

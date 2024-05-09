@@ -67,7 +67,7 @@ namespace Components
             catch (Exception e)
             {
                 // MessageBox.Show(e.Message);
-                target = DateTime.Now.AddMinutes(0);
+                target = DateTime.Now.AddMinutes(10);
             }
 
         }

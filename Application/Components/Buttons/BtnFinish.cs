@@ -18,20 +18,26 @@ public class BtnFinish : BtnBase
         this.text = text;
     }
 
-    public override void Draw(Graphics g)
+       public override void Draw(Graphics g)
     {
-        Font font = new Font("Arial bold", this.Hitbox.Width * 0.12f);
+        Font font = new Font("Arial bold", 25);
         SizeF textSize = g.MeasureString(this.text, font);
 
-        LinearGradientBrush gradientGreen = new LinearGradientBrush(this.Hitbox, Color.FromArgb(29, 123, 23), Color.FromArgb(79, 209, 52), LinearGradientMode.Horizontal);
+        Color cor = ColorTranslator.FromHtml("#3EB54E");
+        SolidBrush brush = new SolidBrush(cor);
 
-        ShadowRect(this.Hitbox);
+        // Define a largura da borda
+        Color borderColor = ColorTranslator.FromHtml("#062700");
+        float borderWidth = 3.0f;
+        Pen pen = new Pen(borderColor, borderWidth);
 
-        g.FillRectangle(gradientGreen, this.Hitbox);
+        g.FillRectangle(brush, this.Hitbox); // Desenha o retângulo preenchido
+        g.DrawRectangle(pen, Rectangle.Round(this.Hitbox)); // Desenha a borda do retângulo
+
         g.DrawString(
             this.text,
             font,
-            Brushes.White,
+            Brushes.Black,
             new PointF(
                 this.Hitbox.X + (this.Hitbox.Width / 2 - textSize.Width / 2),
                 this.Hitbox.Y + (this.Hitbox.Height / 2 - textSize.Height / 2)

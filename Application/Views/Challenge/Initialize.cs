@@ -8,17 +8,26 @@ using System.Linq;
 using System.Windows.Forms;
 using Utils;
 
+using System.Drawing.Drawing2D;
+
 namespace Views;
 public partial class Challenge
 {
     private void InitializeWeights()
     {
+        // int[] array = {
+        //     UserData.Current.JsonValues.f1,
+        //     UserData.Current.JsonValues.f2,
+        //     UserData.Current.JsonValues.f3,
+        //     UserData.Current.JsonValues.f4,
+        //     UserData.Current.JsonValues.f5
+        // };
         int[] array = {
-            UserData.Current.JsonValues.f1,
-            UserData.Current.JsonValues.f2,
-            UserData.Current.JsonValues.f3,
-            UserData.Current.JsonValues.f4,
-            UserData.Current.JsonValues.f5
+            1,
+            1,
+            1,
+            1,
+            1
         };
         array = Functions.ShuffleWeights(array);
 
@@ -32,13 +41,13 @@ public partial class Challenge
     private void InitializeBalances()
     {
         this.balanceLeft = new Balance(
-            190 * ClientScreen.WidthFactor,
+            670 * ClientScreen.WidthFactor,
             265 * ClientScreen.HeightFactor,
             350 * ClientScreen.WidthFactor,
             350 * ClientScreen.HeightFactor
         );
         this.balanceRight = new Balance(
-            865 * ClientScreen.WidthFactor,
+            1335 * ClientScreen.WidthFactor,
             265 * ClientScreen.HeightFactor,
             350 * ClientScreen.WidthFactor,
             350 * ClientScreen.HeightFactor
@@ -48,10 +57,10 @@ public partial class Challenge
     private void InitializeInputs()
     {
         inputCircle = new InputUser(
-            ClientScreen.WidthFactor * 1565,
+            ClientScreen.WidthFactor * 229,
             ClientScreen.HeightFactor * 320,
-            ClientScreen.WidthFactor * 205,
-            ClientScreen.HeightFactor * 50,
+            ClientScreen.WidthFactor * 260,
+            ClientScreen.HeightFactor * 76,
             Resources.Circle
         )
         {
@@ -59,31 +68,31 @@ public partial class Challenge
             Disable = true
         };
         inputPentagon = new InputUser(
-            ClientScreen.WidthFactor * 1565,
+            ClientScreen.WidthFactor * 229,
             ClientScreen.HeightFactor * 425,
-            ClientScreen.WidthFactor * 205,
-            ClientScreen.HeightFactor * 50,
+            ClientScreen.WidthFactor * 260,
+            ClientScreen.HeightFactor * 76,
             Resources.Pentagon
         );
         inputSquare = new InputUser(
-            ClientScreen.WidthFactor * 1565,
+            ClientScreen.WidthFactor * 229,
             ClientScreen.HeightFactor * 530,
-            ClientScreen.WidthFactor * 205,
-            ClientScreen.HeightFactor * 50,
+            ClientScreen.WidthFactor * 260,
+            ClientScreen.HeightFactor * 76,
             Resources.Square
         );
         inputStar = new InputUser(
-            ClientScreen.WidthFactor * 1565,
+            ClientScreen.WidthFactor * 229,
             ClientScreen.HeightFactor * 635,
-            ClientScreen.WidthFactor * 205,
-            ClientScreen.HeightFactor * 50,
+            ClientScreen.WidthFactor * 260,
+            ClientScreen.HeightFactor * 76,
             Resources.Star
         );
         inputTriangle = new InputUser(
-            ClientScreen.WidthFactor * 1565,
+            ClientScreen.WidthFactor * 229,
             ClientScreen.HeightFactor * 740,
-            ClientScreen.WidthFactor * 205,
-            ClientScreen.HeightFactor * 50,
+            ClientScreen.WidthFactor * 260,
+            ClientScreen.HeightFactor * 76,
             Resources.Triangle
         );
     }
@@ -93,31 +102,31 @@ public partial class Challenge
         this.fixedPositions = new List<EmptyShape>();
         this.shapes = new List<Shape>();
         EmptyCircle emptyCircle = new EmptyCircle(
-            new PointF(205 * ClientScreen.WidthFactor, 865 * ClientScreen.HeightFactor),
+            new PointF(712 * ClientScreen.WidthFactor, 865 * ClientScreen.HeightFactor),
             130 * ClientScreen.WidthFactor,
             130 * ClientScreen.HeightFactor
         );
 
         EmptyPentagon emptyPentagon = new EmptyPentagon(
-            new PointF(425 * ClientScreen.WidthFactor, 865 * ClientScreen.HeightFactor),
+            new PointF(912 * ClientScreen.WidthFactor, 865 * ClientScreen.HeightFactor),
             130 * ClientScreen.WidthFactor,
             130 * ClientScreen.HeightFactor
         );
 
         EmptySquare emptySquare = new EmptySquare(
-            new PointF(645 * ClientScreen.WidthFactor, 865 * ClientScreen.HeightFactor),
+            new PointF(1112 * ClientScreen.WidthFactor, 865 * ClientScreen.HeightFactor),
             130 * ClientScreen.WidthFactor,
             130 * ClientScreen.HeightFactor
         );
 
         EmptyStar emptyStar = new EmptyStar(
-            new PointF(865 * ClientScreen.WidthFactor, 865 * ClientScreen.HeightFactor),
+            new PointF(1312 * ClientScreen.WidthFactor, 865 * ClientScreen.HeightFactor),
             130 * ClientScreen.WidthFactor,
             130 * ClientScreen.HeightFactor
         );
 
         EmptyTriangle emptyTriangle = new EmptyTriangle(
-            new PointF(1085 * ClientScreen.WidthFactor, 865 * ClientScreen.HeightFactor),
+            new PointF(1512 * ClientScreen.WidthFactor, 865 * ClientScreen.HeightFactor),
             130 * ClientScreen.WidthFactor,
             130 * ClientScreen.HeightFactor
         );
@@ -174,7 +183,18 @@ public partial class Challenge
 
     private void InitializeButtons()
     {
-        btnVerify = new BtnInitial(595 * ClientScreen.WidthFactor, 710 * ClientScreen.HeightFactor, 220 * ClientScreen.WidthFactor, 92 * ClientScreen.HeightFactor, "Pesar");
-        btnFinish = new BtnFinish(1490 * ClientScreen.WidthFactor, 880 * ClientScreen.HeightFactor, 246 * ClientScreen.WidthFactor, 104 * ClientScreen.HeightFactor, "Finalizar");
+        btnVerify = new BtnInitial(
+            1060 * ClientScreen.WidthFactor, 
+            700 * ClientScreen.HeightFactor, 
+            240 * ClientScreen.WidthFactor,
+            92 * ClientScreen.HeightFactor, 
+            "VERIFICAR");
+
+        btnFinish = new BtnFinish( 
+            130 * ClientScreen.WidthFactor,
+            870 * ClientScreen.HeightFactor,
+            ClientScreen.WidthFactor * 360,
+            76 * ClientScreen.HeightFactor, 
+            "FINALIZAR");
     }
 }

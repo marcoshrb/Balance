@@ -15,7 +15,7 @@ public partial class Train : Form
 {
     private string userName = "";
 
-    Security security;
+    public Security security { get; set; }
     private Stopwatch basewatch;
 
     public int MoveCounter;
@@ -46,7 +46,7 @@ public partial class Train : Form
 
     bool showLine = false;
     int counter = 0;
-
+    BtnConfirm btnConfirm;
     Challenge challenge = null;
 
     BtnReset btnReset;
@@ -64,15 +64,6 @@ public partial class Train : Form
         this.WindowState = FormWindowState.Maximized;
         this.FormBorderStyle = FormBorderStyle.None;
         this.Text = "Teste";
-
-        // this.header = new PictureBox
-        // {
-        //     Dock = DockStyle.Top,
-        //     Height = (int)(10 * ClientScreen.HeightFactor),
-        //     BackgroundImage = Resources.Rainbow,
-        //     BackgroundImageLayout = ImageLayout.Stretch
-        // };
-        // this.Controls.Add(header);
 
         this.pb = new PictureBox { Dock = DockStyle.Fill };
         this.Controls.Add(pb);
@@ -99,6 +90,7 @@ public partial class Train : Form
 
         this.Load += (o, e) =>
         {
+            UserData.New();
             this.bmp = new Bitmap(pb.Width, pb.Height);
             g = Graphics.FromImage(this.bmp);
             g.InterpolationMode = InterpolationMode.NearestNeighbor;
@@ -115,6 +107,8 @@ public partial class Train : Form
             if (btnReset.Hitbox.Contains(cursor))
                 Cursor.Current = Cursors.Hand;
             if (btnVerify.Hitbox.Contains(cursor))
+                Cursor.Current = Cursors.Hand;
+            if (btnConfirm.Hitbox.Contains(cursor))
                 Cursor.Current = Cursors.Hand;
         };
 
@@ -138,14 +132,8 @@ public partial class Train : Form
 
             DrawBackground(g);
 
-            // DrawRectangleBack(Resources.BackRectTrain, 362, 830, 688, 192);
-            // DrawRectangleBack(Resources.BackRectRight, 1415, 54, 400, 974);
-
             textForResult(o, e);
             Frame();
-
-            // if(counter % 60 == 0)
-            //     MakeRequest();
 
             frameCount++;
             TimeSpan elapsedTime = DateTime.Now - lastChecked;
@@ -173,6 +161,25 @@ public partial class Train : Form
             {
                 InitializeBalances();
                 InitializeShapes();
+            }
+
+            if (btnConfirm.Hitbox.Contains(e.X, e.Y))
+            {
+                if (this.userName.Length > 0)
+                {
+                    UserData.Current.UserName = this.userName;
+                    UserData.Current.DateStart = DateTime.Now;
+                    this.Hide();
+                    challenge = new();
+                    challenge.Show();
+
+                    // var challenge = new Challenge();
+                    // challenge.Show();
+                }
+                else
+                {
+                    MessageBox.Show("Vazio, Preencha os campos com seus dados");
+                }
             }
 
             if (
@@ -297,51 +304,6 @@ public partial class Train : Form
     }
 
     private int countSize = 0;
-
-    void LogintextForResult(object sender, EventArgs e)
-    {
-        if (inputLogin.IsTyping)
-        {
-            userName = textBox.Text;
-            string text = "";
-            if (counter % 15 == 0)
-                this.showLine = !this.showLine;
-            if (showLine)
-                text = textBox.Text + "|";
-            else
-                text = textBox.Text;
-            Font font = new Font("Arial", 24);
-            SizeF textSize = g.MeasureString(text, font);
-            if ((int)textSize.Width / (int)inputLogin.Rect.Width > countSize)
-            {
-                inputLogin.Rect = new RectangleF(
-                    inputLogin.Rect.X,
-                    inputLogin.Rect.Y,
-                    inputLogin.Rect.Width,
-                    inputLogin.Rect.Height + textSize.Height
-                );
-                countSize = (int)textSize.Width / (int)inputLogin.Rect.Width;
-            }
-            if ((int)textSize.Width / (int)inputLogin.Rect.Width < countSize)
-            {
-                g.Clear(Color.FromArgb(250, 249, 246));
-                inputLogin.Rect = new RectangleF(
-                    inputLogin.Rect.X,
-                    inputLogin.Rect.Y,
-                    inputLogin.Rect.Width,
-                    inputLogin.Rect.Height - textSize.Height
-                );
-                inputLogin.DrawInput(g);
-                countSize = (int)textSize.Width / (int)inputLogin.Rect.Width;
-            }
-            Brush brush = Brushes.Black;
-            SolidBrush white = new SolidBrush(Color.FromArgb(250, 249, 246));
-            g.FillRectangle(white, inputLogin.Rect);
-            inputLogin.DrawInputRect(g);
-            g.DrawString(text, font, brush, inputLogin.Rect);
-        }
-    }
-
     private void Onstart()
     {
         InitializeWeights();
@@ -355,7 +317,7 @@ public partial class Train : Form
     {
         this.counter++;
 
-        DrawTitle("TESTE");
+        DrawTitle("TREINO");
         // DrawLogo();
         DrawAttempts(1480, 225);
 
@@ -366,6 +328,7 @@ public partial class Train : Form
 
         btnReset.Draw(g);
         btnVerify.Draw(g);
+        btnConfirm.Draw(g);
 
         DrawShapes();
     }
