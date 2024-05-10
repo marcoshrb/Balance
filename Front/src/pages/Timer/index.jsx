@@ -32,7 +32,7 @@ export default function Timer() {
       console.log(orderedJson);
 
       try {
-          const response = await axios.post('https://server-balance.vercel.app/challenge', orderedJson);
+          const response = await axios.post('https://desespero.vercel.app/challenge', orderedJson);
           console.log("Resposta da API:", response.data);
       } catch (error) {
           console.log("Erro ao fazer requisição:", error);

@@ -13,7 +13,7 @@ namespace Views
         {
             var http = new HttpClient();
 
-            var result = await http.GetAsync("https://server-balance.vercel.app/challenge");
+            var result = await http.GetAsync("https://desespero.vercel.app/challenge");
 
             if (result.IsSuccessStatusCode)
             {

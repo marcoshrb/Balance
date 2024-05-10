@@ -14,7 +14,7 @@ public partial class Train
     {
         using var http = new HttpClient();
 
-        var response = await http.GetAsync("https://server-balance.vercel.app/challenge");
+        var response = await http.GetAsync("https://desespero.vercel.app/challenge");
 
         if (response.IsSuccessStatusCode)
         {

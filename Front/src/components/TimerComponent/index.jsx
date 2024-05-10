@@ -45,7 +45,7 @@ export const TimerComponent = (props) => {
             setTimerActive(false);
             setTimeOver(true);
             try {
-              const response = axios.post('https://server-balance.vercel.app/challenge/end');
+              const response = axios.post('https://desespero.vercel.app/challenge/end');
               console.log("Resposta da API:", response.data);
             } catch (error) {
                 console.log("Erro ao fazer requisição:", error);
@@ -68,7 +68,7 @@ export const TimerComponent = (props) => {
     setRemainingTime(0);
     setTimeOver(false);
     try {
-      const response = await axios.post('https://server-balance.vercel.app/challenge/end');
+      const response = await axios.post('https://desespero.vercel.app/challenge/end');
       console.log("Resposta da API:", response.data);
     } catch (error) {
         console.log("Erro ao fazer requisição:", error);
