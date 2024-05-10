@@ -5,6 +5,7 @@ using Entities.Shapes;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System;
 using System.Windows.Forms;
 using Utils;
 
@@ -20,6 +21,8 @@ public partial class Challenge
             UserData.Current.JsonValues.f4,
             UserData.Current.JsonValues.f5
         };
+
+        Array.Sort(array);
         array = Functions.ShuffleWeights(array);
 
         var square = array[0];
